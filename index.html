@@ -489,6 +489,10 @@ input,select{line-height:1.3}
 .rtab button.on{background:var(--ink);color:#fff}
 .tabhide{display:none!important}
 .grade.gel{background:#1d1b18}
+#eggsec{display:none}
+#s3.egg #eggsec{display:block}
+#s3.egg .rtab,#s3.egg [data-tab],#s3.egg .sharebig{display:none!important}
+#s3.egg .hero .stage{width:min(60vw,240px);height:min(60vw,240px)}
 /* 슈퍼레어 이상: 소환진 배경 + 어두운 바탕 */
 #s3.rare .grade.gel{background:rgba(255,255,255,.18)}
 body.rare{background:#15141c}
@@ -573,21 +577,27 @@ body.rare{background:#15141c}
 .prog i{background:var(--acc)}
 .opt .k{color:var(--acc)}
 
-/* ===== 레어도 오라 (모양=등급, 색=속성 --ec) ===== */
+/* ===== 레어도 오라: 발광 이펙트 그림(모양=등급) × 속성 색 ===== */
+/* 오라는 은은하게: 아래에서 opacity·크기를 낮춘다 */
 .aura{position:relative;isolation:isolate}
 .aura>div{position:relative;z-index:2}
-.aura::before,.aura::after{content:"";position:absolute;pointer-events:none;z-index:0}
-.aura.g0::before{left:18%;right:18%;bottom:2%;height:9%;border-radius:50%;background:rgba(40,30,10,.18);filter:blur(4px)}
-.aura.g1::before{inset:8%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--ec) 55%,transparent) 0%,transparent 68%)}
-.aura.g2::before,.aura.g3::before,.aura.g4::before{inset:-6%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--ec) 60%,transparent) 0%,transparent 62%)}
-.aura.g2::after,.aura.g3::after{inset:-14%;border-radius:50%;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--ec) 45%,transparent) 0deg 6deg,transparent 6deg 24deg);-webkit-mask:radial-gradient(circle,#000 20%,transparent 68%);mask:radial-gradient(circle,#000 20%,transparent 68%);animation:aspin 18s linear infinite}
-.aura.g3::after{background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--ec) 60%,transparent) 0deg 4deg,transparent 4deg 15deg);animation-duration:12s}
-.aura.g3 .apt,.aura.g4 .apt{position:absolute;inset:0;z-index:1;pointer-events:none}
-.aura.g4::after{inset:-10%;border-radius:50%;background:conic-gradient(from 0deg,#ff9aa8,#ffd27a,#9ff0b0,#8fd0ff,#c9a8ff,#ff9aa8);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%,#000 63%,transparent 65%,transparent 70%,#000 71%,#000 72.5%,transparent 74%);mask:radial-gradient(circle,transparent 58%,#000 60%,#000 63%,transparent 65%,transparent 70%,#000 71%,#000 72.5%,transparent 74%);animation:aspin 10s linear infinite;opacity:.9}
-@keyframes aspin{to{transform:rotate(360deg)}}
-.aura.g3>.apt i,.aura.g4>.apt i{position:absolute;bottom:12%;width:6px;height:6px;border-radius:50%;background:var(--ec);box-shadow:0 0 10px 2px var(--ec);opacity:0;animation:arise 2.6s ease-out infinite}
-.aura.g4>.apt i{background:#fff;box-shadow:0 0 10px 3px #fff}
-@keyframes arise{0%{transform:translateY(0) scale(1);opacity:0}20%{opacity:1}100%{transform:translateY(-160px) scale(.3);opacity:0}}
+.aura::before,.aura::after{content:"";position:absolute;pointer-events:none}
+.aura::after{left:22%;right:22%;bottom:3%;height:7%;border-radius:50%;background:rgba(20,15,5,.18);filter:blur(4px);z-index:1}
+.aura.g1::before,.aura.g2::before,.aura.g3::before,.aura.g4::before{background:var(--aimg) center bottom/contain no-repeat;z-index:0}
+.aura.g1::before{inset:-14% -14% -4% -14%;animation:apulse 3.6s ease-in-out infinite}
+.aura.g2::before{inset:-20% -20% -6% -20%;animation:aflick 1.8s ease-in-out infinite;transform-origin:50% 100%}
+.aura.g3::before{inset:-22% -22% -6% -22%;animation:apulse 3s ease-in-out infinite}
+.aura.g4::before{inset:-30% -34% -6% -34%;animation:apulse 4s ease-in-out infinite}
+#s3.rare .aura::before,.circle .aura::before{mix-blend-mode:screen}
+@keyframes apulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}}
+@keyframes aflick{0%,100%{opacity:.9;transform:scaleY(1)}35%{opacity:1;transform:scaleY(1.05)}70%{opacity:.85;transform:scaleY(.98)}}
+
+.aura.g1::before{inset:-6% -6% -2% -6%!important;opacity:.4!important;animation:none!important}
+.aura.g2::before{inset:-10% -10% -3% -10%!important;opacity:.45!important}
+.aura.g3::before{inset:-12% -12% -3% -12%!important;opacity:.5!important}
+.aura.g4::before{inset:-16% -20% -3% -20%!important;opacity:.55!important}
+@keyframes apulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+@keyframes aflick{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.03)}}
 </style>
 </head>
 <body>
@@ -699,6 +709,7 @@ body.rare{background:#15141c}
   </div>
 
   <div class="sharebig"><button class="btn gold" id="sharebtn">친구에게 결과 공유하기</button><button class="btn ghost" id="sharecopy">링크 복사</button></div>
+  <div class="sec" id="eggsec"><h3>부화</h3><div id="egg_body"></div></div>
   <div class="rtab" id="rtab"><button data-t="info" class="on">정보</button><button data-t="skill">스킬</button><button data-t="evo">진화</button><button data-t="story">이야기</button></div>
 
   <div class="sec" data-tab="info">
@@ -779,7 +790,7 @@ body.rare{background:#15141c}
 <div class="circle altar hidden" id="circle"><div class="ring"><div class="mc"><img class="mc1" src="img/bg/circle.png?v=2" alt=""><img class="mc2" src="img/bg/circle.png?v=2" alt=""></div><div class="sparks"><i style="left:18%;animation-delay:0s"></i><i style="left:30%;animation-delay:0.6s"></i><i style="left:42%;animation-delay:1.1s"></i><i style="left:55%;animation-delay:0.3s"></i><i style="left:66%;animation-delay:0.9s"></i><i style="left:78%;animation-delay:1.4s"></i><i style="left:24%;animation-delay:1.7s"></i><i style="left:48%;animation-delay:2s"></i><i style="left:72%;animation-delay:0.5s"></i><i style="left:36%;animation-delay:1.3s"></i></div><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div><div class="info hidden" id="c_info"></div><div class="beam"></div><div class="flash"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=28"></script>
+<script src="game.js?v=29"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -846,7 +857,7 @@ function drawTickets(){const n=tickets(),sh=ST.get("ssm_shares",0)%SHARES_PER_TI
 function addToCollection(code){const c=collection();if(!c.includes(code)){c.push(code);ST.set("ssm_col",c)}}
 function drawCollection(){
  const c=collection(), here=location.hash.replace("#","");
- $("r_col").innerHTML=c.map(code=>{const d=decode(code);if(!d)return"";const R=judge(d.b,d.a);const st=stageStats(R.base,R.race,0);const sg=getStage(code), st2=stageStats(R.base,R.race,sg-1);return `<div class="c ${code===here?"now":""}" data-code="${code}"><div class="im">${artWithImage(R.race,sg,R.elem)}</div><b>${R.stages[sg-1].replace(/〔.*?〕/,"")}</b><small>${sg}단계 · 전투력 ${power(st2)}</small></div>`}).join("");
+ $("r_col").innerHTML=c.map(code=>{const d=decode(code);if(!d)return"";const R=judge(d.b,d.a);const st=stageStats(R.base,R.race,0);const sg=getStage(code), st2=stageStats(R.base,R.race,sg-1);const egg=isEgg(code);return `<div class="c ${code===here?"now":""}" data-code="${code}"><div class="im">${artWithImage(R.race,egg?0:sg,R.elem)}</div><b>${egg?R.race.n+"의 알":R.stages[sg-1].replace(/〔.*?〕/,"")}</b><small>${sg}단계 · 전투력 ${power(st2)}</small></div>`}).join("");
  $("r_col").querySelectorAll(".c").forEach(el=>el.onclick=()=>{$("colsec").classList.add("hidden");const d=decode(el.dataset.code);birth=d.b;answers=d.a;NICK=d.nick||"";try{location.hash=el.dataset.code}catch(e){}draw(judge(birth,answers));window.scrollTo({top:0,behavior:"smooth"})});
 }
 let DEX_OPEN=null;
@@ -910,9 +921,10 @@ $("tk_go").onclick=()=>{const tx=$("tk_txt").value.trim();if(!tx)return;const mi
  addTalk(MI.n,{id:Date.now().toString(36),n:myNickName()||"소환사",mon,tx,t:Date.now(),like:0});$("tk_txt").value="";TK_SORT="new";drawMI()};
 let CUR_ELEM=null;
 function summonIntro(race,stage,text,elem,R){ CUR_ELEM=elem||null;
- return new Promise(res=>{const c=$("circle");$("c_art").innerHTML=artWithImage(race,stage,CUR_ELEM);$("c_art").className="who "+(R?auraClass(R.path.g):"");$("c_art").style.setProperty("--ec",ELEMCOLOR[CUR_ELEM]||"#fff");$("c_text").textContent=text||"소환진이 빛나요";$("c_text").classList.remove("hidden");$("c_info").classList.add("hidden");c.classList.remove("hidden");
+ return new Promise(res=>{const c=$("circle");$("c_art").innerHTML=artWithImage(race,stage,CUR_ELEM);$("c_art").className="who "+(R?auraClass(R.path.g):"");if(R)$("c_art").style.setProperty("--aimg",`url(img/aura/g${R.path.g}_${R.elem}.png?v=1)`);$("c_art").style.setProperty("--ec",ELEMCOLOR[CUR_ELEM]||"#fff");$("c_text").textContent=text||"소환진이 빛나요";$("c_text").classList.remove("hidden");$("c_info").classList.add("hidden");c.classList.remove("hidden");
   setTimeout(()=>{
    if(!R){c.classList.add("hidden");res();return}
+   if(stage===0){$("c_text").classList.add("hidden");$("c_info").innerHTML=`<div class="nm">${ELEM[R.elem].ic} ${R.race.n}의 알</div><div class="sub2">${R.race.n} · ${G[R.path.g]} · 누가 들어 있는지는 부화하면 알아요</div><button class="btn gold" id="c_ok">확인</button>`;$("c_info").classList.remove("hidden");$("c_ok").onclick=()=>{c.classList.add("hidden");res()};return}
    const st=stageStats(R.base,R.race,stage-1), sk=R.skills.filter(([t])=>t<=stage);
    $("c_text").classList.add("hidden");
    $("c_info").innerHTML=`<div class="nm">${ELEM[R.elem].ic} ${R.stages[stage-1].replace(/〔.*?〕/,"")} <span class="st">${"★".repeat(stage)}</span></div>
@@ -946,9 +958,9 @@ function summon(){
  // 새 친구: 생일 대신 무작위 씨앗, 성향(답)은 그대로
  const r=rng(hash(String(Date.now())+Math.random()));
  const b={y:String(1900+Math.floor(r()*200)),m:String(1+Math.floor(r()*12)),d:String(1+Math.floor(r()*28)),h:String(Math.floor(r()*12))};
- const code=encode(b,answers,NICK); addToCollection(code);
+ const code=encode(b,answers,NICK); addToCollection(code); markEgg(code);
  birth=b; try{location.hash=code}catch(e){}
- const R=judge(birth,answers); summonIntro(R.race,1,null,R.elem,R).then(()=>{draw(R);window.scrollTo({top:0,behavior:"smooth"});toast("새 친구가 왔어요")});
+ const R=judge(birth,answers); summonIntro(R.race,0,null,R.elem,R).then(()=>{draw(R);window.scrollTo({top:0,behavior:"smooth"});toast("새 알이 왔어요")});
 }
 
 /* 입력 */
@@ -1094,15 +1106,18 @@ function renderQ(){
  $("qbox").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{b.classList.add("on");answers.push(q.o[+b.dataset.i][1]);setTimeout(()=>{qi++;qi<QS.length?renderQ():result()},200)});
 }
 
-function result(){const R=judge(birth,answers);track("result");try{location.hash=encode(birth,answers,NICK)}catch(e){}try{localStorage.setItem("ssm_last",encode(birth,answers,NICK))}catch(e){}addToCollection(encode(birth,answers,NICK));if(!ST.get("ssm_gift",false)){ST.set("ssm_gift",true);sendMail("gift","첫 소환 선물이 도착했어요.",{ticket:1},7)}$("s2").classList.add("hidden");summonIntro(R.race,1,null,R.elem,R).then(()=>{draw(R);$("s3").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})})}
+function result(){const R=judge(birth,answers);track("result");try{location.hash=encode(birth,answers,NICK)}catch(e){}try{localStorage.setItem("ssm_last",encode(birth,answers,NICK))}catch(e){}addToCollection(encode(birth,answers,NICK));markEgg(encode(birth,answers,NICK));if(!ST.get("ssm_gift",false)){ST.set("ssm_gift",true);sendMail("gift","첫 소환 선물이 도착했어요.",{ticket:1},7)}$("s2").classList.add("hidden");summonIntro(R.race,0,null,R.elem,R).then(()=>{draw(R);$("s3").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})})}
 
 function draw(R){
  const {race,job,path,pow}=R; CUR=R;
- const STG=getStage(location.hash.replace("#","")); R.stage=STG;
- $("art").innerHTML=artWithImage(race,STG,R.elem);$("art").className="stage "+auraClass(R.path.g);if(R.path.g>=3)$("art").insertAdjacentHTML("beforeend",`<div class="apt">${[12,26,40,55,68,82,33,74].map((l,i)=>`<i style="left:${l}%;animation-delay:${(i*0.33).toFixed(2)}s"></i>`).join("")}</div>`);$("art").style.setProperty("--ec",ELEMCOLOR[R.elem]);
+ const CODE=location.hash.replace("#",""), EGG=isEgg(CODE);
+ const STG=getStage(CODE); R.stage=STG;
+ $("s3").classList.toggle("egg",EGG); if(EGG){drawEgg(R,CODE)}
+ $("art").innerHTML=artWithImage(race,EGG?0:STG,R.elem);$("art").className="stage "+(EGG?"":auraClass(R.path.g));$("art").style.setProperty("--aimg",`url(img/aura/g${R.path.g}_${R.elem}.png?v=1)`);$("art").style.setProperty("--ec",ELEMCOLOR[R.elem]);
  $("r_elem").innerHTML=`<span class="grade gel">${ELEM[R.elem].ic} ${ELEM[R.elem].n} 속성</span>`;
  $("r_who").textContent=(NICK?NICK+" 님":"나")+"의 이세계 파트너는";
- if(STG===1){$("r_name").textContent=race.n;$("r_form").textContent="1단계예요. 아직 어리지만 금방 자라요.";}
+ if(EGG){$("r_name").textContent=race.n+"의 알";$("r_form").textContent="아직 알이에요. 부화하면 모습이 보여요.";}
+ else if(STG===1){$("r_name").textContent=race.n;$("r_form").textContent="1단계예요. 아직 어리지만 금방 자라요.";}
  else{$("r_name").textContent=R.stages[STG-1].replace(/〔.*?〕/,"");$("r_form").textContent=`${STG}단계예요. ${race.n}에서 자랐어요.`;}
  $("r_tags").innerHTML=race.t.map(t=>`<span class="tag">${t}</span>`).join("");
  $("r_grade").className="grade g"+path.g; $("r_grade").textContent=G[path.g]; const RARE=path.g>=2; $("s3").classList.toggle("rare",RARE); document.body.classList.toggle("rare",RARE);
@@ -1168,6 +1183,26 @@ function drawDays(R){ setBattleLink();
  const b=$("sharenext"); if(b)b.onclick=()=>$("copylink").click();
 }
 
+/* 알 */
+let EGG_TIMER=null;
+function drawEgg(R,code){
+ clearInterval(EGG_TIMER);
+ const render=()=>{
+  if(!isEgg(code))return;
+  const left=eggLeft(code), shared=shares(R.id)>=1, ready=shared||left<=0;
+  const h=Math.floor(left/3600000), m=Math.floor(left%3600000/60000);
+  $("egg_body").innerHTML=ready
+   ?`<p style="margin:0 0 10px;font-size:15px">부화할 준비가 됐어요.</p><button class="btn gold" id="hatchbtn" style="margin:0">부화시키기</button>`
+   :`<p style="margin:0 0 6px;font-size:15px">친구 한 명에게 결과를 보내면 <b>바로 부화</b>해요.</p><p class="mini" style="margin:0 0 12px">그냥 두면 ${h}시간 ${m}분 뒤에 부화해요.</p><button class="btn gold" id="egg_share" style="margin:0">친구에게 보내고 바로 부화</button>`;
+  const b=$("hatchbtn"); if(b)b.onclick=()=>doHatch(R,code);
+  const sb=$("egg_share"); if(sb)sb.onclick=()=>$("sharebtn").click();
+ };
+ render(); EGG_TIMER=setInterval(render,30000);
+}
+async function doHatch(R,code){
+ hatchEgg(code); track("hatch"); clearInterval(EGG_TIMER);
+ await summonIntro(R.race,1,"알이 깨지고 있어요",R.elem,R); draw(R); window.scrollTo({top:0,behavior:"smooth"}); toast(R.race.n+"이(가) 태어났어요");
+}
 /* 결과 탭 */
 let RTAB="info";
 function showTab(t){RTAB=t;$("rtab").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));document.querySelectorAll("#s3 [data-tab]").forEach(e=>e.classList.toggle("tabhide",e.dataset.tab!==t))}
@@ -1181,11 +1216,12 @@ $("unlock").onclick=()=>{track("unlock_click");$("unlock").classList.add("hidden
 $("ask").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{track("price_"+b.dataset.p);$("ask").classList.add("hidden");$("thanks").classList.remove("hidden")});
 function R_STAGES(){return CUR?CUR.stages.map(x=>x.replace(/〔.*?〕/,"")).join(" → "):""}
 $("sharebtn").onclick=async()=>{track("share_native");const name=$("r_name").textContent;const text=`나의 이세계 파트너는 '${name}'! 너는 누가 나올까?`;
- if(navigator.share){try{await navigator.share({title:"이세계 소환사",text,url:location.href});if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}}catch(e){}}
- else{try{await navigator.clipboard.writeText(text+"\n"+location.href);toast("공유 문구를 복사했어요. 친구한테 붙여 넣어 주세요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}}};
+ if(navigator.share){try{await navigator.share({title:"이세계 소환사",text,url:location.href});if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount();afterShare()}}catch(e){}}
+ else{try{await navigator.clipboard.writeText(text+"\n"+location.href);toast("공유 문구를 복사했어요. 친구한테 붙여 넣어 주세요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount();afterShare()}}};
 $("sharecopy").onclick=()=>$("copylink").click();
-$("copylink").onclick=async()=>{track("share_link");try{await navigator.clipboard.writeText(location.href);toast("링크를 복사했어요. 친구한테 보내 주세요")}catch(e){toast("복사가 막혀 있어요. 주소창을 복사해 주세요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
-$("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환사]\n${NICK?NICK+" 화면":"내 화면"}에 온 건 ${$("r_name").textContent}\n${$("r_tags").textContent.trim().replace(/\s+/g," · ")}\n${$("r_char").innerText.replace(/\n+/g," ")}\n전투력 ${$("r_power").querySelector("b").textContent} · 진화: ${R_STAGES()}\n특성: ${$("r_pname").textContent} · 속성: ${ELEM[CUR.elem].n} · ${$("r_vs").textContent.replace(/\s+/g," ").trim()}\n\n${location.href}`;try{await navigator.clipboard.writeText(t);toast("글로 복사했어요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
+function afterShare(){if(CUR&&isEgg(location.hash.replace("#","")))drawEgg(CUR,location.hash.replace("#",""))}
+$("copylink").onclick=async()=>{track("share_link");try{await navigator.clipboard.writeText(location.href);toast("링크를 복사했어요. 친구한테 보내 주세요")}catch(e){toast("복사가 막혀 있어요. 주소창을 복사해 주세요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount();afterShare()}};
+$("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환사]\n${NICK?NICK+" 화면":"내 화면"}에 온 건 ${$("r_name").textContent}\n${$("r_tags").textContent.trim().replace(/\s+/g," · ")}\n${$("r_char").innerText.replace(/\n+/g," ")}\n전투력 ${$("r_power").querySelector("b").textContent} · 진화: ${R_STAGES()}\n특성: ${$("r_pname").textContent} · 속성: ${ELEM[CUR.elem].n} · ${$("r_vs").textContent.replace(/\s+/g," ").trim()}\n\n${location.href}`;try{await navigator.clipboard.writeText(t);toast("글로 복사했어요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount();afterShare()}};
 $("again").onclick=()=>{try{location.hash=""}catch(e){}document.body.classList.remove("rare");$("s3").classList.add("hidden");$("landing").classList.remove("hidden");$("unlock").classList.remove("hidden");["ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
 (function(){const d=decode(location.hash);if(d&&d.a.length===QS.length){birth=d.b;answers=d.a;NICK=d.nick||"";track("visit_shared");draw(judge(birth,answers));$("landing").classList.add("hidden");$("s1").classList.add("hidden");$("s3").classList.remove("hidden")}})();
 </script>

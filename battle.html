@@ -493,7 +493,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=28"></script>
+<script src="game.js?v=29"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
@@ -517,7 +517,7 @@ const EFFICON={stun:"💫",sleep:"💤",web:"🕸️",burn:"🔥",bleed:"🩸",p
 function skIcon(s){return skImg(s.e,s.t)}
 function nameOf(R,st){return R.stages[st-1].replace(/〔.*?〕/,"")}
 function myNick(){try{const d=decode(localStorage.getItem("ssm_last")||"");return d&&d.nick||"소환사"}catch(e){return "소환사"}}
-function col(){return collection()}
+function col(){return hatched()} // 알은 전투에 못 나간다
 function makeMonster(floor,idx){
  const rr=rng(hash("dungeon"+Date.now()+Math.random()+idx));
  const b={y:String(1900+Math.floor(rr()*200)),m:String(1+Math.floor(rr()*12)),d:String(1+Math.floor(rr()*28)),h:String(Math.floor(rr()*12))};
