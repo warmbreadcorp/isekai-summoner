@@ -451,7 +451,7 @@ button{font-family:inherit;cursor:pointer}
 
 @font-face{font-family:"DungGeunMo";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff") format("woff");font-display:swap}
 /* ===== 골드 버전 스킨: 크림 배경, 두 줄 검은 테두리 창, 픽셀 글꼴, ▶ 커서 ===== */
-:root{--G-bg:#f8f6e6;--G-ink:#202020;--G-ink2:#585858;--G-line:#202020;--G-hp:#48c848;--G-hp2:#f8d048;--G-hp3:#f04838;--G-tg:#3870f0;--G-sel:#fff2a8}
+:root{--G-bg:#fff;--G-ink:#202020;--G-ink2:#585858;--G-line:#202020;--G-hp:#48c848;--G-hp2:#f8d048;--G-hp3:#f04838;--G-tg:#3870f0;--G-sel:#fff2a8}
 html,body{background:var(--G-bg)}
 body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink);-webkit-font-smoothing:antialiased;font-weight:400;font-size:16px}
 .scene,.scene::before{background:none!important}
@@ -460,7 +460,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .win,.frame,.vsbox,.roster,.ebox,.mbox,.tbox,.menu button,.gb,.tab,.bbar .ib,.chip,.ltabs button,.rw,.pt,.tip,.result .frame,.ctl button,.modes button,.detail .frame,.sk{border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;text-shadow:none!important}
 .gsc-win{background:#fff;border:3px solid var(--G-line);outline:2px solid #fff;outline-offset:-7px;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px var(--G-line)!important}
 /* 로비: 골드버전식 창 세 개로 화면을 채움 */
-#lobby{background:var(--G-bg) repeating-linear-gradient(0deg,transparent 0 7px,rgba(0,0,0,.035) 7px 8px),repeating-linear-gradient(90deg,transparent 0 7px,rgba(0,0,0,.035) 7px 8px)!important;display:flex;flex-direction:column;gap:8px;padding:8px;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}
+#lobby{background:#fff!important;display:flex;flex-direction:column;gap:8px;padding:8px;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}
 .gwin{background:#fff;border:4px solid var(--G-line);box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px var(--G-line)!important;border-radius:4px!important}
 .hud{position:static;padding:0;flex-direction:column;gap:8px;align-items:stretch;flex:none}
 .tabs{gap:8px}
@@ -470,8 +470,8 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .me b{color:var(--G-ink);font-size:18px;font-weight:400;grid-row:1/3}
 .me .ro{gap:14px;font-weight:400;justify-content:flex-end}
 .timer{position:static;text-align:center;font-size:15px;color:var(--G-ink2);text-shadow:none;background:none;flex:none;padding:0}
-.stage{position:relative;top:auto;bottom:auto;left:auto;right:auto;height:auto;flex:1;min-height:200px;background:#fff;border:4px solid var(--G-line);box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px var(--G-line)!important;border-radius:4px!important;padding:14px 6% 56px;align-items:flex-end;justify-content:center;gap:4%;margin:0}
-.stage::after{content:"";position:absolute;left:8%;right:8%;bottom:46px;height:16px;border-radius:50%;background:#d8d4c0;z-index:0}
+.stage{position:relative;top:auto;bottom:auto;left:auto;right:auto;height:auto;flex:1;min-height:200px;background:#fff;border:4px solid var(--G-line);box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px var(--G-line)!important;border-radius:4px!important;padding:14px 6% 50px;align-items:flex-end;justify-content:center;gap:4%;margin:0}
+.stage::after{content:none}
 .stage .u{z-index:1;width:30%;max-width:170px}
 .stage .u:only-of-type{width:48%}
 .stage .u img,.stage .u svg{filter:none}
@@ -500,7 +500,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .rows{gap:6px}
 .rw,.rw.beat{background:#fff;border:3px solid var(--G-line);color:var(--G-ink);border-radius:0;padding:6px 8px}
 .rw.beat{opacity:1;border-color:#a8a498;color:#888}
-.rw .av{background:var(--G-bg);border:2px solid var(--G-line);border-radius:0}
+.rw .av{background:#fff;border:2px solid var(--G-line);border-radius:0}
 .rw .av .st{background:var(--G-ink);color:#fff;border:none;border-radius:0;font-family:inherit;font-weight:400}
 .rw .inf b{font-weight:400;font-size:16px}
 .rw .inf b::before{content:"▶ ";color:var(--G-ink)}
@@ -542,12 +542,12 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .tip .cd{color:var(--G-ink2)}
 /* 전투 */
 #fight.scene{background:var(--G-bg)!important}
-.esprite::before,.msprite::before{content:"";position:absolute;left:-6%;right:-6%;bottom:-2%;height:16%;border-radius:50%;background:#d8d4c0;z-index:0}
+.esprite::before,.msprite::before{content:"";position:absolute;left:-14%;right:-14%;bottom:-3%;height:13%;border-radius:50%;background:#e9e5cf;border:3px solid #cfcab2;box-sizing:border-box;z-index:0}
 .esprite>div,.msprite>div{z-index:1}
 .esprite,.msprite{z-index:1}
 .esprite img,.esprite svg,.msprite img,.msprite svg{filter:none}
 .ebox,.mbox{background:#fff;border:3px solid var(--G-line);border-radius:0;padding:8px 10px 8px;z-index:2}
-.ebox{left:8px;top:10px;width:60%}
+.ebox{left:8px;top:10px;width:64%}
 .mbox{right:8px;bottom:10px;width:64%}
 .ebox .nm,.mbox .nm{flex-direction:column;align-items:flex-start;gap:2px}
 .ebox b,.mbox b{font-weight:400;font-size:17px;color:var(--G-ink);white-space:normal;overflow:visible}
@@ -556,9 +556,9 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .hpbar em,.gauge em{position:absolute;left:-40px;top:-5px;font-style:normal;font-size:14px;font-weight:400;color:var(--G-ink);width:36px;text-align:right;line-height:1}
 .hpbar i{background:var(--G-hp);transition:width .3s}.hpbar i.mid{background:var(--G-hp2)}.hpbar i.low{background:var(--G-hp3)}
 .gauge{height:7px;margin-top:8px}.gauge i{display:block;height:100%;width:0;background:var(--G-tg);transition:width .18s}
-.mbox .hpn{color:var(--G-ink);font-weight:400;font-size:14px;margin-top:2px}
+.ebox .hpn,.mbox .hpn{color:var(--G-ink);font-weight:400;font-size:14px;margin-top:2px;text-align:right;font-variant-numeric:tabular-nums}
 .ebox .effs span,.mbox .effs span,.ebox .effs span.good,.mbox .effs span.good{border-radius:0;background:#fff;border:2px solid var(--G-line);color:var(--G-ink);font-weight:400;font-size:13px;padding:0 5px}
-.eteam{left:8px;top:calc(10px + 96px)}
+.eteam{left:8px;top:calc(10px + 140px)}
 .mteam{right:8px;bottom:calc(8px + 120px)}
 .chip{width:44px;border:3px solid var(--G-line);background:#fff;padding:1px;border-radius:0}
 .chip .hp,.chip .tg{border-radius:0;background:#fff;border:1px solid var(--G-line);height:4px;margin:2px 1px 0}
@@ -600,7 +600,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 
 /* 대전 준비: 칸 크게, 글자는 그림 아래 줄에 */
 .pt,.pt.op,.roster .pt,.tri .pt{width:auto;height:auto;aspect-ratio:auto;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:3px solid var(--G-line)}
-.pt .pim{position:relative;aspect-ratio:1;background:var(--G-bg)}
+.pt .pim{position:relative;aspect-ratio:1;background:#fff}
 .pt .pim img,.pt .pim svg{width:100%;height:100%;object-fit:contain;display:block}
 .pt .pinfo{border-top:3px solid var(--G-line);padding:5px 6px;display:flex;flex-direction:column;gap:1px;line-height:1.25;text-align:left}
 .pt .pinfo b{font-weight:400;font-size:14px;color:var(--G-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -616,6 +616,97 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .vsbox .side{width:100%}
 .vsbox .vs{font-size:18px;margin:0}
 @media (min-width:600px){.roster .grid{grid-template-columns:repeat(5,1fr)!important}}
+
+/* ===== 전투 화면 격자(골드버전): 위 줄 상대 칸+상대 발판, 아래 줄 내 발판+내 칸 ===== */
+.gsc{padding:8px 8px 0;gap:8px}
+.arena-top{display:flex;flex-direction:column;justify-content:space-between;gap:10px;padding:0;position:static;flex:1;min-height:0}
+.arena-top::before,.arena-top::after{content:none}
+.rowA,.rowB{display:flex;gap:8px;min-height:0}
+.rowA{align-items:flex-start}
+.rowB{align-items:flex-end}
+.rowA .col,.rowB .col{flex:0 0 58%;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rowB .col{align-items:stretch}
+.ebox,.mbox{position:static;width:auto;right:auto;left:auto;top:auto;bottom:auto;padding:8px 10px 8px}
+.esprite,.msprite{position:relative;flex:1;aspect-ratio:1;max-width:46%;right:auto;left:auto;top:auto;bottom:auto;width:auto;margin:0;align-self:flex-end}
+.esprite{align-self:flex-start;margin-top:14px}
+.esprite::before,.msprite::before{content:"";position:absolute;left:-10%;right:-10%;bottom:1%;height:14%;border-radius:50%;background:#e9e5cf;border:3px solid #cfcab2;box-sizing:border-box;z-index:0}
+.esprite>div,.msprite>div{position:relative;z-index:1;width:100%;height:100%}
+.msprite img,.msprite svg{transform:scaleX(-1)}
+.eteam,.mteam{position:static;display:flex;gap:6px;top:auto;left:auto;right:auto;bottom:auto}
+.mteam{justify-content:flex-end}
+.ctlrow{display:flex;justify-content:flex-end;flex:none}
+.gsc .ctl,.ctl{position:static;display:flex;gap:6px;padding:0}
+.tbox{margin:0 0 8px;flex:none}
+#fight img,#lobby img,.setup img,.detail img,.rw img{filter:none!important}
+#fight .bob{animation:none}
+@media (min-width:600px){.esprite,.msprite{max-width:32%}}
+
+/* ===== 골드버전 전투 화면(8px 타일 격자 재현). 단위 --u = 화면폭/20 ===== */
+#fight{--u:calc(100vw/20);--k:#202020;background:#fff!important;font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif}
+#fight::before{content:none}
+#fight .gb{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;padding-top:env(safe-area-inset-top)}
+#fight .field{position:relative;flex:none;height:calc(var(--u)*13.9);width:calc(var(--u)*20)}
+#fight .enm,#fight .mnm{position:absolute;display:flex;align-items:baseline;gap:.25em;font-size:calc(var(--u)*1.15);color:var(--k);white-space:nowrap;line-height:1}
+#fight .enm{left:calc(var(--u)*1.5);top:calc(var(--u)*.6)}
+#fight .mnm{right:calc(var(--u)*1.2);top:calc(var(--u)*7.3)}
+#fight .enm b,#fight .mnm b{font-weight:400;max-width:calc(var(--u)*8.5);overflow:hidden;text-overflow:ellipsis}
+#fight .enm span,#fight .mnm span{font-size:.85em}
+#fight .eteam,#fight .mteam{position:absolute;display:flex;gap:calc(var(--u)*.2);font-size:calc(var(--u)*.9);line-height:1;color:var(--k)}
+#fight .eteam{left:calc(var(--u)*1.6);top:calc(var(--u)*1.9)}
+#fight .mteam{right:calc(var(--u)*1.3);top:calc(var(--u)*8.55)}
+#fight .chip{opacity:.35;cursor:default;background:none;border:none;padding:0;width:auto}
+#fight .chip.on{opacity:1}
+#fight .chip.down{opacity:.2}
+#fight .chip.cantgt{cursor:pointer}
+#fight .chip.tgt{color:#d02818;opacity:1}
+#fight .ebox,#fight .mbox{position:absolute;width:calc(var(--u)*10.5);padding:calc(var(--u)*.35) calc(var(--u)*.4) calc(var(--u)*.3);box-sizing:border-box;background:#fff}
+#fight .ebox{left:calc(var(--u)*1);top:calc(var(--u)*2.8);border-left:calc(var(--u)*.45) solid var(--k);border-bottom:calc(var(--u)*.22) solid var(--k);border-radius:0 0 0 calc(var(--u)*.4)}
+#fight .ebox::after{content:"";position:absolute;right:calc(var(--u)*-.5);bottom:calc(var(--u)*-.22);width:calc(var(--u)*.5);height:calc(var(--u)*.22);background:var(--k);clip-path:polygon(0 0,100% 100%,0 100%)}
+#fight .mbox{right:calc(var(--u)*1);top:calc(var(--u)*9.3);border-right:calc(var(--u)*.45) solid var(--k);border-bottom:calc(var(--u)*.22) solid var(--k);border-radius:0 0 calc(var(--u)*.4) 0}
+#fight .mbox::after{content:"";position:absolute;left:calc(var(--u)*-.5);bottom:calc(var(--u)*-.22);width:calc(var(--u)*.5);height:calc(var(--u)*.22);background:var(--k);clip-path:polygon(100% 0,100% 100%,0 100%)}
+#fight .hprow{display:flex;align-items:center;gap:calc(var(--u)*.15)}
+#fight .hprow em{font-style:normal;background:var(--k);color:#f8e038;font-size:calc(var(--u)*.62);padding:0 calc(var(--u)*.18);border-radius:calc(var(--u)*.15);line-height:1.3;letter-spacing:.02em}
+#fight .bar{flex:1;height:calc(var(--u)*.5);border:2px solid var(--k);border-radius:calc(var(--u)*.12);background:#fff;overflow:hidden;margin:0;padding:0}
+#fight .bar i{display:block;height:100%;background:#28c828;transition:width .3s}
+#fight .bar i.mid{background:#f8d028}#fight .bar i.low{background:#f03828}
+#fight .hpn{font-size:calc(var(--u)*1.05);text-align:right;line-height:1.1;margin-top:calc(var(--u)*.15);color:var(--k);font-variant-numeric:tabular-nums;min-height:1.1em}
+#fight .effs{display:flex;gap:calc(var(--u)*.15);justify-content:flex-end;min-height:calc(var(--u)*.6);margin-top:1px}
+#fight .effs span{font-size:calc(var(--u)*.55);background:var(--k);color:#fff;padding:0 calc(var(--u)*.15);line-height:1.35}
+#fight .effs span.good{background:#fff;color:var(--k);border:1.5px solid var(--k)}
+#fight .exp{height:calc(var(--u)*.3);background:#fff;border:1.5px solid var(--k);margin-top:2px;margin-left:30%}
+#fight .exp i{display:block;height:100%;width:0;background:#2878f8;transition:width .18s}
+#fight .esprite,#fight .msprite{position:absolute;width:calc(var(--u)*7);height:calc(var(--u)*7);transition:opacity .3s}
+#fight .esprite{right:calc(var(--u)*.6);top:calc(var(--u)*.1);width:calc(var(--u)*6.6);height:calc(var(--u)*6.6)}
+#fight .msprite{left:calc(var(--u)*.3);top:calc(var(--u)*6.4)}
+#fight .esprite::before,#fight .msprite::before{content:none}
+#fight .esprite>div,#fight .msprite>div{width:100%;height:100%;position:relative}
+#fight .esprite img,#fight .msprite img,#fight .esprite svg,#fight .msprite svg,#fight .esprite div,#fight .msprite div{filter:none!important;animation:none}
+#fight .esprite img,#fight .msprite img,#fight .esprite svg,#fight .msprite svg{width:100%;height:100%;object-fit:contain}
+#fight .msprite img,#fight .msprite svg{transform:scaleX(-1)}
+#fight .esprite.down,#fight .msprite.down{opacity:.15}
+#fight .esprite.hit,#fight .msprite.hit{animation:shake .3s}
+#fight .esprite.act>div::after,#fight .msprite.act>div::after{content:none}
+#fight .tbox{position:relative;flex:1;min-height:calc(var(--u)*6.5);margin:0 calc(var(--u)*.25) calc(var(--u)*.25);border:calc(var(--u)*.22) solid var(--k);border-radius:calc(var(--u)*.6);box-shadow:inset 0 0 0 calc(var(--u)*.12) #fff,inset 0 0 0 calc(var(--u)*.22) var(--k)!important;padding:calc(var(--u)*.8) calc(var(--u)*.7);outline:none;background:#fff;height:auto;display:flex;flex-direction:column}
+#fight .tbox .msg{font-size:calc(var(--u)*1.1);line-height:1.45;color:var(--k);font-weight:400}
+#fight .tbox .msg .dmg{color:#d02818}#fight .tbox .msg .heal{color:#1a7a1a}#fight .tbox .msg .eff{color:#585858}
+#fight .tbox .msg::after{content:"▼";position:absolute;right:calc(var(--u)*.7);bottom:calc(var(--u)*.4);font-size:calc(var(--u)*.7);animation:bob 1s infinite}
+#fight .tbox:has(.menu:not(.hidden)) .msg{display:none}
+#fight .menu{position:static;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*.2) calc(var(--u)*.6);padding:0;background:#fff;align-content:start}
+#fight .menu button{border:none;background:none;color:var(--k);font-size:calc(var(--u)*1.15);text-align:left;padding:calc(var(--u)*.25) 0 calc(var(--u)*.25) calc(var(--u)*1.1);position:relative;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:0;line-height:1.2;font-weight:400}
+#fight .menu button::before{content:"▶";position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:.8em;opacity:0}
+#fight .menu button.pri::before,#fight .menu button:active::before{opacity:1}
+#fight .menu button.pri{background:none;color:var(--k)}
+#fight .menu button.cd{opacity:.35}
+#fight .menu button small{font-size:calc(var(--u)*.72);color:#585858;display:flex;gap:.4em;flex-wrap:wrap;line-height:1.2;font-weight:400}
+#fight .menu button small .el{border:1.5px solid var(--k);padding:0 .3em;background:#fff;color:var(--k);border-radius:0}
+#fight .menu button.back{grid-column:1/3;border-top:2px solid var(--k);padding-top:calc(var(--u)*.4);font-size:calc(var(--u)*.95);justify-content:flex-start}
+#fight .menu.list{grid-template-columns:1fr}
+#fight .ctl{position:static;display:flex;justify-content:flex-end;gap:6px;padding:0 calc(var(--u)*.4) calc(var(--u)*.25);flex:none}
+#fight .ctl button{width:calc(var(--u)*2.6);height:calc(var(--u)*1.3);font-size:calc(var(--u)*.65);border:2px solid var(--k);background:#fff;color:var(--k);border-radius:0;box-shadow:none;font-family:inherit;font-weight:400}
+#fight .ctl button.on{background:var(--k);color:#fff}
+#fight .fl{font-size:calc(var(--u)*1.3);top:20%}
+#fight .log{top:calc(var(--u)*13.5);font-size:calc(var(--u)*.75)}
+@media (min-width:600px){#fight{--u:30px}#fight .field{margin:0 auto}#fight .tbox{max-width:600px;margin:0 auto calc(var(--u)*.25);width:100%}}
 </style>
 </head>
 <body>
@@ -692,17 +783,19 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 <div id="tip" class="tip hidden"></div>
 
 <!-- 전투 (골드 버전식: 상대는 오른쪽 위, 나는 왼쪽 아래, 아래는 글상자) -->
-<div id="fight" class="scene bg-arena hidden">
-  <div class="gsc">
-    <div class="arena-top">
-      <div class="ebox" id="ebox"><div class="nm"><b id="e_nm"></b><span id="e_lv"></span></div><div class="hpbar"><em>HP</em><i id="e_hp"></i></div><div class="gauge"><em>행동</em><i id="e_tg"></i></div><div class="effs" id="e_eff"></div></div>
+<div id="fight" class="scene hidden">
+  <div class="gb">
+    <div class="field">
+      <div class="enm"><b id="e_nm"></b><span id="e_lv"></span></div>
       <div class="eteam" id="e_team"></div>
+      <div class="ebox"><div class="hprow"><em>HP:</em><div class="bar"><i id="e_hp"></i></div></div><div class="hpn" id="e_hpn"></div><div class="effs" id="e_eff"></div><div class="exp"><i id="e_tg"></i></div></div>
       <div class="esprite" id="e_sp"></div>
       <div class="msprite" id="m_sp"></div>
+      <div class="mnm"><b id="m_nm"></b><span id="m_lv"></span></div>
       <div class="mteam" id="m_team"></div>
-      <div class="mbox" id="mbox"><div class="nm"><b id="m_nm"></b><span id="m_lv"></span></div><div class="hpbar"><em>HP</em><i id="m_hp"></i></div><div class="hpn" id="m_hpn"></div><div class="gauge"><em>행동</em><i id="m_tg"></i></div><div class="effs" id="m_eff"></div></div>
-      <div class="ctl"><button id="c_log">기록</button><button id="c_spd">×1</button><button id="c_auto">자동</button></div>
+      <div class="mbox"><div class="hprow"><em>HP:</em><div class="bar"><i id="m_hp"></i></div></div><div class="hpn" id="m_hpn"></div><div class="effs" id="m_eff"></div><div class="exp"><i id="m_tg"></i></div></div>
     </div>
+    <div class="ctl"><button id="c_log">기록</button><button id="c_spd">×1</button><button id="c_auto">자동</button></div>
     <div class="tbox"><div class="msg" id="cap"></div><div class="menu hidden" id="menu"></div></div>
   </div>
   <div class="log hidden" id="log"></div>
@@ -942,8 +1035,8 @@ function hpClass(f){const p=f.hp/f.maxhp;return p<.25?"low":p<.55?"mid":""}
 function effHTML(f){return Object.keys(f.eff).filter(k=>EFF[k]).map(k=>`<span class="${BAD.has(k)?"":"good"}">${EFF[k][0]}</span>`).join("")+(f.shield>0?`<span class="good">보호막</span>`:"")+(f.guard?`<span class="good">방어</span>`:"")}
 function drawField(){
  FOCUS.a=alive(TA)[0]||TA[0]; FOCUS.b=alive(TB)[0]||TB[0];
- $("m_team").innerHTML=TA.map(f=>`<div class="chip" id="ch_a${f.idx}"><div class="im">${artWithImage(f.race,f.stage,f.elem)}</div><div class="hp"><i></i></div><div class="tg"><i></i></div></div>`).join("");
- $("e_team").innerHTML=TB.map(f=>`<div class="chip" id="ch_b${f.idx}"><div class="arrow">▼</div><div class="im">${artWithImage(f.race,f.stage,f.elem)}</div><div class="hp"><i></i></div><div class="tg"><i></i></div></div>`).join("");
+ $("m_team").innerHTML=TA.map(f=>`<span class="chip" id="ch_a${f.idx}" title="${f.name}">●</span>`).join("");
+ $("e_team").innerHTML=TB.map(f=>`<span class="chip" id="ch_b${f.idx}" title="${f.name}">●</span>`).join("");
  $("m_team").style.display=TA.length>1?"":"none"; $("e_team").style.display=TB.length>1?"":"none";
  SHOWN={a:null,b:null}; refresh();
 }
@@ -953,13 +1046,13 @@ function refresh(){
   const f=FOCUS[side]; if(!f)continue;
   const sp=$(side==="a"?"m_sp":"e_sp"), box=side==="a"?"m":"e";
   if(SHOWN[side]!==f){sp.innerHTML=`<div>${artWithImage(f.race,f.stage,f.elem)}</div>`;SHOWN[side]=f}
-  $(box+"_nm").textContent=f.name; $(box+"_lv").textContent=`${f.stage}단계 · ${ELEM[f.elem].n}${f.nick?" · "+f.nick:""}`;
+  $(box+"_nm").textContent=f.name; $(box+"_lv").textContent=`:L${f.stage}`;
   const bar=$(box+"_hp"); bar.style.width=Math.max(0,f.hp/f.maxhp*100)+"%"; bar.className=hpClass(f); $(box+"_tg").style.width=Math.min(100,f.gauge/TURN*100)+"%";
-  if(side==="a")$("m_hpn").textContent=`${f.hp} / ${f.maxhp}`;
+  $(box+"_hpn").textContent=`${f.hp} / ${f.maxhp}`;
   $(box+"_eff").innerHTML=effHTML(f);
   sp.classList.toggle("down",f.hp<=0); sp.classList.toggle("act",ACTOR===f);
  }
- ALL.forEach(f=>{const c=chipOf(f);if(!c)return;const i=c.querySelector(".hp i");i.style.width=Math.max(0,f.hp/f.maxhp*100)+"%";i.className=hpClass(f);const g=c.querySelector(".tg i");if(g)g.style.width=Math.min(100,f.gauge/TURN*100)+"%";c.classList.toggle("down",f.hp<=0);c.classList.toggle("on",FOCUS[f.side]===f)});
+ ALL.forEach(f=>{const c=chipOf(f);if(!c)return;c.textContent=f.hp<=0?"○":"●";c.classList.toggle("down",f.hp<=0);c.classList.toggle("on",FOCUS[f.side]===f)});
 }
 function uel(f){return spriteOf(f)}
 function finish(){
@@ -1108,7 +1201,7 @@ async function run(){
  ALL=[...TA,...TB];
  rnd=rng(hash(ALL.map(x=>x.code+x.stage).join("|")+Date.now()));
  $("setup").classList.add("hidden");$("lobby").classList.add("hidden");$("fight").classList.remove("hidden");$("result").classList.add("hidden");
- $("fight").className="scene "+(GAME==="dungeon"?"bg-dungeon":"bg-arena");
+ $("fight").className="scene";
  drawField(); $("log").innerHTML=""; $("cap").textContent=`${TB.map(f=>f.name).join("·")}이(가) 나타났다!`;
  $("c_auto").classList.toggle("hidden",GAME==="dungeon"); $("c_auto").classList.toggle("on",MODE==="auto"); $("c_auto").textContent=MODE==="auto"?"자동":"수동";
  await loop();
