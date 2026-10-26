@@ -28,6 +28,26 @@ body{background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Pr
 header{text-align:center;padding:30px 0 18px}
 h1{font-size:27px;font-weight:800;margin:0 0 6px;letter-spacing:-0.5px}
 .sub{color:var(--ink2);font-size:15px;margin:0;line-height:1.55}
+#landing{text-align:center;padding:10px 0 8px}
+#landing h1{font-size:34px;font-weight:900;margin:6px 0 6px;letter-spacing:-1px}
+#landing .sub{font-size:15.5px}
+#landing .btn{max-width:320px;margin:18px auto 0;font-size:17px;padding:16px}
+.lring{position:relative;width:min(84vw,340px);height:min(84vw,340px);margin:0 auto}
+.lring svg{width:100%;height:100%;display:block}
+.lring .spin{transform-origin:100px 100px;animation:spin 14s linear infinite}
+.lring .spin2{transform-origin:100px 100px;animation:spin 22s linear infinite reverse}
+.lchar{position:absolute;inset:12%;}
+.lchar .lc{position:absolute;inset:0;opacity:0;transform:translateY(10px) scale(.96);transition:opacity .9s ease,transform .9s ease}
+.lchar .lc.on{opacity:1;transform:translateY(0) scale(1)}
+.lchar .lc img{width:100%;height:100%;object-fit:contain;display:block;filter:brightness(0) opacity(.88) drop-shadow(0 0 14px rgba(210,179,92,.75)) drop-shadow(0 0 40px rgba(210,179,92,.35));animation:floaty 4.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.lchar .lc.on img{animation:floaty 4.5s ease-in-out infinite, flick 7s linear infinite}
+@keyframes flick{0%,92%,100%{filter:brightness(0) opacity(.88) drop-shadow(0 0 14px rgba(210,179,92,.75)) drop-shadow(0 0 40px rgba(210,179,92,.35))}94%{filter:brightness(.35) opacity(.95) drop-shadow(0 0 18px rgba(210,179,92,.9))}96%{filter:brightness(0) opacity(.88) drop-shadow(0 0 14px rgba(210,179,92,.75)) drop-shadow(0 0 40px rgba(210,179,92,.35))}}
+.feat{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:14px}
+.feat span{font-size:12.5px;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--paper)}
+.strip{display:flex;justify-content:center;gap:4px;margin-top:16px;overflow:hidden}
+.strip img{width:38px;height:38px;object-fit:contain;opacity:.35;filter:grayscale(1) brightness(.9);transition:.3s}
+.strip img.lit{opacity:1;filter:none}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px 20px;margin-top:14px}
 .card h2{font-size:15px;color:var(--gold);margin:0 0 10px;font-weight:700}
 label{display:block;font-size:13.5px;color:var(--ink2);margin:14px 0 6px}
@@ -170,12 +190,19 @@ button{font-family:inherit;cursor:pointer}
 <body>
 <div class="wrap">
 
-<header>
+<section id="landing">
+  <div class="lring">
+    <svg viewBox="0 0 200 200"><defs><radialGradient id="lg" cx="50%" cy="55%" r="50%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".55"/><stop offset=".55" stop-color="#d2b35c" stop-opacity=".18"/><stop offset="1" stop-color="#d2b35c" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="92" fill="url(#lg)"/><g class="spin"><circle cx="100" cy="100" r="80" fill="none" stroke="#d2b35c" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/><circle cx="100" cy="100" r="64" fill="none" stroke="#d2b35c" stroke-width=".9" opacity=".7"/><polygon points="100,28 162,136 38,136" fill="none" stroke="#d2b35c" stroke-width="1" opacity=".7"/><polygon points="100,172 38,64 162,64" fill="none" stroke="#d2b35c" stroke-width="1" opacity=".7"/></g><g class="spin2"><circle cx="100" cy="100" r="90" fill="none" stroke="#d2b35c" stroke-width=".7" stroke-dasharray="1.5 7" opacity=".9"/></g></svg>
+    <div class="lchar" id="lchar"></div>
+  </div>
   <h1>이세계 소환사</h1>
-  <p class="sub">생일로 당신과 맞는 친구를 찾고,<br>소환해서 키우고, 친구와 겨뤄요.</p>
-</header>
+  <p class="sub">소환진 위에 뭔가 떠 있어요.<br>당신 생일과 맞는 친구가 나오려 해요.</p>
+  <button class="btn gold" id="openform">소환진 열기</button>
+  <div class="feat"><span>24 종족</span><span>3단계 진화</span><span>친구와 아레나</span><span>도감 보너스</span></div>
+  <div class="strip" id="strip"></div>
+</section>
 
-<section id="s1" class="card">
+<section id="s1" class="card hidden">
   <h2>나랑 맞는 친구 찾기</h2>
   <p style="margin:0;font-size:14.5px;color:var(--ink2)">태어난 날과 시간으로 당신과 맞는 친구를 찾아요. 그다음 여섯 개만 고르면 소환돼요.</p>
   <label>이름 (닉네임)</label>
@@ -414,6 +441,16 @@ function summon(){
  ["밤 11시~새벽 1시","새벽 1~3시","새벽 3~5시","새벽 5~7시","아침 7~9시","오전 9~11시","낮 11시~1시","오후 1~3시","오후 3~5시","저녁 5~7시","저녁 7~9시","밤 9~11시"].forEach((t,i)=>h.add(new Option(t,i)));
  $("hx").onchange=e=>{h.disabled=e.target.checked};
 })();
+/* 랜딩: 3단계 캐릭터 돌아가며 보여 주기 */
+(function(){
+ const show=["드래곤_3","천사_3","뱀파이어_3","늑대_3","와이번_3","슬라임_3","엘프_3","골렘_3"];
+ const box=$("lchar"); box.innerHTML=show.map(n=>`<div class="lc"><img src="img/race/${n}.png" alt=""></div>`).join("");
+ let i=0; const els=box.querySelectorAll(".lc"); els[0].classList.add("on");
+ setInterval(()=>{els[i].classList.remove("on");i=(i+1)%els.length;els[i].classList.add("on")},3600);
+ const strip=$("strip"); const all=RACES.map(r=>r.n); strip.innerHTML=all.slice(0,12).map(n=>`<img src="img/race/${n}.png" alt="">`).join("");
+ let k=0; const imgs=strip.querySelectorAll("img"); setInterval(()=>{imgs.forEach(x=>x.classList.remove("lit"));imgs[k%imgs.length].classList.add("lit");k++},700);
+ $("openform").onclick=()=>{$("landing").classList.add("hidden");$("s1").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});setTimeout(()=>$("nick").focus(),300)};
+})();
 $("go1").onclick=()=>{
  birth={y:$("y").value,m:$("m").value,d:$("d").value,h:$("hx").checked?"x":$("h").value}; NICK=$("nick").value.trim().slice(0,12);
  track("start");$("s1").classList.add("hidden");$("s2").classList.remove("hidden");answers=[];qi=0;renderQ();window.scrollTo({top:0,behavior:"smooth"});
@@ -506,8 +543,8 @@ $("ask").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{track("price_"+b.dat
 function R_STAGES(){return CUR?CUR.stages.map(x=>x.replace(/〔.*?〕/,"")).join(" → "):""}
 $("copylink").onclick=async()=>{track("share_link");try{await navigator.clipboard.writeText(location.href);toast("링크를 복사했어요. 친구한테 보내 주세요")}catch(e){toast("복사가 막혀 있어요. 주소창을 복사해 주세요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
 $("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환사]\n${NICK?NICK+" 화면":"내 화면"}에 온 건 ${$("r_name").textContent}\n${$("r_tags").textContent.trim().replace(/\s+/g," · ")}\n${$("r_char").textContent}\n전투력 ${$("r_power").querySelector("b").textContent} · 진화: ${R_STAGES()}\n특성: ${$("r_pname").textContent} · 속성: ${ELEM[CUR.elem].n} · ${$("r_vs").textContent.replace(/\s+/g," ").trim()}\n\n${location.href}`;try{await navigator.clipboard.writeText(t);toast("글로 복사했어요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
-$("again").onclick=()=>{try{location.hash=""}catch(e){}$("s3").classList.add("hidden");$("s1").classList.remove("hidden");["adoptbtn","unlock"].forEach(i=>$(i).classList.remove("hidden"));["adoptok","ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
-(function(){const d=decode(location.hash);if(d&&d.a.length===QS.length){birth=d.b;answers=d.a;NICK=d.nick||"";track("visit_shared");draw(judge(birth,answers));$("s1").classList.add("hidden");$("s3").classList.remove("hidden")}})();
+$("again").onclick=()=>{try{location.hash=""}catch(e){}$("s3").classList.add("hidden");$("landing").classList.remove("hidden");["adoptbtn","unlock"].forEach(i=>$(i).classList.remove("hidden"));["adoptok","ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
+(function(){const d=decode(location.hash);if(d&&d.a.length===QS.length){birth=d.b;answers=d.a;NICK=d.nick||"";track("visit_shared");draw(judge(birth,answers));$("landing").classList.add("hidden");$("s1").classList.add("hidden");$("s3").classList.remove("hidden")}})();
 </script>
 </body>
 </html>
