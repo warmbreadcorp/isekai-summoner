@@ -123,7 +123,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=8"></script>
+<script src="game.js?v=14"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
@@ -144,7 +144,7 @@ function makeFighter(h,stage,side,idx){
  if(side==="a"){let col=[];try{col=JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){} const cb=codexBonus(col); if(cb.done.length){st=st.map((v,i)=>Math.round(v*cb.mult[i]));bonus=cb.done.join("·")}}
  const skills=R.skills.filter(([s])=>s<=stage).map(([s,k])=>({tier:s,n:k[0],t:k[1],m:k[2]*(1+0.2*(stage-s)),e:k[3],cd:0}));
  const nick=h.d.nick||"";
- return {bonus,side,idx,R,race:R.race,pow:R.pow,elem:R.elem,stage,nick,owner:nick||(side==="a"?"나":"친구"),name:R.stages[stage-1].replace(/〔.*?〕/,""),st:st.slice(),base:st.slice(),maxhp:st[0]*10,hp:st[0]*10,skills,basic:BASIC[stage-1],eff:{},shield:0,guard:false,dot:{},gauge:0,turns:0};
+ return {code:h.h,bonus,side,idx,R,race:R.race,pow:R.pow,elem:R.elem,stage,nick,owner:nick||(side==="a"?"나":"친구"),name:R.stages[stage-1].replace(/〔.*?〕/,""),st:st.slice(),base:st.slice(),maxhp:st[0]*10,hp:st[0]*10,skills,basic:BASIC[stage-1],eff:{},shield:0,guard:false,dot:{},gauge:0,turns:0};
 }
 function aff(att,def){ // 특성 % + 속성 % 합산
  return 1+(traitAdv(att,def)+elemAdv(att.elem,def.elem))/100;
@@ -246,7 +246,8 @@ function finish(){
  const names=t=>t.map(f=>f.name).join("·");
  $("act").classList.add("hidden"); $("win").classList.remove("hidden");
  const owner=t=>[...new Set(t.map(f=>f.owner))].join("·");
- $("win").innerHTML=win?`<b>${owner(win==="a"?TA:TB)} 승리</b><span>${win==="a"?names(TA):names(TB)}이(가) 이겼어요.</span>`:`<b>무승부</b><span>둘 다 쓰러졌어요.</span>`;
+ const gain=win==="a"?XP_GAIN.win:XP_GAIN.lose; TA.forEach(f=>{if(f.code)addXp(f.code,gain)});
+ $("win").innerHTML=win?`<b>${owner(win==="a"?TA:TB)} 승리</b><span>${win==="a"?names(TA):names(TB)}이(가) 이겼어요. 내 쪽 경험치 +${gain}</span>`:`<b>무승부</b><span>둘 다 쓰러졌어요. 내 쪽 경험치 +${gain}</span>`;
  WINTEXT=`[이세계 소환사 아레나]\n${owner(TA)}(${names(TA)}) vs ${owner(TB)}(${names(TB)})\n→ ${win?owner(win==="a"?TA:TB)+" 승리":"무승부"}\n\n${location.origin}${location.pathname.replace(/battle\.html$/,"index.html")}`;
  BUSY=false;
 }
@@ -258,9 +259,9 @@ function askPlayer(att,enemies){
   let chosen=null;
   const render=()=>{
    box.innerHTML=`<h4>${att.owner}의 ${att.name} 차례예요. 뭘 할까요?</h4><div class="opts">
-    <button class="o ${chosen&&chosen.type==="basic"?"on":""}" data-k="basic"><b>일반공격</b><small>×${att.basic}</small></button>
+    <button class="o ${chosen&&chosen.type==="basic"?"on":""}" data-k="basic"><b>일반공격</b><small>데미지 ${showDmg(cur(att)[1],att.basic)}</small></button>
     <button class="o ${chosen&&chosen.type==="guard"?"on":""}" data-k="guard"><b>방어</b><small>피해 ${GUARD*100}% 감소</small></button>
-    ${ready.map(({s,ok},i)=>`<button class="o ${chosen&&chosen.skill===s?"on":""}" data-k="s${i}" ${ok?"":"disabled"}><b>${s.n}</b><small>${s.tier}단계 · ${s.t==="hit"?"×"+s.m.toFixed(2):s.t==="heal"?"회복":s.t==="buff"?"강화":"약화"}${s.e?" · "+EFF[s.e][0]:""}${ok?"":" · "+s.cd+"턴 뒤"}${att.eff.silence?" · 침묵":""}</small></button>`).join("")}
+    ${ready.map(({s,ok},i)=>`<button class="o ${chosen&&chosen.skill===s?"on":""}" data-k="s${i}" ${ok?"":"disabled"}><b>${s.n}</b><small>${s.tier}단계 · ${s.t==="hit"?"데미지 "+showDmg(MAGICAL.has(att.pow)?cur(att)[2]:cur(att)[1],s.m):s.t==="heal"?"회복":s.t==="buff"?"강화":"약화"}${s.e?" · "+EFF[s.e][0]:""}${ok?"":" · "+s.cd+"턴 뒤"}${att.eff.silence?" · 침묵":""}</small></button>`).join("")}
    </div>
    <div class="tg ${chosen&&chosen.type!=="guard"&&!(chosen.type==="skill"&&chosen.skill.t!=="hit"&&chosen.skill.t!=="debuff")?"":"hidden"}"><h4>누구한테?</h4><div class="tgt">${enemies.map((e,i)=>`<button class="t" data-t="${i}" ${e.hp>0?"":"disabled"}>${e.name}<br><small>${e.hp}/${e.maxhp}</small></button>`).join("")}</div></div>`;
    box.querySelectorAll(".o").forEach(b=>b.onclick=()=>{

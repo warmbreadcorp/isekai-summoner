@@ -28,6 +28,24 @@ body{background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Pr
 header{text-align:center;padding:30px 0 18px}
 h1{font-size:27px;font-weight:800;margin:0 0 6px;letter-spacing:-0.5px}
 .sub{color:var(--ink2);font-size:15px;margin:0;line-height:1.55}
+.hamb{position:fixed;top:14px;right:14px;z-index:40;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:20px;cursor:pointer}
+.drawer-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:45}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(78vw,360px);background:var(--paper);border-left:1px solid var(--line);z-index:46;transform:translateX(100%);transition:transform .28s ease;padding:18px 16px 30px;overflow:auto}
+.drawer.open{transform:translateX(0)}
+.drawer .dh{display:flex;justify-content:space-between;align-items:center;font-size:17px}
+.drawer .dx{background:none;border:none;color:var(--ink2);font-size:18px;cursor:pointer}
+.drawer .dme{margin-top:14px;padding:12px;background:var(--paper2);border-radius:12px;font-size:14px;line-height:1.6}
+.drawer .dme b{font-size:16px}
+.drawer .dnav{display:grid;gap:6px;margin-top:14px}
+.drawer .dnav button{text-align:left;background:transparent;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;color:var(--ink);cursor:pointer}
+.drawer .dsec{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:14px}
+.drawer .dsec>b{display:block;margin-bottom:8px}
+.drawer .drow{display:grid;grid-template-columns:1fr 72px;gap:6px}
+.drawer .drow .btn{margin:0;padding:11px;font-size:14px}
+.drawer .nlist{list-style:none;padding:0;margin:0}
+.drawer .nlist li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.5px;color:var(--ink2)}
+.drawer .nlist li b{display:block;color:var(--ink);font-size:14px}
+.drawer .nlist li small{color:var(--ink3)}
 #landing{text-align:center;padding:10px 0 8px}
 #landing h1{font-size:34px;font-weight:900;margin:6px 0 6px;letter-spacing:-1px}
 #landing .sub{font-size:15.5px}
@@ -166,6 +184,10 @@ button{font-family:inherit;cursor:pointer}
 @keyframes appear{0%{opacity:0;filter:brightness(0) blur(8px);transform:scale(.6)}45%{opacity:.9;filter:brightness(0) blur(2px);transform:scale(1)}100%{opacity:1;filter:none;transform:scale(1)}}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
+.xp .xh{display:flex;justify-content:space-between;font-size:13px;color:var(--ink2)}
+.xp .xh b{color:var(--ink)}
+.xp .t{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px}
+.xp .t i{display:block;height:100%;background:var(--gold2);border-radius:4px}
 .vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .vs div{border-radius:10px;padding:10px 12px;font-size:13.5px;background:var(--paper2)}
 .vs b{display:block;font-size:15px;margin-bottom:2px}
@@ -206,6 +228,21 @@ button{font-family:inherit;cursor:pointer}
 </style>
 </head>
 <body>
+<button class="hamb" id="hamb" aria-label="마이페이지">☰</button>
+<div class="drawer-bg hidden" id="drawerbg"></div>
+<aside class="drawer" id="drawer">
+  <div class="dh"><b>마이페이지</b><button class="dx" id="drawerx">✕</button></div>
+  <div class="dme" id="d_me"></div>
+  <nav class="dnav">
+    <button data-go="colsec">내 친구들</button>
+    <button data-go="dexsec">도감</button>
+    <button data-go="arena">아레나</button>
+    <button data-go="notice">공지사항</button>
+  </nav>
+  <div class="dsec"><b>쿠폰</b><div class="drow"><input id="coupon" placeholder="쿠폰 코드"><button class="btn gold" id="couponbtn">등록</button></div><p class="mini" id="couponmsg"></p></div>
+  <div class="dsec" id="notice"><b>공지사항</b><ul class="nlist" id="nlist"></ul></div>
+</aside>
+
 <div class="wrap">
 
 <section id="landing">
@@ -256,13 +293,8 @@ button{font-family:inherit;cursor:pointer}
   </div>
 
   <div class="sec">
-    <h3>어떤 애예요?</h3>
-    <p id="r_char"></p>
-  </div>
-
-  <div class="sec">
-    <h3>당신이랑은</h3>
-    <p id="r_rel"></p>
+    <h3>소환수 설명</h3>
+    <div id="r_char"></div>
   </div>
 
   <div class="sec">
@@ -284,13 +316,13 @@ button{font-family:inherit;cursor:pointer}
     <h3>진화 3단계</h3>
     <div class="evo" id="r_evo"></div>
     <div id="r_evolve" style="margin-top:10px"></div>
-    <p class="mini">진화하면 모습과 성격, 이야기가 더 자세히 열려요.</p>
+    <p class="mini">같이 지내고 싸우면서 경험치가 쌓여요. 진화하면 모습과 성격, 이야기가 더 자세히 열려요.</p>
   </div>
 
   <div class="sec">
     <h3>스킬</h3>
     <div class="skills" id="r_skills"></div>
-    <p class="mini">종족 스킬은 2단계에 깨어나면, 속성 스킬은 3단계에 열려요. 단계가 오르면 일반공격과 먼저 배운 스킬도 20%씩 세져요.</p>
+    <p class="mini">데미지는 상대 방어 60일 때 기준이에요. 2단계에 종족 스킬이 열리고, 속성에 따라 효과가 달라져요. 3단계에는 그 스킬이 완성된 형태가 열려요.</p>
   </div>
 
   <div class="sec" id="colsec">
@@ -299,7 +331,7 @@ button{font-family:inherit;cursor:pointer}
     <p class="mini">소환한 친구는 여기 모여요. 아레나에 같이 데려갈 수 있어요.</p>
   </div>
 
-  <div class="sec">
+  <div class="sec" id="dexsec">
     <h3>도감 <span id="dex_cnt" style="color:var(--ink3);font-weight:400;font-size:12.5px"></span></h3>
     <div class="dex" id="r_dex"></div>
     <p class="mini">소환한 종족만 채워져요. 칸을 누르면 진화와 스킬이 보여요.</p>
@@ -354,7 +386,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="circle hidden" id="circle"><div class="ring"><svg viewBox="0 0 200 200"><defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset=".6" stop-color="#d2b35c" stop-opacity=".25"/><stop offset="1" stop-color="#d2b35c" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="90" fill="url(#cg)"/><g class="spin"><circle cx="100" cy="100" r="78" fill="none" stroke="#d2b35c" stroke-width="1.5" stroke-dasharray="6 4"/><circle cx="100" cy="100" r="62" fill="none" stroke="#d2b35c" stroke-width="1"/><polygon points="100,30 160,135 40,135" fill="none" stroke="#d2b35c" stroke-width="1.2"/><polygon points="100,170 40,65 160,65" fill="none" stroke="#d2b35c" stroke-width="1.2"/>${"".padEnd(0)}</g><g class="spin2"><circle cx="100" cy="100" r="88" fill="none" stroke="#d2b35c" stroke-width=".8" stroke-dasharray="2 6"/></g></svg><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=8"></script>
+<script src="game.js?v=14"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -429,20 +461,20 @@ let DEX_OPEN=null;
 function drawCodex(){
  const {done,have}=codexBonus(collection());
  $("dex_cnt").textContent=`${have.size} / ${RACES.length}`;
- const main=r=>r.paths.filter(p=>p.r.length>=3)[0]||r.paths[0];
+ const main=r=>({r:r.line});
  const nm=x=>x.replace(/〔.*?〕/,"");
  $("r_dex").innerHTML=RACES.map((r,i)=>{
   const own=have.has(r.n);
-  const card=own?`<div class="d" data-i="${i}"><div class="im">${artWithImage(r)}</div><b>${r.n}</b><small>${(FORMSK[r.f]||FORMSK[""])[0]} → ${r.sig[0]}</small></div>`
+  const card=own?`<div class="d" data-i="${i}"><div class="im">${artWithImage(r)}</div><b>${r.n}</b><small>${r.sig[0]}</small></div>`
    :`<div class="d empty"><div class="im">${art(r)}</div><b>?</b><small>No.${String(i+1).padStart(2,"0")}</small></div>`;
   if(own&&DEX_OPEN===i){
    const P=main(r), st=[P.r[0],P.r[Math.max(1,Math.floor((P.r.length-1)/2))],P.r[P.r.length-1]];
    const E=r.sig[3]?EFF[r.sig[3]]:null;
    return card+`<div class="dexdetail"><b>${r.n}</b> <small style="color:var(--ink3)">${r.t.join(" · ")}</small>
     <div class="evo3">${st.map((x,k)=>`${k?'<span class="ar">→</span>':''}<div class="e"><div class="im">${artWithImage(r,k+1)}</div><small>${k+1}단계<br>${nm(x)}</small></div>`).join("")}</div>
-    ${(()=>{const F=FORMSK[r.f]||FORMSK[""],FE=F[3]?EFF[F[3]]:null;return `<div class="sk"><b>1단계</b> ${F[0]} · ${F[1]==="hit"?"공격 ×"+F[2]:F[1]==="heal"?"회복":F[1]==="buff"?"강화":"약화"}${FE?" · "+FE[0]:""}<br><span style="font-size:12.5px">${F[4]}</span></div>`})()}
-    <div class="sk"><b>2단계 종족 스킬</b> ${r.sig[0]} · ${r.sig[1]==="hit"?"공격 ×"+r.sig[2]:r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}${E?" · "+E[0]:""}<br><span style="font-size:12.5px">${r.sig[4]}${E?" "+E[1]:""}</span></div>
-    <div class="sk" style="font-size:12.5px"><b>3단계 속성 스킬</b> ${Object.values(ELEM).map(e=>`${e.ic}${e.t3[0]}(${EFF[e.eff][0]})`).join(" · ")}</div>
+    ${(()=>{const F=FORMSK[r.f]||FORMSK[""],FE=F[3]?EFF[F[3]]:null;return `<div class="sk"><b>1단계</b> ${F[0]} · ${F[1]==="hit"?"공격":F[1]==="heal"?"회복":F[1]==="buff"?"강화":"약화"}${FE?" · "+FE[0]:""}<br><span style="font-size:12.5px">${F[4]}</span></div>`})()}
+    <div class="sk"><b>2단계</b> ${r.sig[0]} · ${r.sig[1]==="hit"?"공격":r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}<br><span style="font-size:12.5px">${r.sig[4]}${(r.sig[1]==="hit"||r.sig[1]==="debuff")?" 속성에 따라 효과가 달라져요. "+Object.values(ELEM).map(e=>`${e.ic}${EFF[e.eff][0]}`).join(" "):(E?" · "+E[0]:"")}</span></div>
+    <div class="sk"><b>3단계</b> ${r.sig3} · ${r.sig[1]==="hit"?"공격":r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}<br><span style="font-size:12.5px">${r.sig[0]}이(가) 완성된 모습이에요.</span></div>
     ${r.edge?`<div class="sk" style="font-size:12.5px">${r.edge}</div>`:""}
    </div>`;
   }
@@ -459,10 +491,13 @@ function summonIntro(race,stage,text,elem){ CUR_ELEM=elem||null;
 function drawEvolve(){
  const code=location.hash.replace("#",""), st=getStage(code), box=$("r_evolve"); if(!box)return;
  if(st>=3){box.innerHTML=`<p class="mini" style="margin:0">3단계예요. 끝까지 자랐어요.</p>`;return}
- const cost=EVOLVE_COST[st+1], ok=tickets()>=cost;
- box.innerHTML=`<button class="btn gold" id="evbtn" ${ok?"":"disabled"} style="margin-top:0">${st+1}단계로 진화 · 소환권 ${cost}개</button>${ok?"":`<p class="mini" style="margin:6px 0 0">소환권이 ${cost}개 필요해요. 친구에게 보내거나 사면 돼요.</p>`}`;
- const b=$("evbtn"); if(b)b.onclick=async()=>{ST.set("ssm_tickets",tickets()-cost);setStage(code,st+1);track("evolve_"+(st+1));const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"})};
+ const need=EVOLVE_XP[st+1], xp=getXp(code), ok=xp>=need;
+ box.innerHTML=`<div class="xp"><div class="xh"><span>경험치</span><b>${Math.min(xp,need)} / ${need}</b></div><div class="t"><i style="width:${Math.min(100,xp/need*100)}%"></i></div></div>
+  <button class="btn gold" id="evbtn" ${ok?"":"disabled"} style="margin-top:10px">${st+1}단계로 진화</button>
+  ${ok?"":`<p class="mini" style="margin:6px 0 0">아레나에서 싸우면 승리 +${XP_GAIN.win}, 패배 +${XP_GAIN.lose}. 친구에게 보내면 +${XP_GAIN.share}. 하루 첫 방문 +${XP_GAIN.daily}.</p>`}`;
+ const b=$("evbtn"); if(b)b.onclick=async()=>{setStage(code,st+1);track("evolve_"+(st+1));const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"})};
 }
+function dailyXp(){const code=location.hash.replace("#","");if(!code)return;const key="ssm_dx_"+code;const d=ST.get(key,"");if(d!==today()){ST.set(key,today());addXp(code,XP_GAIN.daily)}}
 function summon(){
  if(tickets()<=0)return;
  ST.set("ssm_tickets",tickets()-1); track("summon_use");
@@ -493,6 +528,34 @@ function summon(){
  let k=0; const imgs=strip.querySelectorAll("img"); setInterval(()=>{imgs.forEach(x=>x.classList.remove("lit"));imgs[k%imgs.length].classList.add("lit");k++},700);
  $("openform").onclick=()=>{$("landing").classList.add("hidden");$("s1").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});setTimeout(()=>$("nick").focus(),300)};
 })();
+/* 마이페이지 드로어 */
+const COUPONS={"WELCOME":1,"SUMMON3":3,"ARENA":1};
+const NOTICES=[
+ {d:"2026-10-26",t:"이세계 소환사 테스트 시작",b:"친구에게 결과를 보내면 소환권을 받을 수 있어요. 하루 1개까지예요."},
+ {d:"2026-10-26",t:"아레나 열림",b:"결과 링크로 친구와 1대1, 2대2, 3대3 대결이 돼요. 승리 +5, 패배 +2 경험치."},
+ {d:"2026-10-26",t:"쿠폰 WELCOME",b:"마이페이지 쿠폰에 WELCOME을 넣으면 소환권 1개를 드려요."}
+];
+function openDrawer(o){$("drawer").classList.toggle("open",o);$("drawerbg").classList.toggle("hidden",!o);if(o)drawMe()}
+function drawMe(){
+ const col=collection(), code=location.hash.replace("#",""), d=decode(code);
+ $("d_me").innerHTML=`<b>${(d&&d.nick)||NICK||"소환사"}</b><br>소환권 ${tickets()}개 · 친구 ${col.length}마리 · 도감 ${ownedRaces(col).size}/${RACES.length}`;
+ $("nlist").innerHTML=NOTICES.map(n=>`<li><b>${n.t}</b>${n.b}<br><small>${n.d}</small></li>`).join("");
+}
+$("hamb").onclick=()=>openDrawer(true); $("drawerx").onclick=()=>openDrawer(false); $("drawerbg").onclick=()=>openDrawer(false);
+document.querySelectorAll(".dnav button").forEach(b=>b.onclick=()=>{
+ const go=b.dataset.go;
+ if(go==="arena"){location.href="battle.html";return}
+ if(go==="notice"){$("notice").scrollIntoView({behavior:"smooth"});return}
+ openDrawer(false);
+ const el=$(go); if(el&&!$("s3").classList.contains("hidden"))el.scrollIntoView({behavior:"smooth",block:"start"}); else toast("먼저 친구를 소환해 주세요");
+});
+$("couponbtn").onclick=()=>{
+ const c=$("coupon").value.trim().toUpperCase(); const used=ST.get("ssm_coupons",[]);
+ if(!COUPONS[c]){$("couponmsg").textContent="없는 쿠폰이에요.";return}
+ if(used.includes(c)){$("couponmsg").textContent="이미 쓴 쿠폰이에요.";return}
+ used.push(c);ST.set("ssm_coupons",used);ST.set("ssm_tickets",tickets()+COUPONS[c]);track("coupon_"+c);
+ $("couponmsg").textContent=`소환권 ${COUPONS[c]}개를 받았어요.`;$("coupon").value="";drawMe();try{drawTickets()}catch(e){}
+};
 $("go1").onclick=()=>{
  birth={y:$("y").value,m:$("m").value,d:$("d").value,h:$("hx").checked?"x":$("h").value}; NICK=$("nick").value.trim().slice(0,12);
  track("start");$("s1").classList.add("hidden");$("s2").classList.remove("hidden");answers=[];qi=0;renderQ();window.scrollTo({top:0,behavior:"smooth"});
@@ -517,22 +580,27 @@ function draw(R){
  $("r_tags").innerHTML=race.t.map(t=>`<span class="tag">${t}</span>`).join("");
  $("r_grade").className="grade g"+path.g; $("r_grade").textContent=G[path.g];
  $("r_gnote").textContent=GN[path.g]+"예요. 세다는 뜻은 아니에요.";
- $("r_char").innerHTML=[race.ch,STG>=2?race.ch2:null,STG>=3?race.ch3:null].filter(Boolean).map((t,i)=>i?`<br><span style="color:var(--gold)">${i+1}단계 · </span>${t}`:t).join("");
- $("r_rel").textContent=JOBS[job].you;
+ $("r_char").innerHTML=`<p style="margin:0 0 10px"><b style="color:var(--gold);font-size:13px">종족</b><br>${race.lore}</p>
+  <p style="margin:0"><b style="color:var(--gold);font-size:13px">성격</b><br>${[race.ch,STG>=2?race.ch2:null,STG>=3?race.ch3:null].filter(Boolean).map((t,i)=>i?`<br><span style="color:var(--ink3);font-size:12.5px">${i+1}단계부터</span> ${t}`:t).join("")}</p>`;
  const P=POW[pow]; $("r_pic").textContent=P[0]; $("r_pname").textContent=P[1]; $("r_pdesc").textContent=P[2];
  drawVs(race,pow,R.elem);
- drawStats(R); drawTickets(); drawCollection(); drawCodex();
+ dailyXp(); drawStats(R); drawTickets(); drawCollection(); drawCodex();
  drawDays(R);
 }
 function drawSkills(R){
  const GOOD=new Set(["shield","guard","regen","heal","cleanse","drain","rage"]);
- const basic=`<div class="k"><div class="nm">일반공격<small>배율 ${BASIC[0]} → 2단계 ${BASIC[1]} → 3단계 ${BASIC[2]}</small></div><div></div><div class="d">매 턴 쓸 수 있어요. 자랄수록 세져요.</div></div>
+ const stg=R.stage||1, st=stageStats(R.base,R.race,stg-1), atk=st[1], mag=st[2];
+ const useStat=["mana","divine","spirit"].includes(R.pow)?mag:atk;
+ const dmgOf=(m,isSkill)=>showDmg(isSkill?useStat:atk,m);
+ const basic=`<div class="k"><div class="nm">일반공격<small>데미지 ${dmgOf(BASIC[stg-1],false)}</small></div><div></div><div class="d">매 턴 쓸 수 있어요. 자랄수록 세져요.</div></div>
  <div class="k"><div class="nm">방어<small>받는 피해 ${GUARD*100}% 감소</small></div><div></div><div class="d">그 턴은 안 때리고 버텨요. 화상·출혈은 그대로 들어와요.</div></div>
- <div class="k"><div class="nm">회피<small>${DODGE*100}%</small></div><div></div><div class="d">가끔 그냥 피해요. 속박에 걸리면 못 피해요.</div></div>`;
+ <div class="k"><div class="nm">회피<small>${DODGE*100}%</small></div><div></div><div class="d">5% 확률로 공격을 피해요. 속박에 걸리면 못 피해요.</div></div>`;
  $("r_skills").innerHTML=basic+R.skills.map(([stg,k])=>{
-  const [n,t,m,e,d]=k, E=e?EFF[e]:null, tag=t==="hit"?`공격 ×${m}`:t==="heal"?"회복":t==="buff"?"강화":"약화";
+  const [n,t,m,e,d,el]=k, E=e?EFF[e]:null;
   const open=stg<=(R.stage||1);
-  return `<div class="k ${open?"":"lock"}"><div class="nm">${n}<small>${stg}단계 스킬${open?"":" 🔒"} · ${tag} · 쓰면 ${stg}턴 쉼</small></div><div>${E?`<span class="e ${GOOD.has(e)?"good":"bad"}">${E[0]}</span>`:""}</div><div class="d">${d}</div>${E?`<div class="ed">${E[0]}: ${E[1]}</div>`:""}</div>`;
+  const boost=open?1+0.2*((R.stage||1)-stg):1;
+  const tag=t==="hit"?`데미지 ${dmgOf(m*boost,true)}`:t==="heal"?"회복":t==="buff"?"강화":"약화";
+  return `<div class="k ${open?"":"lock"}"><div class="nm">${n}<small>${stg}단계${open?"":" 🔒"} · ${tag} · 쓰면 ${stg}턴 쉼</small></div><div>${el?`<span class="e">${ELEM[el].ic} ${ELEM[el].n}</span> `:""}${E?`<span class="e ${GOOD.has(e)?"good":"bad"}">${E[0]}</span>`:""}</div><div class="d">${d}</div>${E?`<div class="ed">${E[0]}: ${E[1]}</div>`:""}</div>`;
  }).join("");
 }
 function drawStats(R){
@@ -554,14 +622,14 @@ function drawVs(race,pow,elem){
  const strongWhy=(strong===race.strong&&race.strong)?"":(strong?WHY[pow]:"");
  $("r_vs").innerHTML=(strong?`<div><span class="w">이기는 상대 +10%</span><b>${ic(strong)} ${name(strong)}</b>${strongWhy}</div>`:`<div><span class="w">이기는 상대</span><b>아직 없음</b>힘이 생기면 정해져요.</div>`)
   +(weak?`<div><span class="l">지는 상대 -10%</span><b>${ic(weak)} ${name(weak)}</b>${race.weak?"":WHY[weak]}</div>`:`<div><span class="l">지는 상대</span><b>전부</b>지금은 숨는 게 답이에요.</div>`);
- $("r_edge").innerHTML=((STG_FOR_EDGE()>=2?race.edge:FORMLINE[race.f]||FORMLINE[""])||"")+`<br><br><b style="color:var(--ink)">${ELEM[elem].ic} ${ELEM[elem].n} 속성</b> · `+({fire:"바람에 강하고 물에 약해요.",water:"불에 강하고 바람에 약해요.",wind:"물에 강하고 불에 약해요.",earth:"속성 상성이 없어요. 묵직해요.",light:"어둠과 서로 +10%예요.",dark:"빛과 서로 +10%예요."}[elem])+` 3단계가 되면 ${ELEM[elem].n} 속성 스킬을 써요.`;
+ $("r_edge").innerHTML=((STG_FOR_EDGE()>=2?race.edge:FORMLINE[race.f]||FORMLINE[""])||"")+`<br><br><b style="color:var(--ink)">${ELEM[elem].ic} ${ELEM[elem].n} 속성</b> · `+({fire:"바람에 강하고 물에 약해요.",water:"불에 강하고 바람에 약해요.",wind:"물에 강하고 불에 약해요.",earth:"상성이 없어요. 어느 속성에도 유리하지도 불리하지도 않아요.",light:"어둠과는 서로 10% 더 세게 들어가요.",dark:"빛과는 서로 10% 더 세게 들어가요."}[elem])+` 2단계부터 종족 스킬에 ${ELEM[elem].n} 속성이 붙어요.`;
  // 네 힘 순환 그림
  const K=["aura","mana","divine","spirit"], pos={aura:[40,40],mana:[260,40],divine:[260,130],spirit:[40,130]};
  const arrow=(a,b)=>{const [x1,y1]=pos[a],[x2,y2]=pos[b];const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;return `<line x1="${x1+ux*34}" y1="${y1+uy*22}" x2="${x2-ux*34}" y2="${y2-uy*22}" stroke="var(--ink3)" stroke-width="2" marker-end="url(#ah)"/>`};
  $("r_cycle").innerHTML=`<svg viewBox="0 0 300 170"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8Z" fill="var(--ink3)"/></marker></defs>
  ${K.map(k=>arrow(k,BEATS[k])).join("")}
  ${K.map(k=>{const [x,y]=pos[k],me=k===pow;return `<g><rect x="${x-34}" y="${y-20}" width="68" height="40" rx="12" fill="${me?"var(--gold2)":"var(--paper2)"}" stroke="${me?"var(--gold)":"var(--line)"}" stroke-width="1.5"/><text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="${me?"700":"500"}" fill="${me?"#1f1b16":"var(--ink)"}">${ic(k)} ${name(k)}</text></g>`}).join("")}
- <text x="150" y="92" text-anchor="middle" font-size="11" fill="var(--ink3)">화살표 방향으로 이겨요</text></svg>`;
+ <text x="150" y="92" text-anchor="middle" font-size="11" fill="var(--ink3)">화살표 방향으로 유리한 특성입니다</text></svg>`;
 }
 function setBattleLink(){try{const h=location.hash.replace("#","");$("battlelink").href="battle.html?a="+encodeURIComponent(h)}catch(e){}}
 function drawDays(R){ setBattleLink();
@@ -584,8 +652,8 @@ $("adoptbtn").onclick=()=>{track("adopt_click");const u=$("adoptbtn").dataset.fo
 $("unlock").onclick=()=>{track("unlock_click");$("unlock").classList.add("hidden");$("ask").classList.remove("hidden")};
 $("ask").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{track("price_"+b.dataset.p);$("ask").classList.add("hidden");$("thanks").classList.remove("hidden")});
 function R_STAGES(){return CUR?CUR.stages.map(x=>x.replace(/〔.*?〕/,"")).join(" → "):""}
-$("copylink").onclick=async()=>{track("share_link");try{await navigator.clipboard.writeText(location.href);toast("링크를 복사했어요. 친구한테 보내 주세요")}catch(e){toast("복사가 막혀 있어요. 주소창을 복사해 주세요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
-$("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환사]\n${NICK?NICK+" 화면":"내 화면"}에 온 건 ${$("r_name").textContent}\n${$("r_tags").textContent.trim().replace(/\s+/g," · ")}\n${$("r_char").textContent}\n전투력 ${$("r_power").querySelector("b").textContent} · 진화: ${R_STAGES()}\n특성: ${$("r_pname").textContent} · 속성: ${ELEM[CUR.elem].n} · ${$("r_vs").textContent.replace(/\s+/g," ").trim()}\n\n${location.href}`;try{await navigator.clipboard.writeText(t);toast("글로 복사했어요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
+$("copylink").onclick=async()=>{track("share_link");try{await navigator.clipboard.writeText(location.href);toast("링크를 복사했어요. 친구한테 보내 주세요")}catch(e){toast("복사가 막혀 있어요. 주소창을 복사해 주세요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount();addXp(location.hash.replace("#",""),XP_GAIN.share);drawEvolve()}};
+$("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환사]\n${NICK?NICK+" 화면":"내 화면"}에 온 건 ${$("r_name").textContent}\n${$("r_tags").textContent.trim().replace(/\s+/g," · ")}\n${$("r_char").innerText.replace(/\n+/g," ")}\n전투력 ${$("r_power").querySelector("b").textContent} · 진화: ${R_STAGES()}\n특성: ${$("r_pname").textContent} · 속성: ${ELEM[CUR.elem].n} · ${$("r_vs").textContent.replace(/\s+/g," ").trim()}\n\n${location.href}`;try{await navigator.clipboard.writeText(t);toast("글로 복사했어요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount();addXp(location.hash.replace("#",""),XP_GAIN.share);drawEvolve()}};
 $("again").onclick=()=>{try{location.hash=""}catch(e){}$("s3").classList.add("hidden");$("landing").classList.remove("hidden");["adoptbtn","unlock"].forEach(i=>$(i).classList.remove("hidden"));["adoptok","ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
 (function(){const d=decode(location.hash);if(d&&d.a.length===QS.length){birth=d.b;answers=d.a;NICK=d.nick||"";track("visit_shared");draw(judge(birth,answers));$("landing").classList.add("hidden");$("s1").classList.add("hidden");$("s3").classList.remove("hidden")}})();
 </script>
