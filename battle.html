@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아레나</title>
+<meta name="description" content="결과 링크 두 개를 붙이면 둘이 자동으로 싸워요.">
+<style>
+:root{--bg:#f3eee4;--paper:#fbf8f1;--paper2:#f1ebdd;--line:#dcd3c0;--ink:#1f1b16;--ink2:#5d564c;--ink3:#9a927f;--gold:#8a7030;--gold2:#d2b35c;--red:#b4553f;--green:#4f8a5a;--blue:#4f7fb0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f0e12;--paper:#17161c;--paper2:#1f1e26;--line:#2d2b36;--ink:#ece7dc;--ink2:#a9a398;--ink3:#6f6a63;--gold:#d4b35f;--gold2:#8d7636}}
+:root[data-theme="dark"]{--bg:#0f0e12;--paper:#17161c;--paper2:#1f1e26;--line:#2d2b36;--ink:#ece7dc;--ink2:#a9a398;--ink3:#6f6a63;--gold:#d4b35f;--gold2:#8d7636}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:24px 16px 80px}
+header{text-align:center;padding:22px 0 14px}
+h1{font-size:25px;font-weight:800;margin:0 0 4px;letter-spacing:-0.5px}
+.sub{color:var(--ink2);font-size:14.5px;margin:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:12px}
+label{display:block;font-size:13px;color:var(--ink2);margin:0 0 6px}
+input,select{width:100%;background:var(--paper2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:14.5px;font-family:inherit;appearance:none}
+input:focus,select:focus{outline:none;border-color:var(--gold2)}
+.row2{display:grid;grid-template-columns:1fr 110px;gap:8px}
+button{font-family:inherit;cursor:pointer}
+.btn{width:100%;margin-top:14px;background:var(--ink);color:var(--bg);border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700}
+.btn.gold{background:var(--gold2);color:#1f1b16}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line);font-weight:500}
+.btn:disabled{opacity:.4;cursor:default}
+.arena{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start;margin-top:12px}
+.team{display:grid;gap:8px}
+.f .tg{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:5px}
+.f .tg i{display:block;height:100%;background:var(--blue);transition:width .25s}
+.f.down{opacity:.4}
+.row2{margin-bottom:10px}
+.row2 .colsel{grid-column:1/3;margin-bottom:2px}
+.row2 .pv{grid-column:1/3;display:flex;align-items:center;gap:10px;font-size:13.5px;min-height:18px}
+.row2 .pv .pvimg{width:44px;height:44px;flex:none}
+.row2 .pv .pvimg svg,.row2 .pv .pvimg img{width:100%;height:100%;object-fit:contain;display:block}
+.row2 .pv b{display:block;font-size:14.5px}
+.row2 .pv small{color:var(--ink3);font-size:11.5px}
+.row2 .pv .no{color:var(--red);font-size:12.5px}
+.f .stage{width:84px;height:84px}
+.f{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center}
+.f .stage{width:110px;height:110px;margin:0 auto 4px}
+.f .stage svg,.f .stage img{width:100%;height:100%;object-fit:contain;display:block}
+.f .nm{font-size:15px;font-weight:800;line-height:1.3}
+.f .nm small{display:block;font-weight:400;color:var(--ink3);font-size:11.5px}
+.f .hp{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin:8px 0 3px}
+.f .hp i{display:block;height:100%;background:var(--green);border-radius:5px;transition:width .35s}
+.f .hp i.low{background:var(--red)}
+.f .hpn{font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.f .st{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;min-height:20px;margin-top:6px}
+.f .st span{font-size:10.5px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink2)}
+.f .st span.bad{border-color:var(--red);color:var(--red)} .f .st span.good{border-color:var(--green);color:var(--green)}
+.vs{align-self:center;font-size:20px;font-weight:900;color:var(--ink3);padding-top:40px}
+.log{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:12px;max-height:420px;overflow:auto;font-size:14px}
+.log .r{color:var(--ink3);font-size:11.5px;letter-spacing:1px;margin:10px 0 4px}
+.log .l{padding:3px 0;border-bottom:1px dashed var(--line)}
+.log .l.a{color:var(--ink)} .log .l.b{color:var(--ink)}
+.log .l b{font-weight:700}
+.log .l .dmg{color:var(--red);font-weight:700}
+.log .l .heal{color:var(--green);font-weight:700}
+.log .l .eff{font-size:12px;color:var(--ink3)}
+.win{text-align:center;background:var(--paper);border:1.5px solid var(--gold2);border-radius:16px;padding:18px;margin-top:12px}
+.win b{font-size:22px;display:block}
+.win span{color:var(--ink2);font-size:14px}
+.hidden{display:none}
+.modes{display:grid;grid-template-columns:1fr 1.3fr 1.2fr;gap:8px}
+.mode{background:var(--paper2);color:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:14px}
+.mode.on{border-color:var(--gold2);color:var(--ink);background:color-mix(in srgb,var(--gold2) 18%,var(--paper2))}
+.act{background:var(--paper);border:1.5px solid var(--gold2);border-radius:16px;padding:14px;margin-top:12px}
+.act h4{margin:0 0 8px;font-size:14px;color:var(--gold)}
+.act .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.act .o{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:11px 12px;text-align:left;font-size:14px;color:var(--ink)}
+.act .o b{display:block;font-size:15px}
+.act .o small{color:var(--ink3);font-size:11.5px}
+.act .o:disabled{opacity:.4}
+.act .o.on{border-color:var(--gold2)}
+.act .tg{margin-top:10px}
+.act .tgt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.act .t{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:9px 6px;font-size:13px;color:var(--ink)}
+.act .t:disabled{opacity:.35}
+.foot{text-align:center;color:var(--ink3);font-size:12px;margin-top:28px;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:13.5px;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.f.hit{animation:shake .3s}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>아레나</h1>
+  <p class="sub">결과 링크를 붙이면 알아서 싸워요. 1대1도, 2대2도, 3대3도 돼요.</p>
+</header>
+
+<section class="card" id="setup">
+  <label>내 쪽 (최대 3마리) · 결과 링크를 붙이면 누군지 바로 보여요</label>
+  <div id="teamA"></div>
+  <button class="btn ghost" id="addA" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
+  <label style="margin-top:16px">친구 쪽 (최대 3마리)</label>
+  <div id="teamB"></div>
+  <button class="btn ghost" id="addB" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
+  <label style="margin-top:16px">방식</label>
+  <div class="modes"><button class="mode on" data-m="auto">자동</button><button class="mode" data-m="manual">수동 · 내 쪽만</button><button class="mode" data-m="both">둘 다 수동</button></div>
+  <button class="btn gold" id="go">⚔️ 싸우기</button>
+  <p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0">링크가 없으면 <a href="index.html" style="color:var(--gold)">테스트</a>부터 해 주세요. 단계는 진화했을 때를 가정해서 볼 수 있어요.</p>
+</section>
+
+<section id="fight" class="hidden">
+  <div class="arena">
+    <div class="team" id="fa"></div>
+    <div class="vs">VS</div>
+    <div class="team" id="fb"></div>
+  </div>
+  <div class="act hidden" id="act"></div>
+  <div class="log" id="log"></div>
+  <div class="win hidden" id="win"></div>
+  <button class="btn ghost" id="copy">결과 글로 복사</button>
+  <button class="btn ghost" id="again" style="margin-top:8px">다시 붙이기</button>
+</section>
+
+<div class="foot">재미로 보는 전투예요. 규칙은 전투규칙.md를 따라요.</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="game.js?v=6"></script>
+<script>
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
+const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
+const HOLY=new Set(["빛의 심판","심판"]);
+const MAGICAL=new Set(["mana","divine","spirit"]);
+const BAD=new Set(["stun","sleep","web","burn","bleed","poison","frost","shock","slow","silence","blind","fear"]);
+const TURN=240, MAXSPD=120;
+let MODE="auto";
+
+function parseHash(v){
+ v=(v||"").trim(); const i=v.indexOf("#"); if(i>=0)v=v.slice(i+1);
+ try{v=decodeURIComponent(v)}catch(e){}
+ const d=decode(v); if(!d||d.a.length<6)return null; return {d,h:v};
+}
+function makeFighter(h,stage,side,idx){
+ const R=judge(h.d.b,h.d.a);
+ let st=stageStats(R.base,R.race,stage-1); let bonus=null;
+ if(side==="a"){let col=[];try{col=JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){} const cb=codexBonus(col); if(cb.done.length){st=st.map((v,i)=>Math.round(v*cb.mult[i]));bonus=cb.done.join("·")}}
+ const skills=R.skills.filter(([s])=>s<=stage).map(([s,k])=>({tier:s,n:k[0],t:k[1],m:k[2]*(1+0.2*(stage-s)),e:k[3],cd:0}));
+ const nick=h.d.nick||"";
+ return {bonus,side,idx,R,race:R.race,pow:R.pow,elem:R.elem,stage,nick,owner:nick||(side==="a"?"나":"친구"),name:R.stages[stage-1].replace(/〔.*?〕/,""),st:st.slice(),base:st.slice(),maxhp:st[0]*10,hp:st[0]*10,skills,basic:BASIC[stage-1],eff:{},shield:0,guard:false,dot:{},gauge:0,turns:0};
+}
+function aff(att,def){ // 특성 % + 속성 % 합산
+ return 1+(traitAdv(att,def)+elemAdv(att.elem,def.elem))/100;
+}
+function cur(f){
+ let [hp,atk,mag,spd,def]=f.base;
+ if(f.eff.fear)atk*=0.7; if(f.eff.rage){atk*=1.5;def*=0.8} if(f.eff.guard)def*=1.5;
+ if(f.eff.shock)mag*=0.7; if(f.eff.slow)spd*=0.6; if(f.eff.frostslow)spd*=0.5;
+ return [hp,atk,mag,spd,def];
+}
+function speed(f){return Math.min(MAXSPD,Math.round(cur(f)[3]*1.2))}
+let TA=[], TB=[], ALL=[], rnd, WINTEXT="", BUSY=false;
+const alive=t=>t.filter(f=>f.hp>0);
+/* 로그는 바로 화면에 */
+function say(side,html,cls=""){
+ const log=$("log"); const div=document.createElement("div"); div.className=cls==="r"?"r":"l "+(side||""); div.innerHTML=html; log.appendChild(div); log.scrollTop=log.scrollHeight;
+ if(html.includes("dmg")){const m=html.match(/→ (.*?)에게/);const tgt=ALL.find(f=>m&&f.name===m[1]&&f.side!==side);const el=tgt?$(`f_${tgt.side}${tgt.idx}`):null;if(el){el.classList.add("hit");setTimeout(()=>el.classList.remove("hit"),300)}}
+}
+function dmgTo(att,def,raw,label,skill){
+ if(def.eff.sleep){delete def.eff.sleep}
+ let d=raw; if(def.guard)d*=(1-GUARD); if(def.shield>0){d*=0.5;def.shield--}
+ d=Math.max(1,Math.floor(d)); def.hp=Math.max(0,def.hp-d);
+ say(att.side,`<b>${att.name}</b> → ${def.name}에게 ${label}. <span class="dmg">-${d}</span>${skill?` <span class="eff">${skill}</span>`:""}${def.hp<=0?` <span class="eff">쓰러짐</span>`:""}`);
+ return d;
+}
+function applyEff(att,def,e){
+ if(!e)return;
+ if(e==="random")e=["stun","burn","bleed","slow"][Math.floor(rnd()*4)];
+ const name=EFF[e][0];
+ if(e==="heal"){const v=Math.round(att.maxhp*0.3*(att.eff.bleed?0.5:1));att.hp=Math.min(att.maxhp,att.hp+v);say(att.side,`<b>${att.name}</b> 회복 <span class="heal">+${v}</span>`);return}
+ if(e==="cleanse"){Object.keys(att.eff).forEach(k=>{if(BAD.has(k))delete att.eff[k]});say(att.side,`<b>${att.name}</b>의 나쁜 효과가 사라졌어요.`);return}
+ if(e==="shield"){att.shield=2;if(att.skills.some(s=>s.n==="대수호"))Object.keys(att.eff).forEach(k=>{if(BAD.has(k))delete att.eff[k]});say(att.side,`<b>${att.name}</b>에게 보호막.`);return}
+ if(e==="guard"){att.eff.guard=3;say(att.side,`<b>${att.name}</b> 방어 상승 3턴.`);return}
+ if(e==="regen"){att.eff.regen=3;say(att.side,`<b>${att.name}</b> 재생 3턴.`);return}
+ if(e==="rage"){att.eff.rage=3;say(att.side,`<b>${att.name}</b> 광폭 3턴.`);return}
+ if(e==="drain")return;
+ if(["stun","sleep","frost"].includes(e)&&(def.eff.stun||def.eff.sleep||def.eff.frost))return;
+ const dur={stun:1,sleep:2,web:2,burn:3,bleed:3,poison:4,frost:1,shock:2,slow:2,silence:2,blind:2,fear:2}[e];
+ def.eff[e]=dur+1;
+ if(e==="burn")def.dot.burn=Math.round(cur(att)[1]*0.3);
+ say(att.side,`<span class="eff">→ ${def.name} ${name} ${dur}턴</span>`);
+}
+function startTurn(f){
+ f.turns++;
+ if(f.eff.burn){f.hp=Math.max(0,f.hp-f.dot.burn);say(f.side,`<b>${f.name}</b> 화상 <span class="dmg">-${f.dot.burn}</span>`)}
+ if(f.eff.bleed){const v=Math.round(f.maxhp*0.05);f.hp=Math.max(0,f.hp-v);say(f.side,`<b>${f.name}</b> 출혈 <span class="dmg">-${v}</span>`)}
+ if(f.eff.poison){const v=Math.round(f.maxhp*0.06);f.hp=Math.max(0,f.hp-v);say(f.side,`<b>${f.name}</b> 중독 <span class="dmg">-${v}</span>`)}
+ if(f.eff.regen&&f.hp>0){const v=Math.round(f.maxhp*0.1*(f.eff.bleed?0.5:1));f.hp=Math.min(f.maxhp,f.hp+v);say(f.side,`<b>${f.name}</b> 재생 <span class="heal">+${v}</span>`)}
+ f.skills.forEach(s=>{if(s.cd>0)s.cd--});
+ if(f.hp<=0){say(f.side,`<b>${f.name}</b> 쓰러졌어요.`);return false}
+ return true;
+}
+function endTurn(f){for(const k of Object.keys(f.eff)){f.eff[k]--; if(f.eff[k]<=0){delete f.eff[k]; if(k==="frost")f.eff.frostslow=3}}}
+function cannotAct(att){
+ if(att.eff.shock&&rnd()<0.3)return `<b>${att.name}</b> 감전으로 몸이 굳었어요.`;
+ if(att.eff.stun)return `<b>${att.name}</b> 기절 중. 못 움직여요.`;
+ if(att.eff.frost)return `<b>${att.name}</b> 얼어 있어요.`;
+ if(att.eff.sleep)return `<b>${att.name}</b> 자고 있어요.`;
+ return null;
+}
+function aiDecide(att,enemies){
+ const hits=alive(enemies); const target=rnd()<0.6?hits.slice().sort((a,b)=>a.hp/a.maxhp-b.hp/b.maxhp)[0]:hits[Math.floor(rnd()*hits.length)];
+ const ready=att.skills.filter(s=>s.cd===0&&!att.eff.silence);
+ const low=att.hp<att.maxhp*0.35;
+ let pick=null;
+ if(low)pick=ready.find(s=>s.t==="heal"||s.t==="buff");
+ if(!pick){const h=ready.filter(s=>s.t==="hit"||s.t==="debuff").sort((a,b)=>b.tier-a.tier);pick=h[0]||null}
+ if(!pick&&ready.length&&rnd()<0.5)pick=ready[0];
+ if(!pick&&att.hp<att.maxhp*0.4&&rnd()<0.35)return {type:"guard"};
+ return pick?{type:"skill",skill:pick,target}:{type:"basic",target};
+}
+function perform(att,action){
+ att.guard=false;
+ if(action.type==="guard"){att.guard=true;say(att.side,`<b>${att.name}</b> 방어 자세.`);return}
+ const def=action.target;
+ const [,atk,mag]=cur(att), ddef=cur(def)[4];
+ const useStat=(s)=>(s&&MAGICAL.has(att.pow))?mag:atk;
+ const tryHit=(mult,label,eff,skill)=>{
+  if(!def.eff.web&&rnd()<DODGE){say(att.side,`<b>${att.name}</b>의 ${label}. ${def.name}이(가) 피했어요.`);return}
+  if(att.eff.blind&&rnd()<0.5){say(att.side,`<b>${att.name}</b>의 ${label}. 앞이 안 보여 빗나갔어요.`);return}
+  let raw=useStat(skill)*mult*100/(100+ddef)*aff(att,def);
+  if(skill&&HOLY.has(label)&&UNDEAD.has(def.race.n))raw*=2;
+  const advp=traitAdv(att,def)+elemAdv(att.elem,def.elem);
+  const d=dmgTo(att,def,raw,label,(skill?EFF[eff]?.[0]+" ":"")+(advp?`(${advp>0?"+":""}${advp}%)`:""));
+  if(eff==="drain"){const v=Math.round(d*0.5*(att.eff.bleed?0.5:1));att.hp=Math.min(att.maxhp,att.hp+v);say(att.side,`<b>${att.name}</b> 흡혈 <span class="heal">+${v}</span>`)}
+  else if(def.hp>0)applyEff(att,def,eff);
+ };
+ if(action.type==="skill"){
+  const p=action.skill; p.cd=p.tier+1;
+  if(p.t==="hit")tryHit(p.m,p.n,p.e,true);
+  else{say(att.side,`<b>${att.name}</b>의 ${p.n}.`);applyEff(att,def,p.e)}
+ }else tryHit(att.basic,"일반공격",null,false);
+}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function refresh(){ALL.forEach(f=>updateCard(f))}
+function finish(){
+ const ha=alive(TA).reduce((s,f)=>s+f.hp/f.maxhp,0), hb=alive(TB).reduce((s,f)=>s+f.hp/f.maxhp,0);
+ let win=null; if(!alive(TA).length&&!alive(TB).length)win=null; else if(!alive(TA).length)win="b"; else if(!alive(TB).length)win="a"; else win=ha>=hb?"a":"b";
+ const names=t=>t.map(f=>f.name).join("·");
+ $("act").classList.add("hidden"); $("win").classList.remove("hidden");
+ const owner=t=>[...new Set(t.map(f=>f.owner))].join("·");
+ $("win").innerHTML=win?`<b>${owner(win==="a"?TA:TB)} 승리</b><span>${win==="a"?names(TA):names(TB)}이(가) 이겼어요.</span>`:`<b>무승부</b><span>둘 다 쓰러졌어요.</span>`;
+ WINTEXT=`[이세계 소환사 아레나]\n${owner(TA)}(${names(TA)}) vs ${owner(TB)}(${names(TB)})\n→ ${win?owner(win==="a"?TA:TB)+" 승리":"무승부"}\n\n${location.origin}${location.pathname.replace(/battle\.html$/,"index.html")}`;
+ BUSY=false;
+}
+/* 수동 선택 */
+function askPlayer(att,enemies){
+ return new Promise(res=>{
+  const box=$("act"); box.classList.remove("hidden");
+  const ready=att.skills.map(s=>({s,ok:s.cd===0&&!att.eff.silence}));
+  let chosen=null;
+  const render=()=>{
+   box.innerHTML=`<h4>${att.owner}의 ${att.name} 차례예요. 뭘 할까요?</h4><div class="opts">
+    <button class="o ${chosen&&chosen.type==="basic"?"on":""}" data-k="basic"><b>일반공격</b><small>×${att.basic}</small></button>
+    <button class="o ${chosen&&chosen.type==="guard"?"on":""}" data-k="guard"><b>방어</b><small>피해 ${GUARD*100}% 감소</small></button>
+    ${ready.map(({s,ok},i)=>`<button class="o ${chosen&&chosen.skill===s?"on":""}" data-k="s${i}" ${ok?"":"disabled"}><b>${s.n}</b><small>${s.tier}단계 · ${s.t==="hit"?"×"+s.m.toFixed(2):s.t==="heal"?"회복":s.t==="buff"?"강화":"약화"}${s.e?" · "+EFF[s.e][0]:""}${ok?"":" · "+s.cd+"턴 뒤"}${att.eff.silence?" · 침묵":""}</small></button>`).join("")}
+   </div>
+   <div class="tg ${chosen&&chosen.type!=="guard"&&!(chosen.type==="skill"&&chosen.skill.t!=="hit"&&chosen.skill.t!=="debuff")?"":"hidden"}"><h4>누구한테?</h4><div class="tgt">${enemies.map((e,i)=>`<button class="t" data-t="${i}" ${e.hp>0?"":"disabled"}>${e.name}<br><small>${e.hp}/${e.maxhp}</small></button>`).join("")}</div></div>`;
+   box.querySelectorAll(".o").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    if(k==="basic")chosen={type:"basic"}; else if(k==="guard")chosen={type:"guard"}; else chosen={type:"skill",skill:ready[+k.slice(1)].s};
+    const selfSkill=chosen.type==="skill"&&chosen.skill.t!=="hit"&&chosen.skill.t!=="debuff";
+    if(chosen.type==="guard"||selfSkill){box.classList.add("hidden");res(selfSkill?{...chosen,target:att}:chosen)}
+    else render();
+   });
+   box.querySelectorAll(".t").forEach(b=>b.onclick=()=>{box.classList.add("hidden");res({...chosen,target:enemies[+b.dataset.t]})});
+  };
+  render(); box.scrollIntoView({behavior:"smooth",block:"center"});
+ });
+}
+/* 진행 */
+async function loop(){
+ let step=0;
+ while(step<400&&alive(TA).length&&alive(TB).length){
+  step++;
+  alive(ALL).forEach(f=>f.gauge+=speed(f)); refresh(); await sleep(260);
+  const ready=alive(ALL).filter(f=>f.gauge>=TURN).sort((a,b)=>b.gauge-a.gauge||rnd()-0.5);
+  for(const f of ready){
+   if(f.hp<=0)continue;
+   const enemies=f.side==="a"?TB:TA; if(!alive(enemies).length)break;
+   say(null,`${f.name} 차례 · ${f.gauge}틱`,"r"); f.gauge=0; refresh();
+   if(!startTurn(f)){refresh();continue}
+   const no=cannotAct(f);
+   if(no){say(f.side,no);endTurn(f);refresh();await sleep(400);continue}
+   let action;
+   if((MODE==="manual"&&f.side==="a")||MODE==="both"){refresh();action=await askPlayer(f,enemies)}
+   else{await sleep(380);action=aiDecide(f,enemies)}
+   perform(f,action); endTurn(f); refresh(); await sleep(420);
+   if(!alive(TA).length||!alive(TB).length)break;
+  }
+ }
+ finish();
+}
+/* 화면 */
+function card(f){
+ return `<div class="f" id="f_${f.side}${f.idx}"><div class="stage">${artWithImage(f.race,f.stage,f.elem)}</div><div class="nm">${f.name}<small>${f.nick?f.nick+"의 ":""}${f.race.n} · ${f.stage}단계 · ${POW[f.pow][1]} · ${ELEM[f.elem].ic}${ELEM[f.elem].n} · 전투력 ${power(f.st)} · 속도 ${speed(f)}${f.bonus?`<br>도감 보너스: ${f.bonus}`:""}</small></div><div class="hp"><i style="width:100%"></i></div><div class="hpn">${f.hp} / ${f.maxhp}</div><div class="tg"><i style="width:0%"></i></div><div class="st"></div></div>`;
+}
+function updateCard(f){
+ const el=$(`f_${f.side}${f.idx}`); if(!el)return;
+ const pct=Math.max(0,f.hp/f.maxhp*100), bar=el.querySelector(".hp i"); bar.style.width=pct+"%"; bar.classList.toggle("low",pct<30);
+ el.classList.toggle("down",f.hp<=0);
+ el.querySelector(".hpn").textContent=`${f.hp} / ${f.maxhp}`;
+ el.querySelector(".tg i").style.width=Math.min(100,f.gauge/TURN*100)+"%";
+ el.querySelector(".st").innerHTML=Object.keys(f.eff).filter(k=>EFF[k]).map(k=>`<span class="${BAD.has(k)?"bad":"good"}">${EFF[k][0]}</span>`).join("")+(f.shield>0?`<span class="good">보호막</span>`:"")+(f.guard?`<span class="good">방어 중</span>`:"");
+}
+function readTeam(side){
+ return [...document.querySelectorAll(`#team${side.toUpperCase()} .row2`)].map(r=>{const h=parseHash(r.querySelector("input").value);return h?{h,stage:+r.querySelector("select").value}:null}).filter(Boolean);
+}
+async function run(){
+ if(BUSY)return;
+ const a=readTeam("a"), b=readTeam("b");
+ if(!a.length||!b.length){toast("양쪽에 링크가 하나씩은 있어야 해요");return}
+ BUSY=true;
+ TA=a.map((x,i)=>makeFighter(x.h,x.stage,"a",i)); TB=b.map((x,i)=>makeFighter(x.h,x.stage,"b",i)); ALL=[...TA,...TB];
+ rnd=rng(hash([...a,...b].map(x=>x.h+x.stage).join("|")+(MODE!=="auto"?Date.now():"")));
+ $("setup").classList.add("hidden");$("fight").classList.remove("hidden");$("win").classList.add("hidden");$("act").classList.add("hidden");
+ $("fa").innerHTML=TA.map(card).join(""); $("fb").innerHTML=TB.map(card).join(""); $("log").innerHTML="";
+ await loop();
+}
+function addRow(side,val){
+ const box=$("team"+side.toUpperCase()); if(box.children.length>=3)return;
+ const d=document.createElement("div"); d.className="row2";
+ let col=[];try{col=JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){}
+ const colSel=col.length?`<select class="colsel"><option value="">내 친구들에서 고르기</option>${col.map(c=>{const dd=decode(c);if(!dd)return"";const R=judge(dd.b,dd.a);const sg=getStage(c);return `<option value="${c}">${dd.nick?dd.nick+"의 ":""}${R.stages[sg-1].replace(/〔.*?〕/,"")} · ${sg}단계 · 전투력 ${power(stageStats(R.base,R.race,sg-1))}</option>`}).join("")}</select>`:"";
+ d.innerHTML=`${colSel}<input placeholder="결과 링크를 붙여 넣어요" value="${val||""}"><select><option value="1">1단계</option><option value="2">2단계</option><option value="3">3단계</option></select><div class="pv"></div>`;
+ box.appendChild(d);
+ const upd=()=>{const h=parseHash(d.querySelector("input").value), pv=d.querySelector(".pv");
+  if(!h){pv.innerHTML=d.querySelector("input").value.trim()?`<span class="no">결과 링크가 아니에요</span>`:"";return}
+  const f=makeFighter(h,+d.querySelector("select").value,"x",0);
+  pv.innerHTML=`<div class="pvimg">${artWithImage(f.race,f.stage,f.elem)}</div><div><b>${f.nick?f.nick+"의 ":""}${f.name}</b><small>${ELEM[f.elem].ic}${ELEM[f.elem].n} · ${f.race.n} · ${f.stage}단계 · ${POW[f.pow][1]} · 전투력 ${power(f.st)} · 속도 ${speed(f)}</small></div>`};
+ d.querySelector("input").oninput=upd; d.querySelector("select:not(.colsel)").onchange=upd; const cs=d.querySelector(".colsel"); if(cs)cs.onchange=()=>{if(cs.value){d.querySelector("input").value=cs.value;d.querySelector("select:not(.colsel)").value=String(getStage(cs.value));upd()}}; upd();
+}
+$("go").onclick=run;
+$("addA").onclick=()=>addRow("a"); $("addB").onclick=()=>addRow("b");
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;document.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b))});
+$("again").onclick=()=>{if(BUSY)return;$("fight").classList.add("hidden");$("setup").classList.remove("hidden")};
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText(WINTEXT);toast("복사했어요")}catch(e){toast("복사가 막혀 있어요")}};
+(function(){
+ const q=new URLSearchParams(location.search);
+ let a=q.get("a"); if(!a){try{a=localStorage.getItem("ssm_last")}catch(e){}}
+ addRow("a",a||""); addRow("b",q.get("b")||"");
+})();
+</script>
+</body>
+</html>

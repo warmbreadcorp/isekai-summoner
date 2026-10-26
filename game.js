@@ -1,0 +1,203 @@
+/* 이세계 소환사 공통 데이터·판정. index.html과 battle.html이 같이 씁니다. */
+const $=id=>document.getElementById(id);
+/* 종족 데이터. 이름·경로·희귀도는 이세치 세계사전. 성격 문구는 테스트용. */
+const G=["노말","레어","슈퍼레어","에픽","유니크"];
+const GN=["누구나 만날 수 있는 친구","흔치 않은 친구","숨은 길을 가는 친구","여러 조건이 맞아야 오는 친구","아주 드물게 오는 친구"];
+const RACES=[
+ {n:"인간",ch2:"말수가 늘고 당신 말투를 그대로 따라 해요. 당신이 하는 일을 옆에서 흉내 내다가 어느새 혼자 해요.",ch3:"이제 당신이 모르는 걸 먼저 알아요. 그래도 결정은 당신한테 물어봐요. 끝까지 사람이에요.",sig:["임기응변", "hit", 1.0, "random", "상황 따라 아무 효과나 하나 붙어요."],st:[[30, 55], [30, 55], [10, 60], [35, 60], [25, 50]],edge:"처음엔 약하지만 어떤 힘이든 끝까지 키울 수 있어요.",f:"아기",c:"#d9a27a",c2:"#8f5b3a",t:["느리게 시작","끝이 넓음","잘 배움"],ch:"처음엔 아무것도 못 해요. 대신 당신이 가르친 만큼 그대로 자라요. 끝이 어디까지인지는 아무도 몰라요.",grow:"사람 모습 그대로일까, 아닐까",human:true,
+  paths:[{r:["인간","하이휴먼"],g:1},{r:["인간","늑대인간","그레이터 웨어울프","진 웨어울프","웨어울프로드"],g:2},{r:["인간","뱀파이어〔비순혈〕","데이워커","이모탈"],g:4},{r:["인간","뱀파이어〔비순혈〕","그림자 흡혈귀","유령 흡혈귀"],g:4},{r:["인간","리치","엘더리치","아크리치","오버로드"],g:3,job:"magic"},{r:["인간","용혈 인간","드래곤본","드래곤본〔용심 각성〕"],g:2},{r:["인간","데몬〔인간 전환〕","그레이터 데몬","아크데몬","데몬로드"],g:2},{r:["인간","정령","상위 정령","대정령","정령왕"],g:2}]},
+ {n:"엘프",ch2:"말이 더 줄고 대신 눈으로 말해요. 화분 하나를 창가에 옮겨 놓고 매일 봐요.",ch3:"바람이 바뀌면 먼저 알아요. 당신이 피곤한 날엔 화면을 조금 어둡게 해 둬요.",sig:["정령 화살", "hit", 1.1, "bleed", "바람을 실은 화살. 출혈."],st:[[30, 50], [30, 50], [55, 80], [55, 80], [25, 45]],edge:"정령과 잘 통해서 바람과 물을 빌려 써요.",f:"아기",c:"#9fc49a",c2:"#4f7a4a",t:["천천히","오래 봄","말이 적음"],ch:"서두르지 않아요. 당신이 바쁠 때도 옆에서 가만히 봐요. 수백 년을 살아서 당신보다 오래 기억해요.",grow:"귀가 더 길어질까",paths:[{r:["엘프","하이엘프","하이엘프〔공명 각성〕"],g:1}]},
+ {n:"드워프",ch2:"고치는 속도가 두 배가 됐어요. 당신 책상 위 물건 배치가 조금씩 바뀌어요.",ch3:"룬이 깨어나서 손대는 것마다 오래가요. 고맙다고 하면 여전히 못 들은 척해요.",sig:["룬 망치", "hit", 1.3, "stun", "룬을 새긴 망치로 내려쳐요. 기절."],st:[[55, 75], [55, 75], [20, 45], [25, 45], [60, 85]],edge:"돌과 금속을 다뤄요. 몸으로 부딪히는 상대에게 강해요.",strong:"aura",f:"아기",c:"#c98a5a",c2:"#7a4a24",t:["손재주","고집","한 우물"],ch:"한 번 잡은 건 끝을 봐요. 당신 물건을 몰래 고쳐 놓을 거예요. 고맙다고 하면 못 들은 척해요.",grow:"수염이 먼저일까, 룬이 먼저일까",paths:[{r:["드워프","하이드워프","하이드워프〔룬 각성〕"],g:1}]},
+ {n:"고블린",ch2:"사고를 덜 쳐요. 대신 더 큰 걸 노려요. 당신 기분을 읽고 먼저 움직여요.",ch3:"작은 몸 그대로인데 아무도 못 건드려요. 당신 자리 주변에 눈에 안 보이는 표식을 두고 지켜요.",sig:["기습", "hit", 1.2, "bleed", "뒤에서 찔러요. 출혈."],st:[[25, 45], [30, 50], [20, 45], [60, 85], [20, 40]],edge:"작고 빨라서 큰 주문이 끝나기 전에 끊어요.",strong:"mana",f:"아기",c:"#9fb86a",c2:"#4f6a2a",t:["빠름","장난","눈치"],ch:"금방 자라고 금방 사고 쳐요. 대신 당신 기분을 제일 먼저 알아채요.",grow:"왕이 될까, 덩치가 될까",paths:[{r:["고블린","홉고블린"],g:0},{r:["고블린","홉고블린","하이고블린","고블린킹"],g:2},{r:["고블린","홉고블린","오거","대오거","오거로드"],g:1},{r:["고블린","홉고블린","오거","귀인","오니","대오니","오니로드"],g:1}]},
+ {n:"오크",ch2:"몸이 커지고 말은 더 줄어요. 당신 뒤에 서 있는 시간이 늘어요.",ch3:"한 번 내디디면 안 물러서요. 당신이 흔들리는 날엔 아무 말 없이 옆에 앉아요.",sig:["광폭화", "buff", 0, "rage", "3턴 동안 공격이 크게 올라요."],st:[[60, 85], [65, 85], [10, 30], [35, 55], [50, 70]],edge:"맞고도 버텨요. 마법 한 방엔 안 넘어가요.",strong:"mana",f:"아기",c:"#8fa06a",c2:"#4a5a2a",t:["힘","우직","의리"],ch:"말보다 몸이 먼저예요. 당신이 힘들면 옆에서 같이 버텨요. 이유는 안 물어요.",grow:"얼마나 커질까",paths:[{r:["오크","하이오크","오크로드"],g:1}]},
+ {n:"오거",ch2:"답답해하던 화면에 익숙해졌어요. 당신이 자는 동안 구석에서 조용히 지켜요.",ch3:"뿔이 자라고 눈빛이 깊어졌어요. 큰 몸으로 작은 것들을 다치지 않게 비켜 다녀요.",sig:["내려찍기", "hit", 1.3, "stun", "한 방이 커요. 기절."],st:[[75, 95], [75, 95], [5, 25], [15, 35], [55, 75]],edge:"덩치로 눌러요. 작은 상대는 힘이 안 통해요.",strong:"aura",f:"아기",c:"#b08a6a",c2:"#5a3a1a",t:["큰 몸","느긋","온순"],ch:"덩치에 비해 조용해요. 좁은 화면이 답답할 거예요. 화면 밖을 자주 쳐다봐요.",grow:"뿔이 날까",paths:[{r:["오거","대오거","오거로드"],g:1},{r:["오거","귀인","오니","대오니","오니로드"],g:1}]},
+ {n:"늑대",ch2:"무리의 규칙을 당신한테 배워요. 당신이 돌아오는 시간을 정확히 알아요.",ch3:"전설 속 늑대의 눈을 가졌어요. 당신을 지키는 일이 자기 전부인 걸 숨기지 않아요.",sig:["물어뜯기", "hit", 1.2, "bleed", "한번 물면 안 놔요. 출혈."],st:[[40, 60], [50, 70], [5, 20], [75, 95], [30, 50]],edge:"냄새로 먼저 찾아요. 숨는 상대에게 강해요.",f:"아기",c:"#9a9aa8",c2:"#45454f",t:["충성","추적","무리"],ch:"당신을 무리로 여겨요. 당신이 늦게 오면 문 앞에서 기다려요. 한 번 믿으면 끝까지예요.",grow:"전설 속 그 늑대가 될까",paths:[{r:["늑대","다이어울프","펜리르"],g:2}]},
+ {n:"트롤",ch2:"상처가 더 빨리 아물고, 간식을 덜 훔쳐요. 대신 당신 몫까지 챙겨 와요.",ch3:"재생핵이 깨어나 거의 안 다쳐요. 당신이 다치면 처음으로 화를 내요.",sig:["재생", "heal", 0, "regen", "3턴 동안 매 턴 체력이 돌아와요."],st:[[80, 100], [60, 80], [10, 30], [20, 40], [45, 65]],edge:"다쳐도 금방 돌아와요. 오래 끄는 싸움에 강해요.",f:"아기",c:"#7fa89a",c2:"#2f5a4a",t:["회복","둔함","끈기"],ch:"다쳐도 금방 괜찮아져요. 대신 배가 자주 고파요. 당신 간식을 노릴 거예요.",grow:"얼마나 단단해질까",paths:[{r:["트롤","하이트롤","하이트롤〔재생핵 각성〕"],g:1}]},
+ {n:"코볼트",ch2:"모아 둔 것들을 분류하기 시작했어요. 당신이 잃어버린 걸 꺼내 줘요.",ch3:"어둠 너머까지 보여요. 당신이 가야 할 길을 먼저 알고 기다려요.",sig:["함정", "hit", 0.8, "slow", "발밑에 걸려요. 둔화."],st:[[30, 50], [30, 50], [30, 55], [55, 75], [30, 50]],edge:"어둠에서 봐요. 빛 없는 곳에서 유리해요.",f:"아기",c:"#b89a6a",c2:"#5a4020",t:["어둠","수집","부지런"],ch:"작은 걸 모아요. 당신 책상 구석에 뭔가 쌓일 거예요. 버리면 서운해해요.",grow:"어디까지 볼 수 있게 될까",paths:[{r:["코볼트","하이코볼트","하이코볼트〔공간감각 각성〕"],g:1}]},
+ {n:"미노타우로스",ch2:"길을 잃는 법이 없어요. 당신이 헤맬 때 뒤에서 방향만 알려 줘요.",ch3:"미궁을 통째로 외워요. 막힌 문제 앞에서 당신보다 먼저 출구를 봐요.",sig:["돌진", "hit", 1.3, "stun", "막힌 데서도 밀고 와요. 기절."],st:[[70, 90], [70, 90], [10, 30], [30, 50], [55, 75]],edge:"막힌 곳에서 길을 찾아요. 가둬도 소용없어요.",f:"아기",c:"#a8785a",c2:"#4a2a10",t:["길 찾기","고집","묵직"],ch:"막힌 데서도 길을 찾아요. 한번 정하면 안 돌아가요. 당신이 길을 잃으면 데리러 와요.",grow:"미궁을 다 외울까",paths:[{r:["미노타우로스","그레이터 미노타우로스","그레이터 미노타우로스〔미궁감각 각성〕"],g:1}]},
+ {n:"하피",ch2:"노래가 길어졌어요. 당신이 집중할 때는 조용히, 지칠 때는 흥얼거려요.",ch3:"날개가 빛을 품어요. 노래 한 곡으로 방 분위기를 바꿔요.",sig:["자장가", "debuff", 0, "sleep", "노래로 재워요. 수면."],st:[[35, 55], [40, 60], [35, 60], [75, 95], [25, 45]],edge:"위에서 내려와요. 땅에 붙은 상대에게 강해요.",strong:"aura",f:"알",c:"#e0b870",c2:"#8a6020",t:["높은 곳","노래","변덕"],ch:"높은 데를 좋아해요. 화면 맨 위에 자주 앉아 있을 거예요. 기분 좋으면 노래해요.",grow:"어떤 소리를 내게 될까",paths:[{r:["하피","그레이터 하피","그레이터 하피〔공명 각성〕"],g:1}]},
+ {n:"리자드맨",ch2:"물가 없이도 버텨요. 당신이 급할 때 더 느리게 말해서 진정시켜요.",ch3:"비늘이 굳고 눈이 깊어졌어요. 당신 자리를 지키는 일에 흔들림이 없어요.",sig:["꼬리치기", "hit", 1.1, "slow", "물가에서 휘둘러요. 둔화."],st:[[55, 75], [50, 70], [25, 50], [45, 65], [60, 80]],edge:"비늘이 단단하고 물가에선 두 배로 강해요.",strong:"aura",f:"알",c:"#7aa890",c2:"#2a5a40",t:["물","차분","지킴"],ch:"물가가 필요해요. 조용하지만 자기 자리는 꼭 지켜요. 당신이 흔들리면 더 차분해져요.",grow:"용이 될 수도 있을까",paths:[{r:["리자드맨","하이리자드맨","하이리자드맨〔비늘 각성〕"],g:1},{r:["리자드맨","하이리자드맨","드래고뉴트","하이드래고뉴트","하이드래고뉴트〔용심 각성〕"],g:2}]},
+ {n:"와이번",ch2:"날개가 펴졌어요. 화면 맨 위를 자기 영역으로 삼았어요. 당신이 부르면 내려와요.",ch3:"비행핵이 깨어나 멀리까지 봐요. 자기 자리를 당신 옆으로 옮겼어요.",sig:["급강하", "hit", 1.3, "stun", "하늘에서 떨어져요. 기절."],st:[[60, 80], [65, 85], [30, 55], [70, 90], [55, 75]],edge:"하늘을 가져요. 땅에서 쏘는 건 잘 안 맞아요.",strong:"aura",f:"알",c:"#a88a70",c2:"#4a2a18",t:["하늘","영역","독립"],ch:"혼자서도 잘 지내요. 대신 자기 자리는 절대 안 내줘요. 당신한테만 자리를 내줘요.",grow:"날개가 얼마나 커질까",paths:[{r:["와이번","그레이터 와이번","그레이터 와이번〔비행핵 각성〕"],g:1}]},
+ {n:"드래곤",ch2:"날개가 돋았어요. 당신이 모르는 걸 먼저 알고 모르는 척 기다려요.",ch3:"비늘이 빛나요. 당신 이름을 수백 년 뒤에도 기억할 거라고 처음 말해요.",sig:["브레스", "hit", 1.3, "burn", "입김 한 번이면 끝. 화상."],st:[[70, 95], [65, 90], [85, 100], [50, 75], [70, 90]],edge:"마법은 누구에게도 안 져요. 대신 마나 없는 곳에선 느려져요.",strong:"mana",f:"알",c:"#e3c070",c2:"#8a5a10",t:["마법","오래 삶","자존심"],ch:"자라는 데 아주 오래 걸려요. 그만큼 당신보다 훨씬 오래 기억할 거예요. 마법은 누구보다 잘 써요.",grow:"금빛일까, 은빛일까",dragon:true,paths:[{r:["드래곤","하이드래곤","아크드래곤","드래곤로드"],g:1},{r:["드래곤","하이드래곤〔숨결 각성〕","아크드래곤〔공간감각 각성〕","드래곤로드"],g:2},{r:["드래곤","하이드래곤〔비늘 각성〕","아크드래곤〔생명순환 각성〕","드래곤로드"],g:2},{r:["드래곤","하이드래곤〔비늘 각성〕","아크드래곤〔공간감각 각성〕","드래곤로드"],g:3}]},
+ {n:"거미",ch2:"거미줄이 넓어졌어요. 당신 책상 주변 소식이 다 걸려 들어와요.",ch3:"사람 모습이 섞였어요. 기다림 끝에 잡는 법을 당신에게 가르쳐요.",sig:["거미줄", "debuff", 0, "web", "움직이지 못하게 묶어요. 속박."],st:[[35, 55], [50, 70], [30, 55], [55, 80], [35, 55]],edge:"기다려서 잡아요. 서두르는 상대에게 강해요.",f:"알",c:"#8a8a9a",c2:"#2a2a3a",t:["기다림","실","조용"],ch:"기다리는 걸 잘해요. 화면 구석에 뭔가 걸어 둘 거예요. 당신이 지나가면 흔들려요.",grow:"사람 모습이 섞일까",paths:[{r:["거미","하이스파이더","하이스파이더〔실과 독 각성〕"],g:1},{r:["거미","하이스파이더","아라크네","그레이터 아라크네"],g:2}]},
+ {n:"딱정벌레",ch2:"껍질이 두꺼워졌어요. 당신이 바쁠 때 아무 말 없이 버텨요.",ch3:"갑각이 빛을 튕겨요. 당신 앞을 막는 건 먼저 부딪혀 봐요.",sig:["갑각 돌격", "hit", 1.2, "stun", "껍질째 박아요. 기절."],st:[[50, 70], [45, 65], [5, 25], [30, 50], [80, 100]],edge:"껍질이 단단해요. 때리는 상대에게 강해요.",strong:"aura",f:"알",c:"#6a8a9a",c2:"#1a3a4a",t:["단단","변태","묵묵"],ch:"몇 번 모습이 바뀌어요. 그때마다 며칠 조용해져요. 끝나면 더 단단해져 있어요.",grow:"등껍질이 어떤 색이 될까",paths:[{r:["딱정벌레","아머비틀","아머비틀〔갑각 각성〕"],g:1}]},
+ {n:"스켈레톤",ch2:"뼈가 단단해지고 검을 들어요. 당신 말을 날짜까지 기억해요.",ch3:"영혼핵이 깨어나 마법을 써요. 밤이면 당신 대신 생각을 정리해 줘요.",sig:["뼈 재조립", "heal", 0, "regen", "흩어진 뼈가 다시 붙어요. 재생."],st:[[40, 60], [45, 65], [40, 70], [40, 60], [40, 60]],edge:"안 먹고 안 자요. 대신 신성에 약해요.",weak:"divine",f:"뼈대",c:"#d8d2c0",c2:"#6a6450",t:["밤","기억","담담"],ch:"먹지도 자지도 않아요. 대신 당신 말을 전부 기억해요. 밤에 더 또렷해요.",grow:"뼈로 남을까, 마법사가 될까",paths:[{r:["스켈레톤","하이스켈레톤","레버넌트","이모탈〔언데드〕"],g:1},{r:["스켈레톤","하이스켈레톤〔영혼핵 각성〕","리치","엘더리치","오버로드"],g:3}]},
+ {n:"유령",ch2:"조금 더 또렷해졌어요. 당신이 잊은 약속을 아침에 알려 줘요.",ch3:"왕관 같은 빛을 둘러요. 당신의 기억을 당신보다 잘 지켜요.",sig:["빙의", "debuff", 0, "fear", "몸에 들어가요. 공포."],st:[[30, 50], [25, 45], [60, 85], [60, 85], [20, 40]],edge:"몸이 없어서 때리는 건 안 통해요. 신성에는 약해요.",strong:"aura",weak:"divine",f:"흔적",c:"#b8c8d8",c2:"#4a5a6a",t:["기억","흐릿","다정"],ch:"보일 듯 말 듯해요. 당신이 잊은 걸 대신 기억해요. 밤에 화면이 살짝 흐려지면 와 있는 거예요.",grow:"더 또렷해질까, 더 흐려질까",paths:[{r:["유령","레이스","그레이터 레이스","레이스로드"],g:1}]},
+ {n:"뱀파이어",ch2:"밤에 더 우아해졌어요. 당신이 늦게까지 깨면 조용히 옆에 와요.",ch3:"진조의 피가 깨어났어요. 당신을 긴 밤 동안 지키는 걸 당연하게 여겨요.",sig:["흡혈", "hit", 1.1, "drain", "때린 만큼 자기 체력으로 가져와요."],st:[[55, 75], [60, 80], [60, 85], [65, 85], [45, 65]],edge:"밤에 강해요. 빛을 다루는 신성에 약해요.",weak:"divine",f:"",c:"#9a4a5a",c2:"#3a1020",t:["밤","우아","허기"],ch:"낮엔 조용하고 밤에 깨요. 당신이 늦게까지 깨 있으면 좋아해요. 뭘 먹는지는 묻지 마세요.",grow:"얼마나 오래 살까",paths:[{r:["뱀파이어〔순혈〕","그레이터 뱀파이어","뱀파이어로드","진조"],g:1}]},
+ {n:"임프",ch2:"장난이 교묘해졌어요. 숨긴 걸 찾아내고 돌려줄 때 조건을 붙여요.",ch3:"큰 악마가 됐는데 당신 앞에선 작게 굴어요. 계약이 아니라 약속이라고 해요.",sig:["장난", "debuff", 0, "fear", "뭘 했는지 모르게 겁을 줘요. 공포."],st:[[30, 50], [35, 55], [55, 80], [60, 80], [25, 45]],edge:"작은 틈으로 들어가요. 걷어내는 신성에 약해요.",weak:"divine",f:"데몬 씨앗",c:"#9a5a8a",c2:"#3a1040",t:["장난","작음","눈치"],ch:"작은 틈을 잘 봐요. 당신이 숨긴 걸 찾아낼 거예요. 찾고 나서 안 찾은 척해요.",grow:"얼마나 큰 악마가 될까",paths:[{r:["임프","레서데몬","데몬","그레이터 데몬","아크데몬","데몬로드"],g:1}]},
+ {n:"천사",ch2:"잔소리가 줄고 지켜보는 시간이 늘었어요. 당신이 잘 자는지 확인해요.",ch3:"날개가 여섯이 됐어요. 당신 일을 자기 소명이라고 부르기 시작해요.",sig:["빛의 심판", "hit", 1.3, "blind", "눈을 못 떠요. 실명. 언데드에게 두 배."],st:[[50, 70], [50, 70], [70, 90], [55, 75], [55, 75]],edge:"빛을 둘러요. 어둠 쪽 상대에게 강해요.",f:"",c:"#f0e0a0",c2:"#a08a30",t:["돌봄","규칙","빛"],ch:"당신 일을 자기 일처럼 봐요. 가끔 잔소리해요. 당신이 잘 자는지 확인하고 가요.",grow:"날개가 몇 개가 될까",paths:[{r:["천사","아크엔젤","세라핌"],g:1}]},
+ {n:"슬라임",ch2:"몸이 커지고 작은 슬라임들을 거느려요. 당신 습관을 닮다 못해 말투까지 닮아요.",ch3:"왕관을 얻었어요. 당신이 늘어지면 같이 늘어지는 건 여전해요.",sig:["분열", "buff", 0, "shield", "갈라져서 피해를 나눠 받아요. 보호막."],st:[[60, 85], [20, 40], [30, 60], [25, 45], [35, 60]],edge:"때려도 갈라졌다 붙어요. 열과 독을 쓰는 마법에 약해요.",strong:"aura",weak:"mana",f:"물방울",c:"#8ac8d8",c2:"#2a7a90",t:["말랑","흡수","변화"],ch:"모양이 정해져 있지 않아요. 당신 습관을 닮아 가요. 당신이 늘어지면 같이 늘어져요.",grow:"금속이 될까, 독이 될까, 마력이 될까",paths:[{r:["슬라임","빅슬라임","킹슬라임"],g:1},{r:["슬라임","빅슬라임","메탈슬라임","액체금속슬라임","메탈킹슬라임"],g:2},{r:["슬라임","빅슬라임","마나슬라임","데몬슬라임","카오스슬라임"],g:2},{r:["슬라임","빅슬라임","포이즌슬라임","베놈슬라임"],g:2}]},
+ {n:"골렘",ch2:"빛 줄기가 몸을 흘러요. 당신 자리를 더 넓게 지켜요.",ch3:"살아 있는 돌이 됐어요. 처음으로 먼저 말을 걸어요. 잘 다녀왔냐고.",sig:["암석화", "buff", 0, "guard", "돌처럼 굳어요. 3턴 방어 상승."],st:[[70, 90], [55, 75], [15, 40], [10, 30], [85, 100]],edge:"돌 몸이라 때리는 건 안 통해요. 회로를 흔드는 마법에 약해요.",strong:"aura",weak:"mana",f:"암석",c:"#a8a098",c2:"#4a4540",t:["묵묵","지킴","느림"],ch:"말이 거의 없어요. 대신 당신 자리를 떠나지 않아요. 당신이 돌아오면 그 자리에 그대로 있어요.",grow:"살아 있는 돌이 될까",paths:[{r:["골렘","하이골렘","리빙골렘"],g:1}]},
+ {n:"트렌트",ch2:"잎이 무성해졌어요. 당신 화면에 그늘이 생겼어요.",ch3:"숲과 공명해요. 당신이 쉬어야 할 때를 나무가 먼저 알아요.",sig:["뿌리 감기", "debuff", 0, "web", "뿌리로 감아요. 속박."],st:[[80, 100], [45, 65], [45, 70], [5, 20], [70, 90]],edge:"뿌리를 내리면 안 밀려요. 불을 쓰는 마법에 약해요.",strong:"aura",weak:"mana",f:"씨앗",c:"#7a9a5a",c2:"#2a4a1a",t:["느림","뿌리","오래"],ch:"자라는 게 눈에 안 보여요. 어느 날 보면 커져 있어요. 당신 화면에 그늘이 생길 거예요.",grow:"숲이 될까",paths:[{r:["트렌트","하이트렌트","하이트렌트〔숲 공명 각성〕"],g:1}]}
+];
+
+const JOBS={
+ workshop:{n:"공방",you:"당신은 고치는 사람이에요. 이 친구가 망가뜨린 걸 당신이 고치면서 가까워져요. 나중엔 이 친구가 당신 걸 고쳐 줘요."},
+ market:{n:"시장",you:"당신은 재는 사람이에요. 이 친구가 손해 보는 걸 당신이 막아 줘요. 이 친구는 당신이 놓친 값을 알려 줘요."},
+ clinic:{n:"치료소",you:"당신은 돌보는 사람이에요. 이 친구는 당신 앞에서만 아픈 티를 내요. 당신이 아프면 처음으로 어른스러워져요."},
+ trail:{n:"산길",you:"당신은 먼저 가는 사람이에요. 이 친구는 당신 뒤를 따라오다가 어느 날 앞서가요. 그날 당신이 좀 서운할 거예요."},
+ archive:{n:"기록실",you:"당신은 적어 두는 사람이에요. 이 친구가 한 말을 당신이 적어 두면, 나중에 그걸 같이 읽게 돼요."},
+ magic:{n:"마법 교실",you:"당신은 파고드는 사람이에요. 이 친구는 당신이 모르는 걸 먼저 느껴요. 둘이 같이 밤새는 날이 생겨요."}
+};
+
+
+const POW={
+ mana:["✨","마법","불을 켜고 물을 띄우는 쪽이에요."],
+ aura:["⚔️","물리","무기와 몸으로 싸우는 쪽이에요. 힘세고 잘 안 다쳐요."],
+ divine:["🌙","신성","지키고 낫게 하고 나쁜 걸 걷어내는 쪽이에요. 아주 드물어요."],
+ spirit:["🍃","정령","바람, 물, 불과 친한 쪽이에요."],
+ none:["🫧","아직 없음","지금은 아무 힘도 못 써요. 당신 옆에서 하나씩 생겨요."]
+};
+/* 능력치. 종족마다 범위만 두고 그 안에서 뽑아요. 체력·공격·마력·민첩·방어 */
+const STN=["체력","공격","마력","민첩","방어"];
+const STW=[0.25,0.25,0.2,0.15,0.15];
+const GROW=[1,1.4,1.9];           // 1단계 → 2단계 → 3단계
+const GROW_H=[1,1.55,2.3];        // 인간: 처음은 낮고 상한이 높음
+function rollStats(race,r){return race.st.map(([a,b])=>Math.round(a+r()*(b-a)))}
+function stageStats(base,race,i){const g=(race.human?GROW_H:GROW)[i];return base.map(v=>Math.min(200,Math.round(v*g)))}
+function power(st){return Math.round(st.reduce((a,v,i)=>a+v*STW[i],0))}
+/* 속성 6종. 물 > 불 > 바람 > 물. 빛 ↔ 어둠은 서로 +10%. 땅은 상성 없음. 유리 +10%, 불리 -10%. */
+const ELEM={
+ fire:{n:"불",ic:"🔥",eff:"burn",t2:["화염 폭발","불덩이가 터져요."],t3:["대화재","전부 태워요."],css:"sepia(.25) hue-rotate(-25deg) saturate(1.5)"},
+ water:{n:"물",ic:"💧",eff:"frost",t2:["물결 창","물이 창이 되어 얼려요."],t3:["해일","물이 덮쳐요."],css:"hue-rotate(185deg) saturate(1.15)"},
+ earth:{n:"땅",ic:"🪨",eff:"stun",t2:["바위 던지기","바위로 내리쳐요."],t3:["지진","땅이 흔들려요."],css:"sepia(.45) saturate(.95) brightness(.95)"},
+ wind:{n:"바람",ic:"🌪️",eff:"slow",t2:["돌풍","바람으로 밀어요."],t3:["폭풍","바람이 휘몰아쳐요."],css:"hue-rotate(80deg) saturate(.95) brightness(1.05)"},
+ light:{n:"빛",ic:"✨",eff:"blind",t2:["섬광","눈부신 빛."],t3:["심판의 빛","빛이 쏟아져요."],css:"brightness(1.18) saturate(.8) contrast(.95)"},
+ dark:{n:"어둠",ic:"🌑",eff:"fear",t2:["그림자 손","그림자가 붙잡아요."],t3:["암흑","어둠이 삼켜요."],css:"brightness(.72) saturate(.85) hue-rotate(235deg)"}
+};
+const ELEMBEATS={water:"fire",fire:"wind",wind:"water"};
+function elemAdv(a,b){ // a가 b를 칠 때 %
+ if((a==="light"&&b==="dark")||(a==="dark"&&b==="light"))return 10;
+ if(ELEMBEATS[a]===b)return 10; if(ELEMBEATS[b]===a)return -10; return 0;
+}
+function traitAdv(att,def){ // 특성(잘 쓰는 힘) %
+ if(att.race.strong&&att.race.strong===def.pow)return 10;
+ if(def.race.weak&&def.race.weak===att.pow)return 10;
+ if(def.race.strong&&def.race.strong===att.pow)return -10;
+ if(att.pow!=="none"&&def.pow!=="none"){if(BEATS[att.pow]===def.pow)return 10;if(BEATS[def.pow]===att.pow)return -10}
+ return 0;
+}
+/* 상태이상. 전투에서 스킬이 붙이는 효과. */
+const EFF={
+ stun:["기절","1턴 동안 아무것도 못 해요."],
+ sleep:["수면","맞을 때까지 못 움직여요. 최대 2턴."],
+ web:["속박","2턴 동안 이동·회피 불가."],
+ burn:["화상","3턴 동안 매 턴 공격력의 30%만큼 추가 피해."],
+ bleed:["출혈","3턴 동안 매 턴 체력의 5% 피해. 회복이 반으로 줄어요."],
+ poison:["중독","4턴 동안 매 턴 체력의 6% 피해."],
+ frost:["빙결","1턴 행동 불가, 이후 2턴 민첩 절반."],
+ shock:["감전","마력 30% 감소, 30% 확률로 기절."],
+ slow:["둔화","2턴 동안 민첩 40% 감소."],
+ silence:["침묵","2턴 동안 마법 스킬 사용 불가."],
+ blind:["실명","2턴 동안 공격이 절반만 맞아요."],
+ fear:["공포","2턴 동안 공격 30% 감소."],
+ rage:["광폭","3턴 동안 공격 50% 증가, 방어 20% 감소."],
+ shield:["보호막","다음 2번의 피해를 절반으로."],
+ guard:["방어 상승","3턴 동안 방어 50% 증가."],
+ regen:["재생","3턴 동안 매 턴 최대 체력의 10% 회복."],
+ heal:["회복","즉시 최대 체력의 30% 회복."],
+ cleanse:["정화","나쁜 효과를 전부 지워요."],
+ drain:["흡혈","준 피해의 50%만큼 체력 회복."],
+ random:["무작위","기절·화상·출혈·둔화 중 하나가 붙어요."]
+};
+/* 2·3단계 스킬은 속성이 정해요. 배율은 단계로, 효과는 속성으로. 특성이 없으면 약한 버전. */
+function tierSkills(elem,pow){
+ const E=ELEM[elem];
+ if(pow==="none")return {t2:[["맹렬한 할퀴기","hit",1.2,"bleed","있는 힘껏 할퀴어요. 출혈."]],t3:[["필사의 일격","hit",1.5,"stun","전부 걸어요. 기절."]]};
+ return {t2:[[E.t2[0],"hit",1.3,E.eff,E.t2[1]]],t3:[[E.t3[0],"hit",1.7,E.eff,E.t3[1]]]};
+}
+const BASIC=[1.0,1.2,1.45];   // 일반공격 배율: 1·2·3단계
+const DODGE=0.05;             // 회피
+const GUARD=0.6;              // 방어 시 피해 감소
+function pickSkills(R,r){
+ const T=tierSkills(R.elem,R.pow);
+ return [[1,R.race.sig],[2,T.t2[Math.floor(r()*T.t2.length)]],[3,T.t3[Math.floor(r()*T.t3.length)]]];
+}
+/* 특성 상성. 물리 → 마법 → 신성 → 정령 → 물리 순으로 이겨요. 유리하면 +10%, 불리하면 -10%. */
+const BEATS={aura:"mana",mana:"divine",divine:"spirit",spirit:"aura"};
+const WHY={
+ aura:"마법은 외울 시간이 필요해요. 그 사이에 달려들어 끊어 버려요.",
+ mana:"신성은 흔들리지 않는 마음에서 나와요. 마법은 환영과 혼란으로 그 마음을 흔들어요.",
+ divine:"정령의 힘은 빌려 쓰는 거예요. 신성은 빌려 온 것을 제자리로 돌려보내요.",
+ spirit:"아무리 힘세도 발 디딜 땅이 꺼지고 물이 덮치면 못 싸워요. 정령은 그 땅과 물을 바꿔요."
+};
+
+
+/* 그림 */
+function art(race){
+ const c=race.c,c2=race.c2,f=race.f;
+ const defs=`<defs><radialGradient id="g1" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="${c}"/><stop offset="1" stop-color="${c2}"/></radialGradient><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${c}" stop-opacity=".45"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient></defs>`;
+ const bg=`<circle cx="100" cy="105" r="88" fill="url(#glow)"/><ellipse cx="100" cy="168" rx="52" ry="8" fill="${c2}" opacity=".18"/>`;
+ let body="";
+ if(f==="알")body=`<g class="bob"><path d="M100 38 C132 38 150 80 150 118 C150 150 128 170 100 170 C72 170 50 150 50 118 C50 80 68 38 100 38Z" fill="url(#g1)"/><circle cx="82" cy="92" r="7" fill="${c2}" opacity=".35"/><circle cx="118" cy="120" r="9" fill="${c2}" opacity=".3"/><circle cx="96" cy="140" r="5" fill="${c2}" opacity=".3"/><path d="M104 60 l6 10 -5 9 7 8" stroke="#fff" stroke-width="2" fill="none" opacity=".8" stroke-linecap="round"/></g>`;
+ else if(f==="아기")body=`<g class="bob"><path d="M58 150 C50 110 70 86 100 86 C130 86 150 110 142 150 Z" fill="url(#g1)"/><circle cx="100" cy="82" r="30" fill="url(#g1)"/>${race.n==="엘프"?`<path d="M72 78 l-18 -10 14 20Z M128 78 l18 -10 -14 20Z" fill="${c}"/>`:race.n==="고블린"||race.n==="코볼트"||race.n==="임프"?`<path d="M74 70 l-16 -22 10 30Z M126 70 l16 -22 -10 30Z" fill="${c}"/>`:race.n==="오크"||race.n==="오거"||race.n==="트롤"||race.n==="미노타우로스"?`<path d="M80 60 l-8 -16 14 8Z M120 60 l8 -16 -14 8Z" fill="${c2}"/>`:race.n==="늑대"?`<path d="M78 62 l-6 -22 18 14Z M122 62 l6 -22 -18 14Z" fill="${c}"/>`:``}<path d="M88 88 q4 4 8 0 M104 88 q4 4 8 0" stroke="${c2}" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M70 120 Q100 108 130 120" stroke="#fff" stroke-width="3" fill="none" opacity=".5"/></g>`;
+ else if(f==="씨앗")body=`<g class="bob"><path d="M100 150 C70 150 62 120 76 100 C88 84 100 70 100 70 C100 70 112 84 124 100 C138 120 130 150 100 150Z" fill="url(#g1)"/><path d="M100 70 C100 50 112 40 124 36" stroke="${c2}" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M118 42 C126 34 136 36 138 44 C130 46 122 48 118 42Z" fill="${c}"/></g>`;
+ else if(f==="암석")body=`<g class="bob"><path d="M62 140 L70 92 L104 66 L140 88 L146 136 L112 160 Z" fill="url(#g1)"/><path d="M86 120 l10 -14 6 10 10 -16" stroke="#fff8d0" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/><path d="M118 128 l8 -8" stroke="#fff8d0" stroke-width="3" stroke-linecap="round" opacity=".9"/></g>`;
+ else if(f==="물방울")body=`<g class="bob"><path d="M100 52 C118 86 140 104 140 128 C140 150 122 164 100 164 C78 164 60 150 60 128 C60 104 82 86 100 52Z" fill="url(#g1)" opacity=".92"/><ellipse cx="86" cy="100" rx="7" ry="14" fill="#fff" opacity=".55" transform="rotate(-20 86 100)"/><circle cx="104" cy="132" r="3" fill="${c2}"/><circle cx="92" cy="130" r="3" fill="${c2}"/></g>`;
+ else if(f==="데몬 씨앗")body=`<g class="bob"><path d="M100 150 C72 150 64 122 76 104 C86 90 100 72 100 72 C100 72 114 90 124 104 C136 122 128 150 100 150Z" fill="${c2}"/><path d="M100 112 L100 150" stroke="${c}" stroke-width="3" stroke-linecap="round"/><path d="M96 104 l-4 -14 M104 104 l4 -14" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/><circle cx="100" cy="100" r="4" fill="${c}"/></g>`;
+ else if(f==="뼈대")body=`<g class="bob"><rect x="70" y="120" width="60" height="12" rx="6" fill="url(#g1)"/><rect x="78" y="138" width="44" height="10" rx="5" fill="url(#g1)"/><rect x="84" y="104" width="32" height="10" rx="5" fill="url(#g1)"/><circle cx="100" cy="82" r="20" fill="url(#g1)"/><circle cx="93" cy="80" r="4" fill="${c2}"/><circle cx="107" cy="80" r="4" fill="${c2}"/></g>`;
+ else if(f==="흔적")body=`<g class="bob"><path d="M64 140 C60 100 84 76 100 76 C116 76 140 100 136 140 C128 134 120 142 112 136 C104 144 96 136 88 142 C80 136 72 144 64 140Z" fill="url(#g1)" opacity=".7"/><circle cx="92" cy="104" r="4" fill="${c2}" opacity=".7"/><circle cx="108" cy="104" r="4" fill="${c2}" opacity=".7"/></g>`;
+ else body=`<g class="bob"><circle cx="100" cy="112" r="40" fill="url(#g1)" opacity=".35"/><circle cx="100" cy="112" r="24" fill="url(#g1)" opacity=".5"/><text x="100" y="122" text-anchor="middle" font-size="28" fill="${c2}" opacity=".8">?</text></g>`;
+ return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">${defs}${bg}${body}</svg>`;
+}
+
+
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){let s=seed||1;return()=>{s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return (s>>>0)/4294967296}}
+
+
+const josa=(w,a,b)=>{const c=w.charCodeAt(w.length-1);return w+(((c-44032)%28)?a:b)};
+
+/* 판정 */
+function judge(b,ans){
+ const seed=hash(`${b.y}-${b.m}-${b.d}-${b.h}`), r=rng(seed);
+ const race=RACES[Math.floor(r()*RACES.length)];
+ const cnt={};ans.forEach(a=>cnt[a]=(cnt[a]||0)+1);
+ const job=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+ let pool=race.paths.filter(p=>(!p.job||p.job===job)&&p.r.length>=3); if(!pool.length)pool=race.paths.filter(p=>p.r.length>=3); if(!pool.length)pool=race.paths;
+ const path=pool[Math.floor(r()*pool.length)];
+ const rr=path.r, stages=[rr[0], rr[Math.max(1,Math.floor((rr.length-1)/2))], rr[rr.length-1]];
+ const base=rollStats(race,r);
+ let pow;
+ if(race.dragon)pow="mana";
+ else{const x=r(); pow= race.human?(x<0.3?"mana":x<0.75?"aura":x<0.85?"divine":"spirit") : (x<0.4?"mana":x<0.65?"aura":x<0.75?"divine":x<0.95?"spirit":"none");}
+ const elem=Object.keys(ELEM)[Math.floor(r()*6)];
+ const skills=pickSkills({pow,race,elem},r);
+ const id=(seed%9000+1000).toString();
+ return {race,job,path,pow,elem,id,stages,base,skills};
+}
+
+const IMGKEY={"알":"egg","아기":"baby","씨앗":"seed","암석":"stone","물방울":"drop","데몬 씨앗":"demonseed","뼈대":"bones","흔적":"wisp","":"unknown"};
+function artWithImage(race,stage,elem){
+ // 진화 단계 그림 → img/race/<종족명>.png → img/<형태>.png → SVG 순서. 파일이 없으면 자동으로 다음으로 넘어간다. 속성은 색으로.
+ const svg=art(race); stage=stage||1; const css=elem&&ELEM[elem]?ELEM[elem].css:"";
+ const srcs=[...(stage>1?[`img/race/${race.n}_${stage}.png`]:[]),`img/race/${race.n}.png`,`img/${IMGKEY[race.f]||"unknown"}.png`];
+ const id="im"+Math.random().toString(36).slice(2);
+ setTimeout(()=>{const el=document.getElementById(id);if(!el)return;let i=0;const tryNext=()=>{if(i>=srcs.length){el.outerHTML=svg;return}const im=new Image();im.onload=()=>{el.innerHTML=`<img src="${srcs[i]}" alt="" style="width:100%;height:100%;object-fit:contain;display:block;filter:${css}" class="bob">`};im.onerror=()=>{i++;tryNext()};im.src=srcs[i]};tryNext()},0);
+ return `<div id="${id}" style="filter:${css}">${svg}</div>`;
+}
+
+function encode(b,a,nick){const base=[b.y,b.m,b.d,b.h,a.map(x=>Object.keys(JOBS).indexOf(x)).join("")].join(".");return nick?base+"."+encodeURIComponent(nick):base}
+function decode(h){const p=h.replace("#","").split(".");if(p.length<5||p.length>6)return null;const k=Object.keys(JOBS);let nick="";if(p[5]){try{nick=decodeURIComponent(p[5])}catch(e){nick=p[5]}}return {b:{y:p[0],m:p[1],d:p[2],h:p[3]},a:p[4].split("").map(i=>k[+i]).filter(Boolean),nick:nick.slice(0,12)}}
+
+/* 도감 라인. 다 모으면 보너스. bonus는 [체력,공격,마력,민첩,방어] 배율 */
+const LINES=[
+ {n:"용의 피",r:["드래곤","와이번","리자드맨"],bonus:[1,1,1.10,1,1],txt:"마력 +10%"},
+ {n:"거인들",r:["오거","트롤","미노타우로스","오크"],bonus:[1.10,1,1,1,1],txt:"체력 +10%"},
+ {n:"밤의 것들",r:["뱀파이어","유령","스켈레톤","임프"],bonus:[1,1.10,1,1,1],txt:"공격 +10%"},
+ {n:"숲의 아이들",r:["엘프","트렌트","거미","딱정벌레"],bonus:[1,1,1,1.10,1],txt:"민첩 +10%"},
+ {n:"땅의 힘",r:["드워프","골렘","코볼트"],bonus:[1,1,1,1,1.10],txt:"방어 +10%"},
+ {n:"작은 것들",r:["고블린","슬라임","하피","늑대"],bonus:[1,1.05,1,1.05,1],txt:"공격 +5%, 민첩 +5%"},
+ {n:"빛과 사람",r:["인간","천사"],bonus:[1.03,1.03,1.03,1.03,1.03],txt:"전부 +3%"}
+];
+function ownedRaces(codes){const set=new Set();(codes||[]).forEach(c=>{const d=decode(c);if(d)set.add(judge(d.b,d.a).race.n)});return set}
+function codexBonus(codes){
+ const have=ownedRaces(codes); const mult=[1,1,1,1,1], done=[];
+ LINES.forEach(L=>{if(L.r.every(x=>have.has(x))){done.push(L.n);L.bonus.forEach((b,i)=>mult[i]*=b)}});
+ return {mult,done,have};
+}
+
+/* 진화 단계 저장 (이 기기) */
+function getStage(code){try{return (JSON.parse(localStorage.getItem("ssm_stage")||"{}"))[code]||1}catch(e){return 1}}
+function setStage(code,st){try{const m=JSON.parse(localStorage.getItem("ssm_stage")||"{}");m[code]=st;localStorage.setItem("ssm_stage",JSON.stringify(m))}catch(e){}}
+const EVOLVE_COST={2:1,3:2}; // 소환권
