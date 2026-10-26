@@ -517,7 +517,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .vsbox .side .lab,.vsbox .side .lab.me,.vsbox .side .lab.op{color:var(--G-ink);font-weight:400;font-size:13px}
 .pt,.pt.op,.roster .pt{background:var(--G-bg);border:3px solid var(--G-line)}
 .pt.empty{background:#fff;border:2px dashed #b8b4a0;color:#999}
-.pt .stars{color:var(--G-ink);font-size:9px;text-shadow:none}
+.pt .stars{color:#fff;background:var(--G-ink);font-size:9px;text-shadow:none;letter-spacing:0;left:0;top:0;padding:1px 4px;z-index:1}
 .pt .st{color:#fff;background:var(--G-ink);text-shadow:none;padding:0 4px;right:0;bottom:0;font-size:11px;font-weight:400}
 .pt .ld{background:var(--G-ink);color:#fff;font-weight:400}
 .pt .el{border-radius:0;background:#fff;border:2px solid var(--G-line)}
@@ -565,12 +565,15 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .chip .hp i{background:var(--G-hp)}.chip .hp i.mid{background:var(--G-hp2)}.chip .hp i.low{background:var(--G-hp3)}
 .chip.on{box-shadow:none!important;background:var(--G-sel)}
 .chip .arrow{color:var(--G-ink);font-size:14px;top:-18px}
-.tbox{height:168px;background:#fff;border-top:none;margin:0 6px 6px;border:4px double var(--G-line);outline:3px solid var(--G-line);outline-offset:-3px;padding:14px 16px}
+.tbox{height:auto;min-height:150px;background:#fff;border-top:none;margin:0 6px 6px;border:4px double var(--G-line);outline:3px solid var(--G-line);outline-offset:-3px;padding:14px 16px}
+.tbox:has(.menu:not(.hidden)) .msg{display:none}
+.tbox:has(.menu:not(.hidden)) .msg::after{display:none}
 .tbox .msg{font-size:17px;font-weight:400;line-height:1.55}
 .tbox .msg .dmg{color:#d02818}.tbox .msg .heal{color:#288828}.tbox .msg .eff{color:var(--G-ink2);font-weight:400}
 .tbox .msg::after{content:"▼";position:absolute;right:14px;bottom:8px;font-size:12px;animation:bob 1s infinite}
-.menu{background:#fff;gap:6px;padding:10px 12px}
-.menu button{border:3px solid var(--G-line);border-radius:0;background:#fff;color:var(--G-ink);font-weight:400;font-size:17px;padding:6px 10px}
+.menu{position:static;background:#fff;gap:6px;padding:0;grid-auto-rows:auto}
+.menu button{border:3px solid var(--G-line);border-radius:0;background:#fff;color:var(--G-ink);font-weight:400;font-size:17px;padding:8px 10px;min-height:58px;line-height:1.3}
+.menu button small{white-space:normal;line-height:1.3;flex-wrap:wrap}
 .menu button::before{content:"▶ ";opacity:0}
 .menu button.pri{background:#fff;color:var(--G-ink)}.menu button.pri::before{opacity:1}
 .menu button:active{background:var(--G-sel)}
@@ -602,7 +605,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 <div id="lobby" class="scene bg-lobby">
   <div class="hud">
     <div class="tabs"><a class="tab" id="tab_a" href="battle.html">⚔️ 아레나</a><a class="tab" id="tab_d" href="battle.html?mode=dungeon">🏰 던전</a></div>
-    <div class="me"><b id="me_nick">소환사</b><div class="ro"><span>⚔️ <span id="me_pw">0</span></span><span>🏆 <span id="me_win">0</span></span></div><div class="ro" id="atk_row"><span>🎫 <span id="atk_n">10</span>/10</span><span id="atk_t" style="font-weight:600;opacity:.75"></span></div></div>
+    <div class="me"><b id="me_nick">소환사</b><div class="ro"><span>⚔️ <span id="me_pw">0</span></span><span>🏆 <span id="me_win">0</span></span></div><div class="ro" id="atk_row"><span>입장권 <span id="atk_n">10</span>/10</span><span id="atk_t" style="font-weight:600;opacity:.75"></span></div></div>
   </div>
   <div class="timer" id="lobby_timer"></div>
   <div class="stage" id="stage"></div>
@@ -989,7 +992,7 @@ function botDecks(){
  });
 }
 function deckPower(d){return d.reduce((s,[c,st])=>{const dd=decode(c);const R=judge(dd.b,dd.a);return s+power(stageStats(R.base,R.race,st-1))},0)}
-function drawAtk(){const a=arenaTickets();$("atk_n").textContent=a.n;$("atk_t").textContent=a.next?fmtT(a.next):"";if(!$("setup").classList.contains("hidden")&&!DEFMODE&&GAME==="arena")$("start").innerHTML=`전투시작 <small style="font-weight:700;opacity:.7">🎫1 · 남은 ${a.n}</small>`}
+function drawAtk(){const a=arenaTickets();$("atk_n").textContent=a.n;$("atk_t").textContent=a.next?fmtT(a.next):"";if(!$("setup").classList.contains("hidden")&&!DEFMODE&&GAME==="arena")$("start").innerHTML=`전투시작 <small style="opacity:.75">입장권 ${a.n}/10</small>`}
 function fmtT(ms){const s=Math.max(0,Math.ceil(ms/1000));return s>=3600?`${Math.floor(s/3600)}:${String(Math.floor(s%3600/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`:`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`}
 /* 로비 */
 let PARTY=[], OPPO=null, CUR_OPPO=null, OPP_NAME="", LTAB="match";
@@ -1008,7 +1011,7 @@ function openList(tab){LTAB=tab||"match";$("list").classList.remove("hidden");$(
 function rowHTML(o){
  const first=o.d[0]; const d=decode(first[0]); const R=judge(d.b,d.a);
  const beat=listState().beat.includes(o.key);
- return `<div class="rw ${beat?"beat":""}"><div class="av">${artWithImage(R.race,first[1],R.elem)}<span class="st">${first[1]}</span></div><div class="inf"><b>${o.n||"소환사"}</b><small>방어덱 ${o.d.length}마리${o.bot?"":" · 친구"}</small></div><div class="pw"><small>⚔️</small>${deckPower(o.d)}</div>${beat&&o.bot?`<div class="won">승리</div>`:`<button class="gb" data-k="${o.key}">🎫1 ${beat?"재도전":"전투"}</button>`}</div>`;
+ return `<div class="rw ${beat?"beat":""}"><div class="av">${artWithImage(R.race,first[1],R.elem)}<span class="st">${first[1]}</span></div><div class="inf"><b>${o.n||"소환사"}</b><small>방어덱 ${o.d.length}마리${o.bot?"":" · 친구"}</small></div><div class="pw"><small>⚔️</small>${deckPower(o.d)}</div>${beat&&o.bot?`<div class="won">승리</div>`:`<button class="gb" data-k="${o.key}">${beat?"재도전":"전투"}</button>`}</div>`;
 }
 let LIST_TIMER=null;
 function drawRows(){
@@ -1044,7 +1047,7 @@ function openSetup(){
  if(!PARTY.length){const c=col();if(c.length)PARTY=[c[c.length-1]]}
  drawSetup(); drawAtk();
 }
-function ptHTML(c,st,cls,extra){const d=decode(c);const R=judge(d.b,d.a);return `<div class="pt ${cls||""}" data-c="${c}" data-s="${st}"><span class="stars">${"★".repeat(st)}</span>${artWithImage(R.race,st,R.elem)}<span class="el">${ELEM[R.elem].ic}</span><span class="st">${st}</span>${extra||""}</div>`}
+function ptHTML(c,st,cls,extra){const d=decode(c);const R=judge(d.b,d.a);return `<div class="pt ${cls||""}" data-c="${c}" data-s="${st}"><span class="stars">전투력 ${power(stageStats(R.base,R.race,st-1))}</span>${artWithImage(R.race,st,R.elem)}<span class="el">${ELEM[R.elem].ic}</span><span class="st">${st}</span>${extra||""}</div>`}
 function drawSetup(){
  $("my_tri").innerHTML=Array.from({length:3},(_,i)=>PARTY[i]?ptHTML(PARTY[i],getStage(PARTY[i]),"",i===0?`<span class="ld">LEADER</span>`:""):`<div class="pt empty">+</div>`).join("");
  $("op_tri").innerHTML=GAME==="dungeon"?Array.from({length:3},(_,i)=>i<floorEnemyCount(FLOOR)?`<div class="pt empty op" style="font-size:22px">👹</div>`:`<div class="pt empty">·</div>`).join():Array.from({length:3},(_,i)=>OPPO.d[i]?ptHTML(OPPO.d[i][0],OPPO.d[i][1],"op"):`<div class="pt empty">💀</div>`).join("");
@@ -1059,8 +1062,8 @@ function drawSetup(){
 /* 상세 팝업 */
 function openDetail(c,st){
  const d=decode(c); const R=judge(d.b,d.a); const f=makeFighter({d,h:c},st,"x",0);
- $("d_ttl").innerHTML=`${nameOf(R,st)} <b>${"★".repeat(st)}</b>`;
- $("d_art").innerHTML=`<div class="stars">${"★".repeat(st)}</div>${artWithImage(R.race,st,R.elem)}<div class="ty">${ELEM[R.elem].ic}${ELEM[R.elem].n} · ${POW[R.pow][1]}${d.nick?" · "+d.nick:""}</div>`;
+ $("d_ttl").innerHTML=`${nameOf(R,st)} <b>${st}단계</b>`;
+ $("d_art").innerHTML=`<div class="stars">전투력 ${power(f.st)}</div>${artWithImage(R.race,st,R.elem)}<div class="ty">${ELEM[R.elem].ic}${ELEM[R.elem].n} · ${POW[R.pow][1]}${d.nick?" · "+d.nick:""}</div>`;
  const stt=f.st;
  $("d_st").innerHTML=`<span style="color:var(--ink3)">전투력</span><span>${power(stt)}</span>`+STN.map((n,i)=>`<span style="color:var(--ink2)">${n}</span><span>${i===0?stt[0]*10:stt[i]}</span>`).join("")+`<span style="color:var(--ink2)">속도</span><span>${speed(f)}</span>`;
  const dmgOf=(s)=>showDmg(MAGICAL.has(R.pow)&&s?stt[2]:stt[1],s?s.m:f.basic);
@@ -1079,7 +1082,7 @@ $("detail").onclick=(e)=>{if(e.target===$("detail"))$("d_x").onclick()};
 async function run(){
  if(BUSY)return;
  if(!PARTY.length){toast("내 소환수를 하나는 골라야 해요");return}
- if(GAME==="arena"){if(!useArenaTicket()){toast("대전권이 없어요. "+fmtT(arenaTickets().next)+" 뒤에 1개 차요");return}drawAtk()}
+ if(GAME==="arena"){if(!useArenaTicket()){toast("입장권이 없어요. "+fmtT(arenaTickets().next)+" 뒤에 1장 차요");return}drawAtk()}
  BUSY=true;
  const a=PARTY.map(c=>({h:{d:decode(c),h:c},stage:getStage(c)}));
  TA=a.map((x,i)=>makeFighter(x.h,x.stage,"a",i));
