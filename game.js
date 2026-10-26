@@ -191,7 +191,7 @@ function judge(b,ans){
  return {race,job,path,pow,elem,id,stages,base,skills};
 }
 
-const IMGV="4";
+const IMGV="5";
 const ELEMART=false; // 속성별 그림(img/race/<종족>_<단계>_<속성>.png)을 다 넣으면 true
 /* 속성 색 (오라 등에 씀) */
 const ELEMCOLOR={fire:"#ff6b4a",water:"#4aa8ff",earth:"#f2c440",wind:"#4cd49a",light:"#e8eefc",dark:"#9a6cff"};
