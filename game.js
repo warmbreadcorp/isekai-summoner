@@ -187,7 +187,7 @@ function judge(b,ans){
  return {race,job,path,pow,elem,id,stages,base,skills};
 }
 
-const IMGV="2"; // 그림을 바꾸면 올린다 (브라우저 캐시 무효화)
+const IMGV="3"; // 그림을 바꾸면 올린다 (브라우저 캐시 무효화)
 const IMGKEY={"알":"egg","아기":"baby","씨앗":"seed","암석":"stone","물방울":"drop","데몬 씨앗":"demonseed","뼈대":"bones","흔적":"wisp","":"unknown"};
 function artWithImage(race,stage,elem){
  // 진화 단계 그림 → img/race/<종족명>.png → img/<형태>.png → SVG 순서. 파일이 없으면 자동으로 다음으로 넘어간다. 속성은 색으로.
