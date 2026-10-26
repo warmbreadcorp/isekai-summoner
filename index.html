@@ -550,7 +550,7 @@ function drawEvolve(){
  const [kind,need]=EVOLVE_NEED[st+1], have=items()[kind]||0, ok=have>=need, S=STONE[kind];
  box.innerHTML=`<div class="xp"><div class="xh"><span>${S[1]} ${S[0]}</span><b>${Math.min(have,need)} / ${need}</b></div><div class="t"><i style="width:${Math.min(100,have/need*100)}%"></i></div></div>
   <button class="btn gold" id="evbtn" ${ok?"":"disabled"} style="margin-top:10px">${st+1}단계로 진화 · ${S[0]} ${need}개</button>
-  ${ok?"":`<p class="mini" style="margin:6px 0 0">${S[0]}은 던전 ${kind==="low"?"1~5층":"6층 이상"}에서 몬스터를 잡으면 하나씩 나와요. ${need}개 모으면 ${st+1}단계로 진화해요.</p>`}`;
+  ${ok?"":`<p class="mini" style="margin:6px 0 0">${S[0]}은 던전 ${kind==="low"?"3~6층":"7~10층"}을 깨면 층마다 하루 1개 나와요. ${need}개 모으면 ${st+1}단계로 진화해요.</p>`}`;
  const b=$("evbtn"); if(b)b.onclick=async()=>{addItem(kind,-need);setStage(code,st+1);track("evolve_"+(st+1));const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"})};
 }
 function dailyXp(){const code=location.hash.replace("#","");if(!code)return;const key="ssm_dx_"+code;const d=ST.get(key,"");if(d!==today()){ST.set(key,today());addXp(code,XP_GAIN.daily)}}
@@ -588,7 +588,7 @@ function summon(){
 const COUPONS={"WELCOME":1,"SUMMON3":3,"ARENA":1};
 const NOTICES=[
  {d:"2026-10-26",t:"이세계 소환사 테스트 시작",b:"친구에게 결과를 보내면 소환권을 받을 수 있어요. 하루 1개까지예요."},
- {d:"2026-10-26",t:"던전 열림",b:"몬스터를 잡으면 진화석이 나와요. 1~5층은 2단계 진화석, 6층부터는 3단계 진화석이에요."},
+ {d:"2026-10-26",t:"던전 열림",b:"10층까지 있어요. 3~6층은 2단계 진화석, 7~10층은 3단계 진화석이 층마다 하루 1개 나와요. 올라갈수록 많이 세져요."},
  {d:"2026-10-26",t:"아레나 열림",b:"결과 링크로 친구와 1대1, 2대2, 3대3 대결이 돼요."},
  {d:"2026-10-26",t:"쿠폰 WELCOME",b:"마이페이지 맨 아래 쿠폰 입력하기에 WELCOME을 넣으면 소환권 1개를 드려요."}
 ];
@@ -602,8 +602,8 @@ function drawMe(){
 document.querySelectorAll(".panel .back").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
 const ITEMS=[
  {k:"ticket",n:"소환권",img:"img/item_ticket.png",get:()=>tickets(),d:"새 소환수를 한 마리 소환해요. 친구 3명에게 결과를 보내면 1개(하루 1개), 쿠폰이나 구매로도 받아요.",act:"소환권 쓰기",go:()=>{$("invsec").classList.add("hidden");summon()}},
- {k:"low",n:"2단계 진화석",img:"img/item_stone2.png",get:()=>items().low||0,d:"3개 모으면 1단계 소환수를 2단계로 진화시켜요. 던전 1~5층 몬스터가 떨어뜨려요.",act:"진화하러 가기",go:()=>{$("invsec").classList.add("hidden");$("r_evolve").scrollIntoView({behavior:"smooth",block:"center"})}},
- {k:"high",n:"3단계 진화석",img:"img/item_stone3.png",get:()=>items().high||0,d:"3개 모으면 2단계 소환수를 3단계로 진화시켜요. 던전 6층부터 떨어뜨려요.",act:"진화하러 가기",go:()=>{$("invsec").classList.add("hidden");$("r_evolve").scrollIntoView({behavior:"smooth",block:"center"})}}
+ {k:"low",n:"2단계 진화석",img:"img/item_stone2.png",get:()=>items().low||0,d:"3개 모으면 1단계 소환수를 2단계로 진화시켜요. 던전 3~6층을 깨면 층마다 하루 1개.",act:"진화하러 가기",go:()=>{$("invsec").classList.add("hidden");$("r_evolve").scrollIntoView({behavior:"smooth",block:"center"})}},
+ {k:"high",n:"3단계 진화석",img:"img/item_stone3.png",get:()=>items().high||0,d:"3개 모으면 2단계 소환수를 3단계로 진화시켜요. 던전 7~10층을 깨면 층마다 하루 1개.",act:"진화하러 가기",go:()=>{$("invsec").classList.add("hidden");$("r_evolve").scrollIntoView({behavior:"smooth",block:"center"})}}
 ];
 const INV_SLOTS=20; let INV_SEL=null;
 function drawInv(){
