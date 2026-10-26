@@ -70,10 +70,7 @@ function elemAdv(a,b){ // a가 b를 칠 때 %
  if((a==="light"&&b==="dark")||(a==="dark"&&b==="light"))return 10;
  if(ELEMBEATS[a]===b)return 10; if(ELEMBEATS[b]===a)return -10; return 0;
 }
-function traitAdv(att,def){ // 특성(잘 쓰는 힘) %
- if(att.race.strong&&att.race.strong===def.pow)return 10;
- if(def.race.weak&&def.race.weak===att.pow)return 10;
- if(def.race.strong&&def.race.strong===att.pow)return -10;
+function traitAdv(att,def){ // 특성 상성 %. 물리→마법→신성→정령→물리
  if(att.pow!=="none"&&def.pow!=="none"){if(BEATS[att.pow]===def.pow)return 10;if(BEATS[def.pow]===att.pow)return -10}
  return 0;
 }
@@ -223,7 +220,15 @@ function codexBonus(codes){
 /* 진화 단계 저장 (이 기기) */
 function getStage(code){try{return (JSON.parse(localStorage.getItem("ssm_stage")||"{}"))[code]||1}catch(e){return 1}}
 function setStage(code,st){try{const m=JSON.parse(localStorage.getItem("ssm_stage")||"{}");m[code]=st;localStorage.setItem("ssm_stage",JSON.stringify(m))}catch(e){}}
-/* 진화는 경험치로. 아레나 승리 +5, 패배 +2, 친구에게 보내기 +2, 하루 첫 접속 +3 */
+/* 진화는 던전에서 얻는 진화석으로. 2단계 = 하급 진화석 3개, 3단계 = 상급 진화석 3개 */
+const EVOLVE_NEED={2:["low",3],3:["high",3]};
+const STONE={low:["하급 진화석","🔹"],high:["상급 진화석","🔷"]};
+function items(){try{return JSON.parse(localStorage.getItem("ssm_items")||"{}")}catch(e){return {}}}
+function addItem(k,n){try{const m=items();m[k]=(m[k]||0)+n;localStorage.setItem("ssm_items",JSON.stringify(m));return m[k]}catch(e){return 0}}
+/* 기록 */
+function rec(){try{return JSON.parse(localStorage.getItem("ssm_rec")||"{}")}catch(e){return {}}}
+function setRec(k,v){try{const m=rec();m[k]=v;localStorage.setItem("ssm_rec",JSON.stringify(m))}catch(e){}}
+/* (예전 경험치 함수는 호환용으로 남김) */
 const EVOLVE_XP={2:10,3:30};
 const XP_GAIN={win:5,lose:2,share:2,daily:3};
 function getXp(code){try{return (JSON.parse(localStorage.getItem("ssm_xp")||"{}"))[code]||0}catch(e){return 0}}

@@ -64,6 +64,14 @@ button{font-family:inherit;cursor:pointer}
 .win b{font-size:22px;display:block}
 .win span{color:var(--ink2);font-size:14px}
 .hidden{display:none}
+.topbar{position:fixed;top:12px;right:12px;z-index:40;display:flex;gap:6px}
+.tb{height:40px;display:flex;align-items:center;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:14px;font-weight:700;text-decoration:none}
+.tb.on{border-color:var(--gold2);background:color-mix(in srgb,var(--gold2) 18%,var(--paper))}
+.floors{display:flex;flex-wrap:wrap;gap:6px}
+.floors button{width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--paper2);color:var(--ink);font-size:14px}
+.floors button.on{border-color:var(--gold2);background:color-mix(in srgb,var(--gold2) 18%,var(--paper2))}
+.floors button:disabled{opacity:.3}
+.drop{margin-top:10px;font-size:15px}
 .modes{display:grid;grid-template-columns:1fr 1.3fr 1.2fr;gap:8px}
 .mode{background:var(--paper2);color:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:14px}
 .mode.on{border-color:var(--gold2);color:var(--ink);background:color-mix(in srgb,var(--gold2) 18%,var(--paper2))}
@@ -88,18 +96,26 @@ button{font-family:inherit;cursor:pointer}
 </head>
 <body>
 <div class="wrap">
+<div class="topbar"><a class="tb" id="tab_d" href="battle.html?mode=dungeon">🏰 던전</a><a class="tb" id="tab_a" href="battle.html">⚔️ 아레나</a><a class="tb" href="index.html">🏠</a></div>
 <header>
-  <h1>아레나</h1>
-  <p class="sub">결과 링크를 붙이면 알아서 싸워요. 1대1도, 2대2도, 3대3도 돼요.</p>
+  <h1 id="title">아레나</h1>
+  <p class="sub" id="subt">결과 링크를 붙이면 알아서 싸워요. 1대1도, 2대2도, 3대3도 돼요.</p>
 </header>
 
 <section class="card" id="setup">
   <label>내 쪽 (최대 3마리) · 결과 링크를 붙이면 누군지 바로 보여요</label>
   <div id="teamA"></div>
   <button class="btn ghost" id="addA" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
+  <div id="sideB">
   <label style="margin-top:16px">친구 쪽 (최대 3마리)</label>
   <div id="teamB"></div>
   <button class="btn ghost" id="addB" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
+  </div>
+  <div id="sideD" class="hidden">
+  <label style="margin-top:16px">던전 층</label>
+  <div class="floors" id="floors"></div>
+  <p id="floorinfo" style="font-size:12.5px;color:var(--ink3);margin:8px 0 0"></p>
+  </div>
   <label style="margin-top:16px">방식</label>
   <div class="modes"><button class="mode on" data-m="auto">자동</button><button class="mode" data-m="manual">수동 · 내 쪽만</button><button class="mode" data-m="both">둘 다 수동</button></div>
   <button class="btn gold" id="go">⚔️ 싸우기</button>
@@ -123,7 +139,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=14"></script>
+<script src="game.js?v=17"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
@@ -132,6 +148,20 @@ const MAGICAL=new Set(["mana","divine","spirit"]);
 const BAD=new Set(["stun","sleep","web","burn","bleed","poison","frost","shock","slow","silence","blind","fear"]);
 const TURN=240, MAXSPD=120;
 let MODE="auto";
+const GAME=new URLSearchParams(location.search).get("mode")==="dungeon"?"dungeon":"arena";
+let FLOOR=1;
+function floorEnemyCount(f){return f<=2?1:f<=5?2:3}
+function floorStage(f){return f<=3?1:f<=6?2:3}
+function floorScale(f){return 1+0.04*(f-1)}
+function makeMonster(floor,idx){
+ const rr=rng(hash("dungeon"+Date.now()+Math.random()+idx));
+ const b={y:String(1900+Math.floor(rr()*200)),m:String(1+Math.floor(rr()*12)),d:String(1+Math.floor(rr()*28)),h:String(Math.floor(rr()*12))};
+ const keys=Object.keys(JOBS), a=Array.from({length:6},()=>keys[Math.floor(rr()*keys.length)]);
+ const code=encode(b,a,"던전");
+ const f=makeFighter({d:decode(code),h:code},floorStage(floor),"b",idx);
+ const sc=floorScale(floor); f.base=f.base.map(v=>Math.round(v*sc)); f.st=f.base.slice(); f.maxhp=f.base[0]*10; f.hp=f.maxhp; f.owner="던전"; f.nick=""; f.code=null;
+ return f;
+}
 
 function parseHash(v){
  v=(v||"").trim(); const i=v.indexOf("#"); if(i>=0)v=v.slice(i+1);
@@ -246,8 +276,13 @@ function finish(){
  const names=t=>t.map(f=>f.name).join("·");
  $("act").classList.add("hidden"); $("win").classList.remove("hidden");
  const owner=t=>[...new Set(t.map(f=>f.owner))].join("·");
- const gain=win==="a"?XP_GAIN.win:XP_GAIN.lose; TA.forEach(f=>{if(f.code)addXp(f.code,gain)});
- $("win").innerHTML=win?`<b>${owner(win==="a"?TA:TB)} 승리</b><span>${win==="a"?names(TA):names(TB)}이(가) 이겼어요. 내 쪽 경험치 +${gain}</span>`:`<b>무승부</b><span>둘 다 쓰러졌어요. 내 쪽 경험치 +${gain}</span>`;
+ let extra="";
+ if(GAME==="dungeon"){
+  if(win==="a"){const kind=FLOOR>=6?"high":"low";addItem(kind,1);if((rec().dungeon||0)<FLOOR)setRec("dungeon",FLOOR);extra=`<div class="drop">${STONE[kind][1]} ${STONE[kind][0]} 1개를 얻었어요</div>`}
+  else extra=`<div class="drop">진화석을 못 얻었어요. 다시 도전해 보세요.</div>`;
+ }else{ if(win==="a")setRec("wins",(rec().wins||0)+1); else if(win==="b")setRec("losses",(rec().losses||0)+1); }
+ $("win").innerHTML=win?`<b>${owner(win==="a"?TA:TB)} 승리</b><span>${win==="a"?names(TA):names(TB)}이(가) 이겼어요.</span>${extra}`:`<b>무승부</b><span>둘 다 쓰러졌어요.</span>${extra}`;
+ if(GAME==="dungeon"&&win==="a"){$("again").textContent="다음 층으로";} else $("again").textContent=GAME==="dungeon"?"다시 도전":"다시 붙이기";
  WINTEXT=`[이세계 소환사 아레나]\n${owner(TA)}(${names(TA)}) vs ${owner(TB)}(${names(TB)})\n→ ${win?owner(win==="a"?TA:TB)+" 승리":"무승부"}\n\n${location.origin}${location.pathname.replace(/battle\.html$/,"index.html")}`;
  BUSY=false;
 }
@@ -312,14 +347,15 @@ function updateCard(f){
  el.querySelector(".st").innerHTML=Object.keys(f.eff).filter(k=>EFF[k]).map(k=>`<span class="${BAD.has(k)?"bad":"good"}">${EFF[k][0]}</span>`).join("")+(f.shield>0?`<span class="good">보호막</span>`:"")+(f.guard?`<span class="good">방어 중</span>`:"");
 }
 function readTeam(side){
- return [...document.querySelectorAll(`#team${side.toUpperCase()} .row2`)].map(r=>{const h=parseHash(r.querySelector("input").value);return h?{h,stage:+r.querySelector("select").value}:null}).filter(Boolean);
+ return [...document.querySelectorAll(`#team${side.toUpperCase()} .row2`)].map(r=>{const h=parseHash(r.querySelector("input").value);return h?{h,stage:+r.querySelector("select:not(.colsel)").value||1}:null}).filter(Boolean);
 }
 async function run(){
  if(BUSY)return;
- const a=readTeam("a"), b=readTeam("b");
- if(!a.length||!b.length){toast("양쪽에 링크가 하나씩은 있어야 해요");return}
+ const a=readTeam("a"), b=GAME==="dungeon"?[]:readTeam("b");
+ if(!a.length||(GAME!=="dungeon"&&!b.length)){toast(GAME==="dungeon"?"내 쪽 친구가 하나는 있어야 해요":"양쪽에 링크가 하나씩은 있어야 해요");return}
  BUSY=true;
- TA=a.map((x,i)=>makeFighter(x.h,x.stage,"a",i)); TB=b.map((x,i)=>makeFighter(x.h,x.stage,"b",i)); ALL=[...TA,...TB];
+ TA=a.map((x,i)=>makeFighter(x.h,x.stage,"a",i));
+ TB=GAME==="dungeon"?Array.from({length:floorEnemyCount(FLOOR)},(_,i)=>makeMonster(FLOOR,i)):b.map((x,i)=>makeFighter(x.h,x.stage,"b",i)); ALL=[...TA,...TB];
  rnd=rng(hash([...a,...b].map(x=>x.h+x.stage).join("|")+(MODE!=="auto"?Date.now():"")));
  $("setup").classList.add("hidden");$("fight").classList.remove("hidden");$("win").classList.add("hidden");$("act").classList.add("hidden");
  $("fa").innerHTML=TA.map(card).join(""); $("fb").innerHTML=TB.map(card).join(""); $("log").innerHTML="";
@@ -334,19 +370,27 @@ function addRow(side,val){
  box.appendChild(d);
  const upd=()=>{const h=parseHash(d.querySelector("input").value), pv=d.querySelector(".pv");
   if(!h){pv.innerHTML=d.querySelector("input").value.trim()?`<span class="no">결과 링크가 아니에요</span>`:"";return}
-  const f=makeFighter(h,+d.querySelector("select").value,"x",0);
+  const f=makeFighter(h,+d.querySelector("select:not(.colsel)").value||1,"x",0);
   pv.innerHTML=`<div class="pvimg">${artWithImage(f.race,f.stage,f.elem)}</div><div><b>${f.nick?f.nick+"의 ":""}${f.name}</b><small>${ELEM[f.elem].ic}${ELEM[f.elem].n} · ${f.race.n} · ${f.stage}단계 · ${POW[f.pow][1]} · 전투력 ${power(f.st)} · 속도 ${speed(f)}</small></div>`};
  d.querySelector("input").oninput=upd; d.querySelector("select:not(.colsel)").onchange=upd; const cs=d.querySelector(".colsel"); if(cs)cs.onchange=()=>{if(cs.value){d.querySelector("input").value=cs.value;d.querySelector("select:not(.colsel)").value=String(getStage(cs.value));upd()}}; upd();
 }
 $("go").onclick=run;
 $("addA").onclick=()=>addRow("a"); $("addB").onclick=()=>addRow("b");
 document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;document.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b))});
-$("again").onclick=()=>{if(BUSY)return;$("fight").classList.add("hidden");$("setup").classList.remove("hidden")};
+$("again").onclick=()=>{if(BUSY)return;if(GAME==="dungeon"){location.href="battle.html?mode=dungeon";return}$("fight").classList.add("hidden");$("setup").classList.remove("hidden")};
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(WINTEXT);toast("복사했어요")}catch(e){toast("복사가 막혀 있어요")}};
 (function(){
  const q=new URLSearchParams(location.search);
  let a=q.get("a"); if(!a){try{a=localStorage.getItem("ssm_last")}catch(e){}}
- addRow("a",a||""); addRow("b",q.get("b")||"");
+ addRow("a",a||"");
+ if(GAME==="dungeon"){
+  $("tab_d").classList.add("on"); $("title").textContent="던전"; $("subt").textContent="층마다 몬스터가 나와요. 이기면 진화석을 줘요.";
+  $("sideB").classList.add("hidden"); $("sideD").classList.remove("hidden"); $("go").textContent="🏰 입장";
+  const best=rec().dungeon||0; FLOOR=best+1;
+  const fl=$("floors"); fl.innerHTML=Array.from({length:Math.max(10,best+2)},(_,i)=>`<button data-f="${i+1}" ${i+1>best+1?"disabled":""} class="${i+1===FLOOR?"on":""}">${i+1}</button>`).join("");
+  const info=()=>{$("floorinfo").textContent=`${FLOOR}층 · 몬스터 ${floorEnemyCount(FLOOR)}마리 · ${floorStage(FLOOR)}단계 · 보상 ${FLOOR>=6?STONE.high[1]+STONE.high[0]:STONE.low[1]+STONE.low[0]} 1개 · 최고 기록 ${best}층`};
+  fl.querySelectorAll("button").forEach(b=>b.onclick=()=>{FLOOR=+b.dataset.f;fl.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));info()}); info();
+ }else{ $("tab_a").classList.add("on"); addRow("b",q.get("b")||""); }
 })();
 </script>
 </body>
