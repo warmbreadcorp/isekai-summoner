@@ -408,8 +408,8 @@ button{font-family:inherit;cursor:pointer}
 .ebox .effs span,.mbox .effs span{font-size:10px;font-weight:800;padding:1px 6px;border-radius:999px;background:#ffe3e0;color:#b3362a}
 .ebox .effs span.good,.mbox .effs span.good{background:#dff5df;color:#2b7a2b}
 .esprite,.msprite{position:absolute;aspect-ratio:1;transition:opacity .3s}
-.esprite{right:3%;top:19%;width:42%}
-.msprite{left:2%;bottom:4%;width:50%}
+.esprite{right:4%;top:22%;width:42%}
+.msprite{left:0;bottom:12%;width:48%}
 .esprite>div,.msprite>div{width:100%;height:100%;position:relative}
 .esprite img,.esprite svg,.msprite img,.msprite svg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 6px rgba(0,0,0,.28))}
 .msprite img,.msprite svg{transform:scaleX(-1)}
@@ -450,10 +450,9 @@ button{font-family:inherit;cursor:pointer}
 @media (min-width:600px){.esprite{width:30%;right:8%}.msprite{width:34%;left:8%}.ebox{width:40%}.mbox{width:42%}}
 
 /* ===== 골드 버전 스킨: 크림 배경, 두 줄 검은 테두리 창, 픽셀 글꼴, ▶ 커서 ===== */
-@font-face{font-family:"DungGeunMo";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff") format("woff");font-display:swap}
 :root{--G-bg:#f8f6e6;--G-ink:#202020;--G-ink2:#585858;--G-line:#202020;--G-hp:#48c848;--G-hp2:#f8d048;--G-hp3:#f04838;--G-tg:#3870f0;--G-sel:#fff2a8}
 html,body{background:var(--G-bg)}
-body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink);-webkit-font-smoothing:none;font-smooth:never}
+body{font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;color:var(--G-ink);-webkit-font-smoothing:antialiased;font-weight:700}
 .scene,.scene::before{background:none!important}
 .bg-lobby,.bg-arena,.bg-dungeon{background:var(--G-bg)!important}
 #lobby,#fight{background:var(--G-bg)}
@@ -464,7 +463,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .tabs{gap:6px}
 .tab{flex:1;height:auto;padding:8px 0;border:3px solid var(--G-line);background:#fff;color:var(--G-ink);font-size:16px;justify-content:center;font-weight:400}
 .tab.on{background:var(--G-ink);color:#fff;border-color:var(--G-ink)}
-.me{text-align:left;background:#fff;border:3px solid var(--G-line);padding:6px 10px;font-size:14px;color:var(--G-ink);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 12px}
+.me{text-align:left;background:#fff;border:3px solid var(--G-line);padding:8px 10px;font-size:14px;color:var(--G-ink);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 12px}
 .me b{color:var(--G-ink);font-size:16px;font-weight:400}
 .me .ro{gap:8px;font-weight:400}
 .timer{position:absolute;left:8px;right:8px;top:124px;text-align:center;font-size:13px;color:var(--G-ink2);text-shadow:none;background:none}
@@ -548,11 +547,11 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .esprite img,.esprite svg,.msprite img,.msprite svg{filter:none}
 .ebox,.mbox{background:#fff;border:3px solid var(--G-line);border-radius:0;padding:8px 10px 8px;z-index:2}
 .ebox{left:8px;top:10px;width:58%}
-.mbox{right:8px;bottom:8px;width:62%}
+.mbox{right:8px;bottom:10px;width:64%}
 .ebox b,.mbox b{font-weight:400;font-size:17px;color:var(--G-ink)}
-.ebox span,.mbox span{font-weight:400;font-size:12px;color:var(--G-ink2)}
-.hpbar,.gauge{position:relative;height:10px;border:2px solid var(--G-line);border-radius:0;background:#fff;margin-top:6px;margin-left:34px;overflow:visible}
-.hpbar em,.gauge em{position:absolute;left:-34px;top:-6px;font-style:normal;font-size:11px;color:var(--G-ink);width:30px;text-align:right}
+.ebox span,.mbox span{font-weight:700;font-size:12px;color:var(--G-ink2)}
+.hpbar,.gauge{position:relative;height:10px;border:2px solid var(--G-line);border-radius:0;background:#fff;margin-top:8px;margin-left:38px;overflow:visible}
+.hpbar em,.gauge em{position:absolute;left:-36px;top:-5px;font-style:normal;font-size:11px;font-weight:800;color:var(--G-ink);width:32px;text-align:right;line-height:1}
 .hpbar i{background:var(--G-hp);transition:width .3s}.hpbar i.mid{background:var(--G-hp2)}.hpbar i.low{background:var(--G-hp3)}
 .gauge{height:7px;margin-top:8px}.gauge i{display:block;height:100%;width:0;background:var(--G-tg);transition:width .18s}
 .mbox .hpn{color:var(--G-ink);font-weight:400;font-size:13px;margin-top:2px}
@@ -577,7 +576,7 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .menu button::before{content:"▶ ";opacity:0}
 .menu button.pri{background:#fff;color:var(--G-ink)}.menu button.pri::before{opacity:1}
 .menu button:active{background:var(--G-sel)}
-.menu button small{font-weight:400;color:var(--G-ink2);font-size:11px}.menu button.pri small{color:var(--G-ink2)}
+.menu button small{font-weight:700;color:var(--G-ink2);font-size:12px}.menu button.pri small{color:var(--G-ink2)}
 .menu button small .el{border-radius:0;background:#fff;border:1px solid var(--G-line);color:var(--G-ink)}
 .menu button.back{border-style:solid;font-size:14px}
 .gsc .ctl button{border:3px solid var(--G-line);border-radius:0;background:#fff;color:var(--G-ink);font-weight:400;font-size:12px;width:42px;height:34px}
