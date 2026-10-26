@@ -117,6 +117,24 @@ button{font-family:inherit;cursor:pointer}
 .ticket .tbtn{width:auto;margin:0;padding:10px 16px;font-size:14px;white-space:nowrap}
 .ticket .tbuy{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px;color:var(--ink2)}
 .ticket .tbuy b{color:var(--ink)}
+.dex{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.dex .d{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:8px 4px 6px;text-align:center;cursor:pointer;min-height:92px}
+.dex .d.empty{cursor:default;background:transparent;border-style:dashed}
+.dex .d.empty .im{visibility:hidden}
+.dex .d.empty b{color:var(--ink3);font-weight:400}
+.dex .d .im{width:52px;height:52px;margin:0 auto 3px}
+.dex .d .im svg,.dex .d .im img{width:100%;height:100%;object-fit:contain;display:block}
+.dex .d b{display:block;font-size:11.5px;line-height:1.3}
+.dex .d small{color:var(--ink3);font-size:10px}
+.dexdetail{grid-column:1/-1;background:var(--paper);border:1px solid var(--gold2);border-radius:12px;padding:12px 14px;font-size:13.5px;text-align:left}
+.dexdetail .evo3{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:6px 0 8px}
+.dexdetail .evo3 .e{text-align:center;width:72px}
+.dexdetail .evo3 .e .im{width:56px;height:56px;margin:0 auto 2px}
+.dexdetail .evo3 .e .im svg,.dexdetail .evo3 .e .im img{width:100%;height:100%;object-fit:contain;display:block}
+.dexdetail .evo3 .e small{display:block;font-size:10.5px;line-height:1.25}
+.dexdetail .evo3 .ar{color:var(--ink3)}
+.dexdetail .sk{margin-top:4px;color:var(--ink2)}
+.dexdetail .sk b{color:var(--ink)}
 .lines .ln{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--paper2)}
 .lines .ln.done{border-color:var(--gold2)}
 .lines .lh{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}
@@ -283,6 +301,9 @@ button{font-family:inherit;cursor:pointer}
 
   <div class="sec">
     <h3>도감 <span id="dex_cnt" style="color:var(--ink3);font-weight:400;font-size:12.5px"></span></h3>
+    <div class="dex" id="r_dex"></div>
+    <p class="mini">소환한 종족만 채워져요. 칸을 누르면 진화와 스킬이 보여요.</p>
+    <h3 style="margin-top:16px">도감 라인</h3>
     <div class="lines" id="r_lines"></div>
     <p class="mini">한 줄을 다 모으면 내 친구들 전부에게 보너스가 붙어요. 아레나에서 적용돼요.</p>
   </div>
@@ -404,9 +425,29 @@ function drawCollection(){
  $("r_col").innerHTML=c.map(code=>{const d=decode(code);if(!d)return"";const R=judge(d.b,d.a);const st=stageStats(R.base,R.race,0);const sg=getStage(code), st2=stageStats(R.base,R.race,sg-1);return `<div class="c ${code===here?"now":""}" data-code="${code}"><div class="im">${artWithImage(R.race,sg,R.elem)}</div><b>${R.stages[sg-1].replace(/〔.*?〕/,"")}</b><small>${sg}단계 · 전투력 ${power(st2)}</small></div>`}).join("");
  $("r_col").querySelectorAll(".c").forEach(el=>el.onclick=()=>{const d=decode(el.dataset.code);birth=d.b;answers=d.a;NICK=d.nick||"";try{location.hash=el.dataset.code}catch(e){}draw(judge(birth,answers));window.scrollTo({top:0,behavior:"smooth"})});
 }
+let DEX_OPEN=null;
 function drawCodex(){
  const {done,have}=codexBonus(collection());
  $("dex_cnt").textContent=`${have.size} / ${RACES.length}`;
+ const main=r=>r.paths.filter(p=>p.r.length>=3)[0]||r.paths[0];
+ const nm=x=>x.replace(/〔.*?〕/,"");
+ $("r_dex").innerHTML=RACES.map((r,i)=>{
+  const own=have.has(r.n);
+  const card=own?`<div class="d" data-i="${i}"><div class="im">${artWithImage(r)}</div><b>${r.n}</b><small>${r.sig[0]}</small></div>`
+   :`<div class="d empty"><div class="im">${art(r)}</div><b>?</b><small>No.${String(i+1).padStart(2,"0")}</small></div>`;
+  if(own&&DEX_OPEN===i){
+   const P=main(r), st=[P.r[0],P.r[Math.max(1,Math.floor((P.r.length-1)/2))],P.r[P.r.length-1]];
+   const E=r.sig[3]?EFF[r.sig[3]]:null;
+   return card+`<div class="dexdetail"><b>${r.n}</b> <small style="color:var(--ink3)">${r.t.join(" · ")}</small>
+    <div class="evo3">${st.map((x,k)=>`${k?'<span class="ar">→</span>':''}<div class="e"><div class="im">${artWithImage(r,k+1)}</div><small>${k+1}단계<br>${nm(x)}</small></div>`).join("")}</div>
+    <div class="sk"><b>1단계 고유 스킬</b> ${r.sig[0]} · ${r.sig[1]==="hit"?"공격 ×"+r.sig[2]:r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}${E?" · "+E[0]:""}<br><span style="font-size:12.5px">${r.sig[4]}${E?" "+E[1]:""}</span></div>
+    <div class="sk" style="font-size:12.5px"><b>2·3단계 스킬</b>은 속성이 정해요. ${Object.values(ELEM).map(e=>`${e.ic}${e.t2[0]}→${e.t3[0]}`).join(" · ")}</div>
+    ${r.edge?`<div class="sk" style="font-size:12.5px">${r.edge}</div>`:""}
+   </div>`;
+  }
+  return card;
+ }).join("");
+ $("r_dex").querySelectorAll(".d[data-i]").forEach(el=>el.onclick=()=>{const i=+el.dataset.i;DEX_OPEN=DEX_OPEN===i?null:i;drawCodex()});
  $("r_lines").innerHTML=LINES.map(L=>{const n=L.r.filter(x=>have.has(x)).length, ok=n===L.r.length;
   return `<div class="ln ${ok?"done":""}"><div class="lh"><b>${L.n}</b>${ok?`<span class="bo">${L.txt} 적용 중</span>`:`<small>${n}/${L.r.length} · ${L.txt}</small>`}</div><div class="rs">${L.r.map(x=>{const race=RACES.find(q=>q.n===x);return `<div class="r ${have.has(x)?"has":""}"><div class="im">${artWithImage(race)}</div>${x}</div>`}).join("")}</div></div>`}).join("");
 }
