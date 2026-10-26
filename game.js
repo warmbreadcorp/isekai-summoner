@@ -58,12 +58,12 @@ function stageStats(base,race,i){const g=(race.human?GROW_H:GROW)[i];return base
 function power(st){return Math.round(st.reduce((a,v,i)=>a+v*STW[i],0))}
 /* 속성 6종. 물 > 불 > 바람 > 물. 빛 ↔ 어둠은 서로 +10%. 땅은 상성 없음. 유리 +10%, 불리 -10%. */
 const ELEM={
- fire:{n:"불",ic:"🔥",adj:"불꽃",eff:"burn",t2:["화염 폭발","불덩이가 터져요."],t3:["대화재","전부 태워 버려요."],css:"sepia(.25) hue-rotate(-25deg) saturate(1.5)"},
- water:{n:"물",ic:"💧",adj:"물결",eff:"frost",t2:["물결 창","물이 창이 되어 얼려요."],t3:["해일","물이 덮쳐요."],css:"hue-rotate(185deg) saturate(1.15)"},
- earth:{n:"땅",ic:"🪨",adj:"바위",eff:"stun",t2:["바위 던지기","바위로 내리쳐요."],t3:["지진","땅이 흔들려요."],css:"sepia(.45) saturate(.95) brightness(.95)"},
- wind:{n:"바람",ic:"🌪️",adj:"돌풍",eff:"slow",t2:["돌풍","바람으로 밀어요."],t3:["폭풍","바람이 휘몰아쳐요."],css:"hue-rotate(80deg) saturate(.95) brightness(1.05)"},
- light:{n:"빛",ic:"✨",adj:"섬광",eff:"blind",t2:["섬광","눈부신 빛."],t3:["심판의 빛","빛이 쏟아져요."],css:"brightness(1.18) saturate(.8) contrast(.95)"},
- dark:{n:"어둠",ic:"🌑",adj:"그림자",eff:"fear",t2:["그림자 손","그림자가 붙잡아요."],t3:["암흑","어둠이 집어삼켜요."],css:"brightness(.72) saturate(.85) hue-rotate(235deg)"}
+ fire:{n:"불",ic:"🔥",adj:"불꽃",eff:"burn",t2:["화염 폭발","불덩이가 터져요."],t3:["대화재","전부 태워 버려요."],css:"drop-shadow(0 0 10px rgba(255,110,50,.55))"},
+ water:{n:"물",ic:"💧",adj:"물결",eff:"frost",t2:["물결 창","물이 창이 되어 얼려요."],t3:["해일","물이 덮쳐요."],css:"drop-shadow(0 0 10px rgba(70,160,255,.55))"},
+ earth:{n:"땅",ic:"🪨",adj:"바위",eff:"stun",t2:["바위 던지기","바위로 내리쳐요."],t3:["지진","땅이 흔들려요."],css:"drop-shadow(0 0 10px rgba(200,150,80,.55))"},
+ wind:{n:"바람",ic:"🌪️",adj:"돌풍",eff:"slow",t2:["돌풍","바람으로 밀어요."],t3:["폭풍","바람이 휘몰아쳐요."],css:"drop-shadow(0 0 10px rgba(110,220,140,.55))"},
+ light:{n:"빛",ic:"✨",adj:"섬광",eff:"blind",t2:["섬광","눈부신 빛."],t3:["심판의 빛","빛이 쏟아져요."],css:"drop-shadow(0 0 10px rgba(255,236,150,.55))"},
+ dark:{n:"어둠",ic:"🌑",adj:"그림자",eff:"fear",t2:["그림자 손","그림자가 붙잡아요."],t3:["암흑","어둠이 집어삼켜요."],css:"drop-shadow(0 0 10px rgba(150,100,230,.55))"}
 };
 const ELEMBEATS={water:"fire",fire:"wind",wind:"water"};
 function elemAdv(a,b){ // a가 b를 칠 때 %
@@ -263,3 +263,35 @@ function friendsV2(){ // 저장: [{n,d,raw}]
 }
 function setFriendsV2(a){try{localStorage.setItem("ssm_friends2",JSON.stringify(a))}catch(e){}}
 function collection(){try{return JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){return []}}
+
+/* 스킬 아이콘·설명 (도감, 결과, 아레나 공통) */
+const SK_EFFICON={stun:"💫",sleep:"💤",web:"🕸️",burn:"🔥",bleed:"🩸",poison:"☠️",frost:"❄️",shock:"⚡",slow:"🐌",silence:"🔇",blind:"🌫️",fear:"😱",rage:"😡",shield:"🔰",guard:"🛡️",regen:"🌿",heal:"💚",cleanse:"✨",drain:"🧛",random:"🎲"};
+function skillIcon(k){return SK_EFFICON[k[3]]||({hit:"⚔️",debuff:"🌀",buff:"🛡️",heal:"💚"})[k[1]]||"✨"}
+function skillKind(t){return t==="hit"?"공격":t==="heal"?"회복":t==="buff"?"강화":"약화"}
+/* tier: 스킬이 열리는 단계, k: [이름,종류,배율,효과,설명,속성], stat: 데미지 계산용 능력치(없으면 숫자 생략) */
+function skillDetailHTML(tier,k,stat){
+ const eff=k[3]&&EFF[k[3]]?EFF[k[3]]:null;
+ const ups=[]; for(let s=tier+1;s<=3;s++)ups.push(`${s}단계 진화 시 피해 ${20*(s-tier)}% 증가`);
+ const dmg=(k[1]==="hit"&&stat)?` 데미지 ${showDmg(stat,k[2])}.`:"";
+ return `<div class="skd"><b class="skn">${k[0]}</b><p>${k[4]}${dmg} (쿨타임 ${tier}턴)</p>${eff?`<p class="ske">${eff[0]}: ${eff[1]}</p>`:""}${k[1]==="hit"&&ups.length?`<ul>${ups.map(u=>`<li>${u}</li>`).join("")}</ul>`:""}<small>${tier}단계부터 · ${skillKind(k[1])}</small></div>`;
+}
+/* 우편함. 구매·쿠폰·선물은 여기로 오고, 받기를 눌러야 들어온다. */
+const REWARD={ticket:["소환권","img/item_ticket.png"],low:["2단계 진화석","img/item_stone2.png"],high:["3단계 진화석","img/item_stone3.png"],lowfrag:["2단계 진화석 조각","img/item_frag2.png"],highfrag:["3단계 진화석 조각","img/item_frag3.png"]};
+function mails(){try{const now=Date.now();return JSON.parse(localStorage.getItem("ssm_mail")||"[]").filter(m=>!m.exp||m.exp>now)}catch(e){return []}}
+function setMails(a){try{localStorage.setItem("ssm_mail",JSON.stringify(a))}catch(e){}}
+function sendMail(kind,title,reward,days){const a=mails();a.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),kind,title,reward,t:Date.now(),exp:Date.now()+(days||7)*864e5});setMails(a);return a}
+function claimReward(reward){Object.entries(reward).forEach(([k,n])=>{if(k==="ticket"){let t=0;try{t=JSON.parse(localStorage.getItem("ssm_tickets")||"0")}catch(e){}localStorage.setItem("ssm_tickets",JSON.stringify(t+n))}else addItem(k,n)})}
+/* 토론: 종족별 의견. 지금은 이 기기에만 남고, 서버가 열리면 모두에게 보인다. */
+function talks(race){try{return (JSON.parse(localStorage.getItem("ssm_talk")||"{}"))[race]||[]}catch(e){return []}}
+function addTalk(race,o){try{const m=JSON.parse(localStorage.getItem("ssm_talk")||"{}");(m[race]=m[race]||[]).unshift(o);localStorage.setItem("ssm_talk",JSON.stringify(m))}catch(e){}}
+function likeTalk(race,id){try{const m=JSON.parse(localStorage.getItem("ssm_talk")||"{}");const t=(m[race]||[]).find(x=>x.id===id);if(t){t.liked=!t.liked;t.like=(t.like||0)+(t.liked?1:-1)}localStorage.setItem("ssm_talk",JSON.stringify(m))}catch(e){}}
+/* 아레나 대전권. 1시간에 1개씩 차고 최대 10개. */
+const ARENA_MAX=10, ARENA_REGEN=3600*1000;
+function arenaTickets(){
+ let s; try{s=JSON.parse(localStorage.getItem("ssm_atk")||"null")}catch(e){}
+ if(!s)s={n:ARENA_MAX,t:Date.now()};
+ if(s.n>=ARENA_MAX){s.t=Date.now()}else{const add=Math.floor((Date.now()-s.t)/ARENA_REGEN);if(add>0){s.n=Math.min(ARENA_MAX,s.n+add);s.t=s.n>=ARENA_MAX?Date.now():s.t+add*ARENA_REGEN}}
+ try{localStorage.setItem("ssm_atk",JSON.stringify(s))}catch(e){}
+ return {n:s.n,next:s.n>=ARENA_MAX?0:ARENA_REGEN-(Date.now()-s.t)};
+}
+function useArenaTicket(){const a=arenaTickets();if(a.n<=0)return false;let s=JSON.parse(localStorage.getItem("ssm_atk"));if(s.n>=ARENA_MAX)s.t=Date.now();s.n--;localStorage.setItem("ssm_atk",JSON.stringify(s));return true}

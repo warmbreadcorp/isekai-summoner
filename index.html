@@ -280,6 +280,136 @@ button{font-family:inherit;cursor:pointer}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .stage .bob{animation:bob 3.2s ease-in-out infinite;transform-origin:center}
 .hero .stage{width:240px;height:240px}
+
+.mycode2{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:2px 10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:12px}
+.mycode2 small{color:var(--ink3);font-size:12px}
+.mycode2 b{grid-row:2;font-size:18px;letter-spacing:1px;font-family:ui-monospace,Menlo,monospace}
+.mycode2 .btn{grid-row:1/3;grid-column:2;width:auto;margin:0;padding:11px 18px}
+/* 우편함 */
+.dnav button .bdg{float:right;background:#e2483a;color:#fff;border-radius:999px;font-size:12px;font-weight:800;padding:0 8px;line-height:20px}
+.mailtop{display:flex;justify-content:space-between;align-items:center;margin:12px 0 4px}
+.mailtop .btn{width:auto;margin:0;padding:9px 14px;font-size:13.5px}
+.mail{display:grid;grid-template-columns:44px 1fr auto auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:8px}
+.mail .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--paper2)}
+.mail .ic.buy{background:color-mix(in srgb,var(--gold2) 30%,var(--paper2))}
+.mail .tt{font-size:14px;line-height:1.4}
+.mail .tt small{display:block;color:var(--ink3);font-size:12px}
+.mail .rw{display:flex;align-items:center;gap:4px;font-weight:800;font-size:13px;white-space:nowrap}
+.mail .rw img{width:30px;height:30px;object-fit:contain}
+.mail .btn{width:auto;margin:0;padding:9px 14px;font-size:13.5px}
+/* 친구 랭킹 */
+.frk{display:grid;grid-template-columns:28px 52px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:8px}
+.frk.me{border-color:var(--gold2);background:color-mix(in srgb,var(--gold2) 10%,var(--paper))}
+.frk .no{font-weight:900;font-size:16px;color:var(--ink3);text-align:center}
+.frk .no.top{color:var(--gold)}
+.frk .im{width:52px;height:52px;border-radius:12px;background:var(--paper2);overflow:hidden}
+.frk .im svg,.frk .im img{width:100%;height:100%;object-fit:contain;display:block}
+.frk b{display:block;font-size:15px}
+.frk small{color:var(--ink3);font-size:12px}
+.frk .pw{font-weight:900;font-size:16px;text-align:right;white-space:nowrap}
+.frk .pw small{display:block;font-weight:600;color:var(--gold)}
+.frk .acts{grid-column:2/5;display:flex;gap:6px}
+.frk .acts a,.frk .acts button{flex:1;text-align:center;font-size:13px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper2);color:var(--ink);text-decoration:none;cursor:pointer}
+/* 스킬 아이콘 + 설명 */
+.skrow{display:flex;gap:8px;flex-wrap:wrap}
+.skic{width:60px;height:60px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper2);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;cursor:pointer;flex:none}
+.skic.on{border-color:var(--gold2);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold2) 45%,transparent)}
+.skic.lock{opacity:.35}
+.skic .t{position:absolute;right:4px;bottom:2px;font-size:11px;font-weight:900;color:var(--ink2)}
+.skic.fire{background:color-mix(in srgb,#ff6e32 22%,var(--paper2));border-color:color-mix(in srgb,#ff6e32 55%,var(--line))}
+.skic.water{background:color-mix(in srgb,#46a0ff 22%,var(--paper2));border-color:color-mix(in srgb,#46a0ff 55%,var(--line))}
+.skic.earth{background:color-mix(in srgb,#c89650 22%,var(--paper2));border-color:color-mix(in srgb,#c89650 55%,var(--line))}
+.skic.wind{background:color-mix(in srgb,#6edc8c 22%,var(--paper2));border-color:color-mix(in srgb,#6edc8c 55%,var(--line))}
+.skic.light{background:color-mix(in srgb,#fff0aa 30%,var(--paper2));border-color:color-mix(in srgb,#e0c860 55%,var(--line))}
+.skic.dark{background:color-mix(in srgb,#9664e6 25%,var(--paper2));border-color:color-mix(in srgb,#9664e6 55%,var(--line))}
+.skbox{margin-top:10px;background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.skd .skn{display:block;font-size:16px;margin-bottom:4px}
+.skd p{margin:0 0 4px;font-size:14px;color:var(--ink);line-height:1.6}
+.skd p.ske{color:var(--ink2);font-size:13px}
+.skd ul{margin:6px 0;padding-left:18px;font-size:13px;color:var(--ink2)}
+.skd small{color:var(--ink3);font-size:12px}
+/* 소환수 정보 모달 (도감) */
+.mi{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:70;display:flex;align-items:center;justify-content:center;padding:14px}
+.mi .box{width:100%;max-width:520px;max-height:92vh;background:var(--bg);border:1px solid var(--line);border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
+.mi .hd{display:grid;grid-template-columns:56px 1fr 34px;gap:10px;align-items:center;padding:14px 14px 10px}
+.mi .hd .im{width:56px;height:56px;border-radius:14px;background:var(--paper2);overflow:hidden}
+.mi .hd .im svg,.mi .hd .im img{width:100%;height:100%;object-fit:contain}
+.mi .hd b{font-size:18px;display:block}
+.mi .hd small{color:var(--ink3);font-size:12.5px}
+.mi .hd .x{width:34px;height:34px;border-radius:999px;border:none;background:var(--paper2);color:var(--ink);font-size:15px;cursor:pointer}
+.mi .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 14px 10px}
+.mi .tabs button{border:1px solid var(--line);background:var(--paper);color:var(--ink2);border-radius:10px;padding:9px;font-size:14px;font-weight:700;cursor:pointer}
+.mi .tabs button.on{border-color:var(--gold2);color:var(--ink);background:color-mix(in srgb,var(--gold2) 14%,var(--paper))}
+.mi .bd{overflow:auto;padding:0 14px 14px;flex:1;min-height:0}
+.mi .evo3{display:flex;align-items:center;justify-content:space-between;gap:4px;margin:4px 0 10px}
+.mi .evo3 .e{flex:1;text-align:center;font-size:12px;color:var(--ink2)}
+.mi .evo3 .e .im{width:100%;aspect-ratio:1;max-width:120px;margin:0 auto}
+.mi .evo3 .e .im svg,.mi .evo3 .e .im img{width:100%;height:100%;object-fit:contain}
+.mi .evo3 .ar{color:var(--ink3)}
+.mi .lore{font-size:14px;line-height:1.7;color:var(--ink2);margin:0 0 8px}
+.tk-sort{display:flex;gap:14px;margin-bottom:6px;font-size:13.5px}
+.tk-sort button{background:none;border:none;color:var(--ink3);font-weight:700;cursor:pointer;padding:4px 0}
+.tk-sort button.on{color:var(--ink)}
+.tk-sort button.on::before{content:"✓ ";color:var(--gold)}
+.tk{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.tk .who{font-size:12.5px;color:var(--gold);font-weight:700}
+.tk .who small{color:var(--ink3);font-weight:400;margin-left:6px}
+.tk .tx{grid-column:1/2;font-size:14.5px;line-height:1.55;word-break:break-all}
+.tk .lk{grid-row:1/3;grid-column:2;align-self:center;border:1px solid var(--line);background:var(--paper);color:var(--ink2);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer}
+.tk .lk.on{border-color:var(--gold2);color:var(--ink)}
+.tkin{display:grid;grid-template-columns:1fr auto;gap:6px;padding:10px 14px;border-top:1px solid var(--line);background:var(--paper)}
+.tkin input{margin:0}
+.tkin .btn{width:auto;margin:0;padding:10px 16px;font-size:14px}
+.tkin label{grid-column:1/3;font-size:12.5px;color:var(--ink2);display:flex;gap:6px;align-items:center;margin:0}
+.tkin label input{width:auto}
+/* 소환 연출 */
+.mi.hidden,.tkin.hidden,.circle .info.hidden,.circle .ctext.hidden{display:none}
+.circle.altar{background:#05040a url(img/bg/summon.jpg) center/cover no-repeat}
+.circle.altar::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 58%,transparent 0,rgba(5,4,10,.25) 45%,rgba(5,4,10,.85) 100%)}
+.circle.altar .ring{z-index:1;margin-top:8vh}
+.circle.altar .ring svg{opacity:.9;filter:drop-shadow(0 0 18px rgba(120,140,255,.8))}
+.circle.altar .ring svg circle,.circle.altar .ring svg polygon{stroke:#9fb4ff}
+.circle .beam{position:absolute;left:50%;bottom:30%;width:46vw;max-width:260px;height:120vh;transform:translateX(-50%);background:linear-gradient(0deg,rgba(150,170,255,.9),rgba(150,170,255,0));filter:blur(14px);opacity:0;animation:beam 2.4s ease-out forwards;z-index:1;pointer-events:none}
+.circle .flash{position:absolute;inset:0;background:#fff;opacity:0;animation:flash 2.6s ease-out forwards;z-index:3;pointer-events:none}
+@keyframes beam{0%{opacity:0}35%{opacity:.95}100%{opacity:.25}}
+@keyframes flash{0%,62%{opacity:0}70%{opacity:.85}100%{opacity:0}}
+.circle.altar .who{inset:-6% 0 14% 0}
+.circle.altar .ctext{z-index:2;position:relative}
+.circle .info{position:relative;z-index:4;width:min(92vw,420px);margin-top:14px;background:rgba(14,12,20,.86);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px 16px;color:#ece7dc;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);animation:fadein .4s}
+.circle .info .nm{display:flex;align-items:center;justify-content:center;gap:8px;font-size:20px;font-weight:800}
+.circle .info .nm .st{color:#f2c75c;font-size:15px;letter-spacing:-1px}
+.circle .info .sub2{text-align:center;color:#a9a398;font-size:13px;margin:2px 0 10px}
+.circle .info .gr{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:4px 12px;font-size:14px}
+.circle .info .gr span:nth-child(odd){color:#a9a398}
+.circle .info .gr span:nth-child(even){font-weight:800;text-align:right}
+.circle .info .sks{display:flex;gap:6px;justify-content:center;margin:12px 0 4px}
+.circle .info .sks .skic{width:46px;height:46px;font-size:22px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15)}
+.circle .info .btn{margin-top:12px}
+
+/* 게임 테마: 항상 어두운 판타지 톤, 금빛 테두리, 빛나는 버튼 */
+:root,:root[data-theme],:root:not([data-theme="light"]){--bg:#0b0a14;--paper:#161424;--paper2:#1f1c31;--line:rgba(226,186,98,.22);--ink:#f5ecd8;--ink2:#c9bfa8;--ink3:#8a8170;--gold:#f2c75c;--gold2:#e8b44c;--lock:#24213a}
+body{background:radial-gradient(120% 60% at 50% -10%,#2a1f4d 0%,rgba(11,10,20,0) 60%),radial-gradient(80% 40% at 50% 110%,#1b1438 0%,rgba(11,10,20,0) 70%),#0b0a14;background-attachment:fixed}
+.card,.sec,.hero,.panel .mail,.frk,.mycode2,.invgrid,.invdetail,.rlist li,.fr .f{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 40%),var(--paper);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,235,180,.06),0 10px 28px rgba(0,0,0,.35)}
+.hero{border-color:rgba(242,199,92,.45);box-shadow:inset 0 0 40px rgba(242,199,92,.06),0 0 0 1px rgba(0,0,0,.4),0 14px 40px rgba(0,0,0,.45)}
+.sec h3{display:flex;align-items:center;gap:8px;font-size:15px;letter-spacing:.5px;color:var(--gold);margin-bottom:12px}
+.sec h3::before{content:"◆";font-size:9px;color:var(--gold2)}
+.sec h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(242,199,92,.45),rgba(242,199,92,0))}
+.btn{background:linear-gradient(180deg,#3a3360,#272246);color:var(--ink);border:1px solid rgba(180,160,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px rgba(0,0,0,.35);border-radius:14px;font-weight:800;letter-spacing:.2px}
+.btn.gold{background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02;border:1px solid #ffe7a6;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(120,80,10,.5),0 8px 22px rgba(232,176,74,.32)}
+.btn.ghost{background:rgba(255,255,255,.04);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn:disabled{filter:grayscale(.6) brightness(.7)}
+.tb,.hamb{background:rgba(22,20,36,.85);border:1px solid var(--line);color:var(--ink);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.panel{background:radial-gradient(120% 50% at 50% -10%,#241b44 0%,rgba(11,10,20,0) 60%),#0b0a14}
+.panel .ph{justify-content:flex-start;font-size:19px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.panel .ph b{color:var(--ink);letter-spacing:.3px}
+.drawer{background:linear-gradient(180deg,#1a1730,#110f1e);border-left:1px solid rgba(242,199,92,.35)}
+.drawer .dnav button{background:rgba(255,255,255,.03);border:1px solid var(--line);font-weight:700}
+.drawer .dnav button:active{background:rgba(242,199,92,.12)}
+.skic,.dex .d,.invgrid .slot{border-color:rgba(226,186,98,.28)}
+.skic.on{box-shadow:0 0 0 2px var(--gold),0 0 16px rgba(242,199,92,.45)}
+.mi .box{background:linear-gradient(180deg,#1a1730,#110f1e);border:1px solid rgba(242,199,92,.4);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mi .tabs button.on,.rtabs button.on{background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02;border-color:#ffe7a6}
+input,select{background:#100e1c!important;border-color:var(--line)!important;color:var(--ink)!important}
 </style>
 </head>
 <body>
@@ -291,6 +421,7 @@ button{font-family:inherit;cursor:pointer}
   <div class="dsec" id="rank" style="border-top:0;padding-top:0;margin-top:14px"><div class="dhead"><b>랭킹</b><button class="lnk" id="rankmore">상세 보기 ›</button></div><div class="rk" id="rk"></div></div>
   <div class="dsec" id="notice"><button class="acc" id="noticetoggle"><b>공지사항</b><span>▾</span></button><ul class="nlist hidden" id="nlist"></ul></div>
   <nav class="dnav">
+    <button data-go="mailsec">우편함 <span class="bdg hidden" id="mailbdg">0</span></button>
     <button data-go="colsec">소환수 목록</button>
     <button data-go="dexsec">소환수 도감</button>
     <button data-go="frsec">친구 목록</button>
@@ -299,6 +430,17 @@ button{font-family:inherit;cursor:pointer}
   <div class="dsec" id="couponsec"><button class="btn ghost" id="couponopen" style="margin:0">쿠폰 입력하기</button><div class="hidden" id="couponbox"><div class="drow" style="margin-top:8px"><input id="coupon" placeholder="쿠폰 코드"><button class="btn gold" id="couponbtn">등록</button></div><p class="mini" id="couponmsg"></p></div></div>
 </aside>
 
+<section class="panel hidden" id="mailsec">
+  <div class="ph"><button class="back" data-close="mailsec">‹</button><b>우편함</b></div>
+  <div class="mailtop"><span class="mini" id="mailcnt" style="margin:0"></span><button class="btn gold" id="mailall">모두 받기</button></div>
+  <div id="r_mail"></div>
+</section>
+<div class="mi hidden" id="mi"><div class="box">
+  <div class="hd"><div class="im" id="mi_im"></div><div><b id="mi_nm"></b><small id="mi_sub"></small></div><button class="x" id="mi_x">✕</button></div>
+  <div class="tabs" id="mi_tabs"><button data-t="info" class="on">정보</button><button data-t="skill">스킬</button><button data-t="talk">토론</button></div>
+  <div class="bd" id="mi_bd"></div>
+  <div class="tkin hidden" id="mi_in"><input id="tk_txt" maxlength="120" placeholder="이 소환수에 대한 의견을 남겨 주세요."><button class="btn gold" id="tk_go">작성</button><label><input type="checkbox" id="tk_show" checked> 내 소환수 공개</label></div>
+</div></div>
 <section class="panel hidden" id="colsec">
   <div class="ph"><button class="back" data-close="colsec">‹</button><b>소환수 목록</b></div>
   <div class="col" id="r_col"></div>
@@ -317,10 +459,10 @@ button{font-family:inherit;cursor:pointer}
 </section>
 <section class="panel hidden" id="frsec">
   <div class="ph"><button class="back" data-close="frsec">‹</button><b>친구 목록</b></div>
-  <div class="mycode" style="margin-top:12px"><div><small>내 친구 코드</small><b id="mycode"></b></div><button class="btn ghost" id="mycodecopy" style="margin:0;padding:10px 12px;font-size:13.5px;width:auto">복사</button></div>
-  <p class="mini" style="margin-top:6px">이 코드를 친구에게 보내면 친구가 나를 추가하고 아레나에서 내 방어덱과 싸울 수 있어요. 방어덱은 아레나에서 등록해요.</p>
-  <div class="drow" style="display:grid;grid-template-columns:1fr 72px;gap:6px;margin-top:14px"><input id="frcode" placeholder="친구 코드 입력"><button class="btn gold" id="fradd" style="margin:0;padding:11px;font-size:14px">추가</button></div>
+  <div class="mycode2"><small>내 친구 코드</small><b id="mycode"></b><button class="btn gold" id="mycodecopy">복사</button></div>
+    <div class="drow" style="display:grid;grid-template-columns:1fr 72px;gap:6px;margin-top:14px"><input id="frcode" placeholder="친구 코드 입력"><button class="btn gold" id="fradd" style="margin:0;padding:11px;font-size:14px">추가</button></div>
   <p class="mini" id="frmsg"></p>
+  <h3 style="margin:18px 0 0;font-size:14px;color:var(--gold)">친구 랭킹 <small style="color:var(--ink3);font-weight:400" id="fr_n"></small></h3>
   <div class="fr" id="r_fr"></div>
 </section>
 <section class="panel hidden" id="dexsec">
@@ -450,10 +592,10 @@ button{font-family:inherit;cursor:pointer}
 
 <div class="foot">이세계에서 내 파트너를 소환하고 함께 성장하세요.<br>이세치 세계관</div>
 </div>
-<div class="circle hidden" id="circle"><div class="ring"><svg viewBox="0 0 200 200"><defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset=".6" stop-color="#d2b35c" stop-opacity=".25"/><stop offset="1" stop-color="#d2b35c" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="90" fill="url(#cg)"/><g class="spin"><circle cx="100" cy="100" r="78" fill="none" stroke="#d2b35c" stroke-width="1.5" stroke-dasharray="6 4"/><circle cx="100" cy="100" r="62" fill="none" stroke="#d2b35c" stroke-width="1"/><polygon points="100,30 160,135 40,135" fill="none" stroke="#d2b35c" stroke-width="1.2"/><polygon points="100,170 40,65 160,65" fill="none" stroke="#d2b35c" stroke-width="1.2"/>${"".padEnd(0)}</g><g class="spin2"><circle cx="100" cy="100" r="88" fill="none" stroke="#d2b35c" stroke-width=".8" stroke-dasharray="2 6"/></g></svg><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div></div>
+<div class="circle altar hidden" id="circle"><div class="ring"><svg viewBox="0 0 200 200"><defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset=".6" stop-color="#d2b35c" stop-opacity=".25"/><stop offset="1" stop-color="#d2b35c" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="90" fill="url(#cg)"/><g class="spin"><circle cx="100" cy="100" r="78" fill="none" stroke="#d2b35c" stroke-width="1.5" stroke-dasharray="6 4"/><circle cx="100" cy="100" r="62" fill="none" stroke="#d2b35c" stroke-width="1"/><polygon points="100,30 160,135 40,135" fill="none" stroke="#d2b35c" stroke-width="1.2"/><polygon points="100,170 40,65 160,65" fill="none" stroke="#d2b35c" stroke-width="1.2"/>${"".padEnd(0)}</g><g class="spin2"><circle cx="100" cy="100" r="88" fill="none" stroke="#d2b35c" stroke-width=".8" stroke-dasharray="2 6"/></g></svg><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div><div class="info hidden" id="c_info"></div><div class="beam"></div><div class="flash"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=19"></script>
+<script src="game.js?v=22"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -533,7 +675,7 @@ function drawCodex(){
   const own=have.has(r.n);
   const card=own?`<div class="d" data-i="${i}"><div class="im">${artWithImage(r)}</div><b>${r.n}</b><small>${r.sig[0]}</small></div>`
    :`<div class="d empty"><div class="im">${art(r)}</div><b>?</b><small>No.${String(i+1).padStart(2,"0")}</small></div>`;
-  if(own&&DEX_OPEN===i){
+  if(false){
    const P=main(r), st=[P.r[0],P.r[Math.max(1,Math.floor((P.r.length-1)/2))],P.r[P.r.length-1]];
    const E=r.sig[3]?EFF[r.sig[3]]:null;
    return card+`<div class="dexdetail"><b>${r.n}</b> <small style="color:var(--ink3)">${r.t.join(" · ")}</small>
@@ -546,13 +688,57 @@ function drawCodex(){
   }
   return card;
  }).join("");
- $("r_dex").querySelectorAll(".d[data-i]").forEach(el=>el.onclick=()=>{const i=+el.dataset.i;DEX_OPEN=DEX_OPEN===i?null:i;drawCodex()});
+ $("r_dex").querySelectorAll(".d[data-i]").forEach(el=>el.onclick=()=>openMI(+el.dataset.i));
  $("r_lines").innerHTML=LINES.map(L=>{const n=L.r.filter(x=>have.has(x)).length, ok=n===L.r.length;
   return `<div class="ln ${ok?"done":""}"><div class="lh"><b>${L.n}</b>${ok?`<span class="bo">${L.txt} 적용 중</span>`:`<small>${n}/${L.r.length} · ${L.txt}</small>`}</div><div class="rs">${L.r.map(x=>{const race=RACES.find(q=>q.n===x);return `<div class="r ${have.has(x)?"has":""}"><div class="im">${artWithImage(race)}</div>${x}</div>`}).join("")}</div></div>`}).join("");
 }
+/* 소환수 정보: 정보 · 스킬 · 토론 */
+let MI=null, MI_TAB="info", TK_SORT="new";
+function myOfRace(r){const c=collection().filter(x=>{const d=decode(x);return d&&judge(d.b,d.a).race.n===r.n});return c.sort((a,b)=>getStage(b)-getStage(a))[0]||null}
+function openMI(i){MI=RACES[i];MI_TAB="info";$("mi").classList.remove("hidden");drawMI()}
+function drawMI(){
+ const r=MI, mine=myOfRace(r), md=mine?decode(mine):null, MR=md?judge(md.b,md.a):null, mst=mine?getStage(mine):1;
+ $("mi_im").innerHTML=artWithImage(r,mst,MR?MR.elem:null); $("mi_nm").textContent=r.n; $("mi_sub").textContent=r.t.join(" · ");
+ $("mi_tabs").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.t===MI_TAB));
+ $("mi_in").classList.toggle("hidden",MI_TAB!=="talk");
+ const nm=x=>x.replace(/〔.*?〕/,"");
+ if(MI_TAB==="info"){
+  $("mi_bd").innerHTML=`<div class="evo3">${r.line.map((x,k)=>`${k?'<span class="ar">›</span>':''}<div class="e"><div class="im">${artWithImage(r,k+1,MR?MR.elem:null)}</div>${"★".repeat(k+1)}<br>${nm(x)}</div>`).join("")}</div><p class="lore">${r.lore}</p><p class="lore">${r.ch}</p>${r.edge?`<p class="lore">${r.edge}</p>`:""}`;
+ }else if(MI_TAB==="skill"){
+  const elem=MR?MR.elem:"fire";
+  const sk=[[1,FORMSK[r.f]||FORMSK[""]],[2,raceElemSkill(r,elem,2)],[3,raceElemSkill(r,elem,3)]];
+  const stat=MR?(["mana","divine","spirit"].includes(MR.pow)?stageStats(MR.base,r,mst-1)[2]:stageStats(MR.base,r,mst-1)[1]):null;
+  let sel=0;
+  const draw=()=>{$("mi_bd").innerHTML=`<div class="skrow">${sk.map(([t,k],j)=>`<div class="skic ${j===sel?"on":""} ${k[1]==="hit"||k[1]==="debuff"?(k[5]||""):""}" data-j="${j}">${skillIcon(k)}<span class="t">${t}</span></div>`).join("")}</div><div class="skbox">${skillDetailHTML(sk[sel][0],sk[sel][1],stat)}</div>${MR?"":`<p class="mini">2·3단계 스킬은 속성에 따라 효과가 달라져요. 지금은 불 속성 기준이에요.</p>`}`;
+   $("mi_bd").querySelectorAll(".skic").forEach(e=>e.onclick=()=>{sel=+e.dataset.j;draw()})};
+  draw();
+ }else{
+  let a=talks(r.n).slice(); if(TK_SORT==="like")a.sort((x,y)=>(y.like||0)-(x.like||0));
+  $("mi_bd").innerHTML=`<div class="tk-sort"><button data-s="new" class="${TK_SORT==="new"?"on":""}">최신</button><button data-s="like" class="${TK_SORT==="like"?"on":""}">추천</button></div>`+(a.map(t=>`<div class="tk"><div class="who">${t.n}${t.mon?`<small>${t.mon}</small>`:""}</div><button class="lk ${t.liked?"on":""}" data-id="${t.id}">👍 ${t.like||0}</button><div class="tx">${t.tx.replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"})[c])} <small style="color:var(--ink3)">(${new Date(t.t).toLocaleDateString("ko-KR")})</small></div></div>`).join("")||`<p class="mini" style="text-align:center;padding:30px 0">아직 의견이 없어요.</p>`);
+  $("mi_bd").querySelectorAll(".tk-sort button").forEach(b=>b.onclick=()=>{TK_SORT=b.dataset.s;drawMI()});
+  $("mi_bd").querySelectorAll(".lk").forEach(b=>b.onclick=()=>{likeTalk(r.n,b.dataset.id);drawMI()});
+ }
+}
+$("mi_tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{MI_TAB=b.dataset.t;drawMI()});
+$("mi_x").onclick=()=>$("mi").classList.add("hidden");
+$("mi").onclick=e=>{if(e.target===$("mi"))$("mi").classList.add("hidden")};
+$("tk_go").onclick=()=>{const tx=$("tk_txt").value.trim();if(!tx)return;const mine=myOfRace(MI);let mon="";if($("tk_show").checked&&mine){const d=decode(mine);mon=`${"★".repeat(getStage(mine))} ${judge(d.b,d.a).stages[getStage(mine)-1].replace(/〔.*?〕/,"")}`}
+ addTalk(MI.n,{id:Date.now().toString(36),n:myNickName()||"소환사",mon,tx,t:Date.now(),like:0});$("tk_txt").value="";TK_SORT="new";drawMI()};
 let CUR_ELEM=null;
-function summonIntro(race,stage,text,elem){ CUR_ELEM=elem||null;
- return new Promise(res=>{const c=$("circle");$("c_art").innerHTML=artWithImage(race,stage,CUR_ELEM);$("c_text").textContent=text||"소환진이 빛나요";c.classList.remove("hidden");setTimeout(()=>{c.classList.add("hidden");res()},3000)});
+function summonIntro(race,stage,text,elem,R){ CUR_ELEM=elem||null;
+ return new Promise(res=>{const c=$("circle");$("c_art").innerHTML=artWithImage(race,stage,CUR_ELEM);$("c_text").textContent=text||"소환진이 빛나요";$("c_text").classList.remove("hidden");$("c_info").classList.add("hidden");c.classList.remove("hidden");
+  setTimeout(()=>{
+   if(!R){c.classList.add("hidden");res();return}
+   const st=stageStats(R.base,R.race,stage-1), sk=R.skills.filter(([t])=>t<=stage);
+   $("c_text").classList.add("hidden");
+   $("c_info").innerHTML=`<div class="nm">${ELEM[R.elem].ic} ${R.stages[stage-1].replace(/〔.*?〕/,"")} <span class="st">${"★".repeat(stage)}</span></div>
+    <div class="sub2">${R.race.n} · ${POW[R.pow][1]} · ${G[R.path.g-1]||""} · 전투력 ${power(st)}</div>
+    <div class="gr">${STN.map((n,i)=>`<span>${n}</span><span>${i===0?st[0]*10:st[i]}</span>`).join("")}<span>속도</span><span>${Math.min(120,Math.round(st[3]*1.2))}</span></div>
+    <div class="sks">${sk.map(([t,k])=>`<div class="skic ${k[1]==="hit"||k[1]==="debuff"?(k[5]||""):""}">${skillIcon(k)}<span class="t">${t}</span></div>`).join("")}</div>
+    <button class="btn gold" id="c_ok">확인</button>`;
+   $("c_info").classList.remove("hidden");
+   $("c_ok").onclick=()=>{c.classList.add("hidden");res()};
+  },2700)});
 }
 function drawEvolve(){
  const code=location.hash.replace("#",""), st=getStage(code), box=$("r_evolve"); if(!box)return;
@@ -567,7 +753,7 @@ async function doEvolve(){
  const code=location.hash.replace("#",""), st=getStage(code); if(!code||st>=3)return;
  const [kind,need]=EVOLVE_NEED[st+1]; if((items()[kind]||0)<need){toast(`${STONE[kind][0]}이 ${need}개 필요해요`);return}
  addItem(kind,-need);setStage(code,st+1);track("evolve_"+(st+1));
- const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"});
+ const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem,R);draw(R);window.scrollTo({top:0,behavior:"smooth"});
 }
 function dailyXp(){const code=location.hash.replace("#","");if(!code)return;const key="ssm_dx_"+code;const d=ST.get(key,"");if(d!==today()){ST.set(key,today());addXp(code,XP_GAIN.daily)}}
 function summon(){
@@ -578,7 +764,7 @@ function summon(){
  const b={y:String(1900+Math.floor(r()*200)),m:String(1+Math.floor(r()*12)),d:String(1+Math.floor(r()*28)),h:String(Math.floor(r()*12))};
  const code=encode(b,answers,NICK); addToCollection(code);
  birth=b; try{location.hash=code}catch(e){}
- const R=judge(birth,answers); summonIntro(R.race,1,null,R.elem).then(()=>{draw(R);window.scrollTo({top:0,behavior:"smooth"});toast("새 친구가 왔어요")});
+ const R=judge(birth,answers); summonIntro(R.race,1,null,R.elem,R).then(()=>{draw(R);window.scrollTo({top:0,behavior:"smooth"});toast("새 친구가 왔어요")});
 }
 
 /* 입력 */
@@ -609,7 +795,22 @@ const NOTICES=[
  {d:"2026-10-26",t:"쿠폰 WELCOME",b:"마이페이지 맨 아래 쿠폰 입력하기에 WELCOME을 넣으면 소환권 1개를 드려요."}
 ];
 function openDrawer(o){$("drawer").classList.toggle("open",o);$("drawerbg").classList.toggle("hidden",!o);if(o)drawMe()}
+const MAILICON={gift:"🎁",coupon:"🎟️",buy:"💳",event:"🎉"};
+function drawMail(){
+ const a=mails(); $("mailcnt").textContent=a.length?`받을 우편 ${a.length}개`:"";
+ $("mailall").disabled=!a.length;
+ $("r_mail").innerHTML=a.map(m=>{const left=m.exp-Date.now(), d=Math.floor(left/864e5), h=Math.floor(left%864e5/36e5);
+  return `<div class="mail"><div class="ic ${m.kind==="buy"?"buy":""}">${MAILICON[m.kind]||"✉️"}</div><div class="tt">${m.title}<small>⏳ ${d?d+"일 ":""}${h}시간 남음</small></div><div class="rw">${Object.entries(m.reward).map(([k,n])=>`<img src="${REWARD[k][1]}" alt="${REWARD[k][0]}">×${n}`).join(" ")}</div><button class="btn gold" data-id="${m.id}">받기</button></div>`}).join("")||`<p class="mini" style="text-align:center;padding:40px 0">우편함이 비었어요.</p>`;
+ $("r_mail").querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>takeMail([b.dataset.id]));
+}
+function takeMail(ids){
+ const a=mails(), got={}; const rest=a.filter(m=>{if(!ids.includes(m.id))return true;claimReward(m.reward);Object.entries(m.reward).forEach(([k,n])=>got[k]=(got[k]||0)+n);return false});
+ setMails(rest); toast(Object.entries(got).map(([k,n])=>`${REWARD[k][0]} ${n}개`).join(", ")+" 받았어요");
+ drawMail(); drawMe(); try{drawTickets()}catch(e){}
+}
+$("mailall").onclick=()=>takeMail(mails().map(m=>m.id));
 function drawMe(){
+ const mn=mails().length; $("mailbdg").textContent=mn; $("mailbdg").classList.toggle("hidden",!mn);
  const col=collection(), code=location.hash.replace("#",""), d=decode(code), it=items(), rc=rec();
  $("d_me").innerHTML=`<b>${(d&&d.nick)||NICK||"소환사"}</b><br>소환수 ${col.length}마리 · 친구 ${friendsV2().length}명 · 도감 ${ownedRaces(col).size}/${RACES.length}`;
  $("rk").innerHTML=`<div><small>던전 랭킹</small><b>${rc.dungeon||0}층</b><small>최고 기록</small></div><div><small>아레나 랭킹</small><b>${rc.wins||0}승</b><small>${rc.losses||0}패</small></div>`;
@@ -643,10 +844,11 @@ function drawRank(){
 document.querySelectorAll(".rtabs button").forEach(b=>b.onclick=()=>{RT=b.dataset.rt;drawRank()});
 $("rankmore").onclick=()=>{openDrawer(false);drawRank();$("ranksec").classList.remove("hidden")};
 $("noticetoggle").onclick=()=>{const l=$("nlist");l.classList.toggle("hidden");$("noticetoggle").querySelector("span").textContent=l.classList.contains("hidden")?"▾":"▴"};
+function myNickName(){return (decode(location.hash.replace("#",""))||decode(localStorage.getItem("ssm_last")||"")||{}).nick||NICK||""}
 function myFriendCode(){
- const nick=(decode(location.hash.replace("#",""))||{}).nick||NICK||"";
+ const nick=myNickName();
  let deck=defDeck().filter(c=>collection().includes(c)).map(c=>[c,getStage(c)]);
- if(!deck.length){const my=location.hash.replace("#","")||ST.get("ssm_last","");if(my&&decode(my))deck=[[my,getStage(my)]]}
+ if(!deck.length){const my=location.hash.replace("#","")||localStorage.getItem("ssm_last")||"";if(my&&decode(my))deck=[[my,getStage(my)]]}
  return deck.length?makeFriendCode(nick,deck):"";
 }
 function drawDefDeck(){
@@ -657,10 +859,17 @@ function drawDefDeck(){
 }
 function drawFriends(){
  const my=myFriendCode();
- $("mycode").textContent=my||"먼저 소환해 주세요";
+ $("mycode").textContent=my?my.slice(0,6)+"…"+my.slice(-4):"-"; $("mycodecopy").disabled=!my;
  $("mycodecopy").onclick=async()=>{try{await navigator.clipboard.writeText(my);toast("내 친구 코드를 복사했어요")}catch(e){toast("복사가 막혀 있어요")}};
  const fr=friendsV2();
- $("r_fr").innerHTML=fr.map((f,i)=>{const first=decode(f.d[0][0]);const R=judge(first.b,first.a);return `<div class="f"><div class="im">${artWithImage(R.race,f.d[0][1],R.elem)}</div><div><b>${f.n||"이름 없음"}</b><small>방어덱 ${f.d.length}마리 · ${f.d.map(x=>{const dd=decode(x[0]);const RR=judge(dd.b,dd.a);return RR.stages[x[1]-1].replace(/〔.*?〕/,"")}).join(", ")}</small></div><div class="acts"><a href="battle.html?f=${i}">아레나</a><button data-rm="${i}">삭제</button></div></div>`}).join("")||`<p class="mini">아직 친구가 없어요. 친구 코드를 받아서 넣어 보세요.</p>`;
+ const dp=d=>d.reduce((s,[c,st])=>{const dd=decode(c);const R=judge(dd.b,dd.a);return s+power(stageStats(R.base,R.race,st-1))},0);
+ const meCode=parseFriendCode(my);
+ const rows=fr.map((f,i)=>({f,i,p:dp(f.d)}));
+ if(meCode)rows.push({f:{...meCode,n:meCode.n||"나"},i:-1,p:dp(meCode.d),me:true});
+ rows.sort((a,b)=>b.p-a.p);
+ $("fr_n").textContent=fr.length?`${fr.length}명`:"";
+ $("r_fr").innerHTML=(fr.length?rows:[]).map((r,k)=>{const f=r.f, top=f.d.slice().sort((a,b)=>b[1]-a[1])[0], dd=decode(top[0]), R=judge(dd.b,dd.a);
+  return `<div class="frk ${r.me?"me":""}"><div class="no ${k<3?"top":""}">${k+1}</div><div class="im">${artWithImage(R.race,top[1],R.elem)}</div><div><b>${f.n||"이름 없음"}${r.me?' <small>나</small>':''}</b><small>방어덱 ${f.d.map(x=>{const d2=decode(x[0]);return judge(d2.b,d2.a).stages[x[1]-1].replace(/〔.*?〕/,"")}).join(" · ")}</small></div><div class="pw">${r.p}<small>${"★".repeat(top[1])}</small></div>${r.me?"":`<div class="acts"><a href="battle.html?f=${r.i}">⚔️ 대전</a><button data-rm="${r.i}">삭제</button></div>`}</div>`}).join("")||`<p class="mini">아직 친구가 없어요. 친구 코드를 받아서 넣어 보세요.</p>`;
  $("r_fr").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{const a=friendsV2();a.splice(+b.dataset.rm,1);setFriendsV2(a);drawFriends();drawMe()});
 }
 $("fradd").onclick=()=>{
@@ -674,6 +883,7 @@ document.querySelectorAll(".dnav button").forEach(b=>b.onclick=()=>{
  const go=b.dataset.go;
 
  openDrawer(false);
+ if(go==="mailsec"){drawMail();$("mailsec").classList.remove("hidden");return}
  if(go==="frsec"){drawFriends();$("frsec").classList.remove("hidden");return}
  if(go==="invsec"){drawInv();$("invsec").classList.remove("hidden");return}
  if(!collection().length){toast("먼저 소환수를 소환해 주세요");return}
@@ -683,8 +893,8 @@ $("couponbtn").onclick=()=>{
  const c=$("coupon").value.trim().toUpperCase(); const used=ST.get("ssm_coupons",[]);
  if(!COUPONS[c]){$("couponmsg").textContent="없는 쿠폰이에요.";return}
  if(used.includes(c)){$("couponmsg").textContent="이미 쓴 쿠폰이에요.";return}
- used.push(c);ST.set("ssm_coupons",used);ST.set("ssm_tickets",tickets()+COUPONS[c]);track("coupon_"+c);
- $("couponmsg").textContent=`소환권 ${COUPONS[c]}개를 받았어요.`;$("coupon").value="";drawMe();try{drawTickets()}catch(e){}
+ used.push(c);ST.set("ssm_coupons",used);sendMail("coupon",`쿠폰 ${c} 보상이 도착했어요.`,{ticket:COUPONS[c]},7);track("coupon_"+c);
+ $("couponmsg").textContent=`우편함으로 보냈어요. 우편함에서 받으세요.`;$("coupon").value="";drawMe();
 };
 $("go1").onclick=()=>{
  birth={y:$("y").value,m:$("m").value,d:$("d").value,h:$("hx").checked?"x":$("h").value}; NICK=$("nick").value.trim().slice(0,12);
@@ -697,7 +907,7 @@ function renderQ(){
  $("qbox").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{b.classList.add("on");answers.push(q.o[+b.dataset.i][1]);setTimeout(()=>{qi++;qi<QS.length?renderQ():result()},200)});
 }
 
-function result(){const R=judge(birth,answers);track("result");try{location.hash=encode(birth,answers,NICK)}catch(e){}try{localStorage.setItem("ssm_last",encode(birth,answers,NICK))}catch(e){}addToCollection(encode(birth,answers,NICK));if(!ST.get("ssm_gift",false)){ST.set("ssm_gift",true);ST.set("ssm_tickets",tickets()+1)}$("s2").classList.add("hidden");summonIntro(R.race,1,null,R.elem).then(()=>{draw(R);$("s3").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})})}
+function result(){const R=judge(birth,answers);track("result");try{location.hash=encode(birth,answers,NICK)}catch(e){}try{localStorage.setItem("ssm_last",encode(birth,answers,NICK))}catch(e){}addToCollection(encode(birth,answers,NICK));if(!ST.get("ssm_gift",false)){ST.set("ssm_gift",true);sendMail("gift","첫 소환 선물이 도착했어요.",{ticket:1},7)}$("s2").classList.add("hidden");summonIntro(R.race,1,null,R.elem,R).then(()=>{draw(R);$("s3").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})})}
 
 function draw(R){
  const {race,job,path,pow}=R; CUR=R;
@@ -705,7 +915,7 @@ function draw(R){
  $("art").innerHTML=artWithImage(race,STG,R.elem);
  $("r_elem").innerHTML=`<span class="grade" style="border-color:var(--line);color:var(--ink2)">${ELEM[R.elem].ic} ${ELEM[R.elem].n} 속성</span>`;
  $("r_who").textContent=(NICK?NICK+" 님":"당신")+" 화면에 온 건";
- if(STG===1){$("r_name").textContent=race.f?race.n+"의 "+race.f:race.n;$("r_form").textContent=race.f?`아직 ${race.f}예요. 바로 깨어나진 않아요.`:"아직 아주 작아요. 바로 깨어나진 않아요.";}
+ if(STG===1){$("r_name").textContent=race.n;$("r_form").textContent="1단계예요. 아직 어리지만 금방 자라요.";}
  else{$("r_name").textContent=R.stages[STG-1].replace(/〔.*?〕/,"");$("r_form").textContent=`${STG}단계예요. ${race.n}에서 자랐어요.`;}
  $("r_tags").innerHTML=race.t.map(t=>`<span class="tag">${t}</span>`).join("");
  $("r_grade").className="grade g"+path.g; $("r_grade").textContent=G[path.g];
@@ -717,21 +927,19 @@ function draw(R){
  drawStats(R); drawTickets();
  drawDays(R);
 }
+let SK_SEL=null;
 function drawSkills(R){
  const GOOD=new Set(["shield","guard","regen","heal","cleanse","drain","rage"]);
  const stg=R.stage||1, st=stageStats(R.base,R.race,stg-1), atk=st[1], mag=st[2];
  const useStat=["mana","divine","spirit"].includes(R.pow)?mag:atk;
  const dmgOf=(m,isSkill)=>showDmg(isSkill?useStat:atk,m);
- const basic=`<div class="k"><div class="nm">일반공격<small>데미지 ${dmgOf(BASIC[stg-1],false)}</small></div><div></div><div class="d">매 턴 쓸 수 있어요. 자랄수록 세져요.</div></div>
- <div class="k"><div class="nm">방어<small>받는 피해 ${GUARD*100}% 감소</small></div><div></div><div class="d">그 턴은 안 때리고 버텨요. 화상·출혈은 그대로 들어와요.</div></div>
- <div class="k"><div class="nm">회피<small>${DODGE*100}%</small></div><div></div><div class="d">5% 확률로 공격을 피해요. 속박에 걸리면 못 피해요.</div></div>`;
- $("r_skills").innerHTML=basic+R.skills.map(([stg,k])=>{
-  const [n,t,m,e,d,el]=k, E=e?EFF[e]:null;
-  const open=stg<=(R.stage||1);
-  const boost=open?1+0.2*((R.stage||1)-stg):1;
-  const tag=t==="hit"?`데미지 ${dmgOf(m*boost,true)}`:t==="heal"?"회복":t==="buff"?"강화":"약화";
-  return `<div class="k ${open?"":"lock"}"><div class="nm">${n}<small>${stg}단계${open?"":" 🔒"} · ${tag} · 쓰면 ${stg}턴 쉼</small></div><div>${el?`<span class="e">${ELEM[el].ic} ${ELEM[el].n}</span> `:""}${E?`<span class="e ${GOOD.has(e)?"good":"bad"}">${E[0]}</span>`:""}</div><div class="d">${d}</div>${E?`<div class="ed">${E[0]}: ${E[1]}</div>`:""}</div>`;
- }).join("");
+ const list=[["basic",["일반공격","hit",BASIC[stg-1],null,"적 하나를 때려요. 매 턴 쓸 수 있고 자랄수록 세져요."],0],["guard",["방어","buff",0,null,`그 턴은 안 때리고 버텨요. 받는 피해가 ${GUARD*100}% 줄어요. 화상·출혈은 그대로 들어와요.`],0],...R.skills.map(([t,k])=>["s",k,t])];
+ let sel=SK_SEL&&SK_SEL<list.length?SK_SEL:2;
+ const box=()=>{const [ty,k,t]=list[sel];const open=!t||t<=stg;
+  $("r_skills").innerHTML=`<div class="skrow">${list.map(([ty2,k2,t2],j)=>`<div class="skic ${j===sel?"on":""} ${t2&&t2>stg?"lock":""} ${t2&&(k2[1]==="hit"||k2[1]==="debuff")?(k2[5]||""):""}" data-j="${j}">${ty2==="basic"?"⚔️":ty2==="guard"?"🛡️":skillIcon(k2)}${t2?`<span class="t">${t2}</span>`:""}</div>`).join("")}</div>
+   <div class="skbox">${t?skillDetailHTML(t,k,useStat).replace("</small>",open?"</small>":" · 🔒 아직 안 열렸어요</small>"):`<div class="skd"><b class="skn">${k[0]}</b><p>${k[4]}${ty==="basic"?` 데미지 ${dmgOf(BASIC[stg-1],false)}.`:""}</p><small>회피 ${DODGE*100}%: 모든 공격을 이 확률로 피해요. 속박에 걸리면 못 피해요.</small></div>`}</div>`;
+  $("r_skills").querySelectorAll(".skic").forEach(e=>e.onclick=()=>{sel=SK_SEL=+e.dataset.j;box()})};
+ box();
 }
 function drawStats(R){
  drawSkills(R);
@@ -750,7 +958,7 @@ function drawVs(race,pow,elem){
  const strongWhy=strong?WHY[pow]:"";
  $("r_vs").innerHTML=(strong?`<div><span class="w">이기는 상대 +10%</span><b>${ic(strong)} ${name(strong)}</b>${strongWhy}</div>`:`<div><span class="w">이기는 상대</span><b>아직 없음</b>힘이 생기면 정해져요.</div>`)
   +(weak?`<div><span class="l">지는 상대 -10%</span><b>${ic(weak)} ${name(weak)}</b>${race.weak?"":WHY[weak]}</div>`:`<div><span class="l">지는 상대</span><b>전부</b>지금은 숨는 게 답이에요.</div>`);
- $("r_edge").innerHTML=((STG_FOR_EDGE()>=2?race.edge:FORMLINE[race.f]||FORMLINE[""])||"")+`<br><br><b style="color:var(--ink)">${ELEM[elem].ic} ${ELEM[elem].n} 속성</b> · `+({fire:"바람에 강하고 물에 약해요.",water:"불에 강하고 바람에 약해요.",wind:"물에 강하고 불에 약해요.",earth:"상성이 없어요. 어느 속성에도 유리하지도 불리하지도 않아요.",light:"어둠과는 서로 10% 더 세게 들어가요.",dark:"빛과는 서로 10% 더 세게 들어가요."}[elem])+` 2단계부터 종족 스킬에 ${ELEM[elem].n} 속성이 붙어요.`;
+ $("r_edge").innerHTML=(race.edge||"")+`<br><br><b style="color:var(--ink)">${ELEM[elem].ic} ${ELEM[elem].n} 속성</b> · `+({fire:"바람에 강하고 물에 약해요.",water:"불에 강하고 바람에 약해요.",wind:"물에 강하고 불에 약해요.",earth:"상성이 없어요. 어느 속성에도 유리하지도 불리하지도 않아요.",light:"어둠과는 서로 10% 더 세게 들어가요.",dark:"빛과는 서로 10% 더 세게 들어가요."}[elem])+` 2단계부터 종족 스킬에 ${ELEM[elem].n} 속성이 붙어요.`;
  // 네 힘 순환 그림
  const K=["aura","mana","divine","spirit"], pos={aura:[40,40],mana:[260,40],divine:[260,130],spirit:[40,130]};
  const arrow=(a,b)=>{const [x1,y1]=pos[a],[x2,y2]=pos[b];const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;return `<line x1="${x1+ux*34}" y1="${y1+uy*22}" x2="${x2-ux*34}" y2="${y2-uy*22}" stroke="var(--ink3)" stroke-width="2" marker-end="url(#ah)"/>`};
@@ -775,6 +983,7 @@ function drawDays(R){ setBattleLink();
 
 /* 버튼 */
 $("t_use").onclick=summon;
+function onPaid(n){sendMail("buy",`소환권 ${n}개 구매가 완료됐어요.`,{ticket:n},30);drawMe();toast("우편함으로 보냈어요")}
 $("t_buy").onclick=()=>{track("ticket_buy_click");$("t_buyok").classList.remove("hidden")};
 $("unlock").onclick=()=>{track("unlock_click");$("unlock").classList.add("hidden");$("ask").classList.remove("hidden")};
 $("ask").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{track("price_"+b.dataset.p);$("ask").classList.add("hidden");$("thanks").classList.remove("hidden")});
