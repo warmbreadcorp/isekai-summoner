@@ -386,31 +386,6 @@ button{font-family:inherit;cursor:pointer}
 .circle .info .sks .skic{width:46px;height:46px;font-size:22px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15)}
 .circle .info .btn{margin-top:12px}
 
-/* 게임 테마: 항상 어두운 판타지 톤, 금빛 테두리, 빛나는 버튼 */
-:root,:root[data-theme],:root:not([data-theme="light"]){--bg:#0b0a14;--paper:#161424;--paper2:#1f1c31;--line:rgba(226,186,98,.22);--ink:#f5ecd8;--ink2:#c9bfa8;--ink3:#8a8170;--gold:#f2c75c;--gold2:#e8b44c;--lock:#24213a}
-body{background:radial-gradient(120% 60% at 50% -10%,#2a1f4d 0%,rgba(11,10,20,0) 60%),radial-gradient(80% 40% at 50% 110%,#1b1438 0%,rgba(11,10,20,0) 70%),#0b0a14;background-attachment:fixed}
-.card,.sec,.hero,.panel .mail,.frk,.mycode2,.invgrid,.invdetail,.rlist li,.fr .f{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 40%),var(--paper);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,235,180,.06),0 10px 28px rgba(0,0,0,.35)}
-.hero{border-color:rgba(242,199,92,.45);box-shadow:inset 0 0 40px rgba(242,199,92,.06),0 0 0 1px rgba(0,0,0,.4),0 14px 40px rgba(0,0,0,.45)}
-.sec h3{display:flex;align-items:center;gap:8px;font-size:15px;letter-spacing:.5px;color:var(--gold);margin-bottom:12px}
-.sec h3::before{content:"◆";font-size:9px;color:var(--gold2)}
-.sec h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(242,199,92,.45),rgba(242,199,92,0))}
-.btn{background:linear-gradient(180deg,#3a3360,#272246);color:var(--ink);border:1px solid rgba(180,160,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px rgba(0,0,0,.35);border-radius:14px;font-weight:800;letter-spacing:.2px}
-.btn.gold{background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02;border:1px solid #ffe7a6;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(120,80,10,.5),0 8px 22px rgba(232,176,74,.32)}
-.btn.ghost{background:rgba(255,255,255,.04);color:var(--ink);border:1px solid var(--line);box-shadow:none}
-.btn:disabled{filter:grayscale(.6) brightness(.7)}
-.tb,.hamb{background:rgba(22,20,36,.85);border:1px solid var(--line);color:var(--ink);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.panel{background:radial-gradient(120% 50% at 50% -10%,#241b44 0%,rgba(11,10,20,0) 60%),#0b0a14}
-.panel .ph{justify-content:flex-start;font-size:19px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.panel .ph b{color:var(--ink);letter-spacing:.3px}
-.drawer{background:linear-gradient(180deg,#1a1730,#110f1e);border-left:1px solid rgba(242,199,92,.35)}
-.drawer .dnav button{background:rgba(255,255,255,.03);border:1px solid var(--line);font-weight:700}
-.drawer .dnav button:active{background:rgba(242,199,92,.12)}
-.skic,.dex .d,.invgrid .slot{border-color:rgba(226,186,98,.28)}
-.skic.on{box-shadow:0 0 0 2px var(--gold),0 0 16px rgba(242,199,92,.45)}
-.mi .box{background:linear-gradient(180deg,#1a1730,#110f1e);border:1px solid rgba(242,199,92,.4);box-shadow:0 20px 60px rgba(0,0,0,.6)}
-.mi .tabs button.on,.rtabs button.on{background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02;border-color:#ffe7a6}
-input,select{background:#100e1c!important;border-color:var(--line)!important;color:var(--ink)!important}
-
 /* 타이틀 화면 */
 body.ontitle .topbar{display:none}
 #landing.title{position:fixed;inset:0;z-index:30;background:#05040a url(img/bg/summon.jpg?v=2) center 75%/cover no-repeat;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 22px max(30px,env(safe-area-inset-bottom));overflow:hidden}
@@ -427,16 +402,6 @@ body.ontitle .topbar{display:none}
 .tgo{margin:0 0 10px!important;font-size:18px!important;padding:17px!important}
 #openform:not(.gold){background:rgba(16,14,28,.7);border:1px solid rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(8px)}
 .tfoot{color:rgba(230,224,245,.55);font-size:12px;margin:8px 0 0}
-/* 결과 = 소환수 화면 */
-#s3 .hero{margin:-24px -16px 0;border:none;border-radius:0 0 26px 26px;padding:78px 20px 22px;background:linear-gradient(180deg,rgba(11,10,20,.1) 0%,rgba(11,10,20,.25) 55%,#0b0a14 100%),url(img/bg/summon.jpg?v=2) center 80%/cover;box-shadow:none}
-#s3 .hero .stage{width:min(72vw,290px);height:min(72vw,290px)}
-#s3 .hero h2{font-size:30px;text-shadow:0 2px 10px rgba(0,0,0,.8)}
-#s3 .hero .who,#s3 .hero .form{text-shadow:0 1px 6px rgba(0,0,0,.9);color:#e6e0f5}
-.rtab{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:14px 0 2px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:4px}
-.rtab button{background:none;border:none;color:var(--ink3);font-weight:800;font-size:15px;padding:11px 4px;border-radius:10px;cursor:pointer;font-family:inherit}
-.rtab button.on{background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02}
-.tabhide{display:none!important}
-
 /* 소환진 (그린 마법진 이미지, 바닥에 눕혀 회전) */
 .circle.altar .ring{width:min(96vw,460px);height:min(110vw,520px);margin-top:4vh}
 .circle.altar .ring svg{display:none}
@@ -459,6 +424,79 @@ body.ontitle .topbar{display:none}
 .skic{overflow:hidden;padding:0}
 .skic .t{z-index:1;background:rgba(0,0,0,.7);color:#fff;border-radius:6px;padding:0 4px;right:3px;bottom:3px}
 .skic.on{border-color:var(--gold)}
+
+/* ===== 밝은 플랫 테마 (기본) ===== */
+:root,:root[data-theme],:root:not([data-theme="light"]){--bg:#f4f1ea;--paper:#fff;--paper2:#f0ece3;--line:#e7e1d5;--ink:#1d1b18;--ink2:#5d574e;--ink3:#9a9386;--gold:#e8590c;--gold2:#ffd84d;--red:#e03131;--lock:#ebe6db;--acc:#ff5a36}
+body{background:var(--bg);color:var(--ink)}
+.card,.sec,.panel .mail,.frk,.mycode2,.invdetail,.rlist li,.fr .f{background:var(--paper);border:none;border-radius:20px;box-shadow:0 1px 3px rgba(40,30,10,.06)}
+.invgrid{background:var(--paper);border:none;border-radius:18px;box-shadow:0 1px 3px rgba(40,30,10,.06)}
+.invgrid .slot{background:var(--paper2);border:none;border-radius:12px}
+.sec h3{font-size:16px;color:var(--ink);font-weight:900;margin:0 0 12px;letter-spacing:0}
+.btn{background:var(--ink);color:#fff;border:none;border-radius:16px;box-shadow:none;font-weight:800}
+.btn.gold{background:var(--acc);color:#fff;border:none;box-shadow:none}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn:disabled{opacity:.4;filter:none}
+.tb,.hamb{background:#fff;border:none;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12);border-radius:14px;backdrop-filter:none}
+.drawer{background:var(--bg);border-left:none;box-shadow:-10px 0 30px rgba(0,0,0,.15)}
+.drawer .dnav button{background:var(--paper);border:none;border-radius:14px;font-weight:800;box-shadow:0 1px 3px rgba(40,30,10,.06)}
+.panel{background:var(--bg)}
+.panel .ph{border-bottom:none;padding-bottom:0;font-size:20px}
+.panel .ph b{font-weight:900}
+.panel .back{background:var(--paper);border:none;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tag{background:var(--paper2);border:none;color:var(--ink2);font-weight:700}
+.grade{border:none!important;font-weight:800;color:#fff!important;background:var(--ink)}
+.grade.g1{background:#3fa7ff}.grade.g2{background:#8a5cff}.grade.g3{background:#ff9f1c}.grade.g4{background:#e03131}
+.skic,.dex .d{border:none;background:var(--paper2)}
+.skic.on{box-shadow:0 0 0 3px var(--ink)}
+.skbox{background:var(--paper2);border:none}
+.mi .box{background:var(--bg);border:none;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.mi .tabs button,.rtabs button{background:var(--paper);border:none;color:var(--ink3)}
+.mi .tabs button.on,.rtabs button.on{background:var(--ink);color:#fff;border:none}
+.mi .hd .x{background:var(--paper)}
+input:not([type=checkbox]):not([type=radio]),select{background:var(--paper)!important;border:1.5px solid var(--line)!important;color:var(--ink)!important;border-radius:14px!important}
+input[type=checkbox]{appearance:auto;-webkit-appearance:checkbox;width:20px!important;height:20px;padding:0!important;margin:0;border:none;accent-color:#1d1b18;flex:none;vertical-align:middle}
+.tkin label{display:flex;align-items:center;gap:8px}
+input,select{line-height:1.3}
+.dnav button .bdg{background:var(--acc)}
+.frk.me{background:#fff7d6;border:none}
+.frk .pw small{color:#ff9f1c}
+.chip,.feat span{background:var(--paper)}
+.toast{background:var(--ink);color:#fff}
+/* 타이틀은 열쇠 그림 위라 버튼만 플랫으로 */
+#landing .btn.gold{background:var(--acc)}
+#openform:not(.gold){background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.4);color:#fff;backdrop-filter:blur(8px)}
+/* 소환 카드 버튼 */
+.circle .info .btn.gold{background:var(--acc)}
+/* ===== 소환수 화면 ===== */
+#s3 .hero{margin:-24px -16px 0;border:none;border-radius:0 0 40px 40px;padding:76px 20px 24px;box-shadow:none;position:relative;overflow:hidden;background:#ffd84d}
+#s3 .hero::before{content:"";position:absolute;width:150%;aspect-ratio:1;border-radius:50%;background:#ffe27a;left:-25%;top:-70%;pointer-events:none}
+#s3 .hero>*{position:relative}
+#s3 .hero .stage{width:min(76vw,300px);height:min(76vw,300px)}
+#s3 .hero h2{font-size:30px;font-weight:900;color:var(--ink)}
+#s3 .hero .who{color:#7a5a00;letter-spacing:0;font-weight:700}
+#s3 .hero .form{color:#5a4500}
+#s3 .hero .tag{background:rgba(255,255,255,.7)}
+#s3 .hero .gnote{color:#7a5a00}
+.rtab{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0 4px;background:none;border:none;padding:0}
+.rtab button{background:var(--paper);border:none;color:var(--ink3);font-weight:800;font-size:15px;padding:12px 4px;border-radius:14px;cursor:pointer;font-family:inherit}
+.rtab button.on{background:var(--ink);color:#fff}
+.tabhide{display:none!important}
+.grade.gel{background:#1d1b18}
+/* 슈퍼레어 이상: 소환진 배경 + 어두운 바탕 */
+#s3.rare .grade.gel{background:rgba(255,255,255,.18)}
+body.rare{background:#15141c}
+#s3.rare{--bg:#15141c;--paper:#24222e;--paper2:#2d2b38;--line:#3a3746;--ink:#fff;--ink2:#c4c0d0;--ink3:#8e8a9c;color:#fff}
+#s3.rare .hero{background:url(img/bg/summon.jpg?v=2) center 80%/cover}
+#s3.rare .hero::before{display:none}
+#s3.rare .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,16,.15) 40%,rgba(10,9,16,.75) 100%);pointer-events:none}
+#s3.rare .hero>*{z-index:1}
+#s3.rare .hero h2,#s3.rare .hero .form,#s3.rare .hero .who,#s3.rare .hero .gnote{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+#s3.rare .hero .tag{background:rgba(255,255,255,.16);color:#fff}
+#s3.rare .rtab button.on{background:#fff;color:#15141c}
+#s3.rare .btn{background:#fff;color:#15141c}
+#s3.rare .btn.gold{background:var(--acc);color:#fff}
+#s3.rare .btn.ghost{background:var(--paper);color:#fff;border-color:var(--line)}
+#s3.rare .skic.on{box-shadow:0 0 0 3px #fff}
 </style>
 </head>
 <body>
@@ -645,7 +683,7 @@ body.ontitle .topbar{display:none}
 <div class="circle altar hidden" id="circle"><div class="ring"><div class="mc"><img class="mc1" src="img/bg/circle.png?v=2" alt=""><img class="mc2" src="img/bg/circle.png?v=2" alt=""></div><div class="sparks"><i style="left:18%;animation-delay:0s"></i><i style="left:30%;animation-delay:0.6s"></i><i style="left:42%;animation-delay:1.1s"></i><i style="left:55%;animation-delay:0.3s"></i><i style="left:66%;animation-delay:0.9s"></i><i style="left:78%;animation-delay:1.4s"></i><i style="left:24%;animation-delay:1.7s"></i><i style="left:48%;animation-delay:2s"></i><i style="left:72%;animation-delay:0.5s"></i><i style="left:36%;animation-delay:1.3s"></i></div><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div><div class="info hidden" id="c_info"></div><div class="beam"></div><div class="flash"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=23"></script>
+<script src="game.js?v=25"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -782,7 +820,7 @@ function summonIntro(race,stage,text,elem,R){ CUR_ELEM=elem||null;
    const st=stageStats(R.base,R.race,stage-1), sk=R.skills.filter(([t])=>t<=stage);
    $("c_text").classList.add("hidden");
    $("c_info").innerHTML=`<div class="nm">${ELEM[R.elem].ic} ${R.stages[stage-1].replace(/〔.*?〕/,"")} <span class="st">${"★".repeat(stage)}</span></div>
-    <div class="sub2">${R.race.n} · ${POW[R.pow][1]} · ${G[R.path.g-1]||""} · 전투력 ${power(st)}</div>
+    <div class="sub2">${R.race.n} · ${POW[R.pow][1]} · ${G[R.path.g]||""} · 전투력 ${power(st)}</div>
     <div class="gr">${STN.map((n,i)=>`<span>${n}</span><span>${i===0?st[0]*10:st[i]}</span>`).join("")}<span>속도</span><span>${Math.min(120,Math.round(st[3]*1.2))}</span></div>
     <div class="sks">${sk.map(([t,k])=>`<div class="skic ${k[1]==="hit"||k[1]==="debuff"?(k[5]||""):""}">${skillIcon(k)}<span class="t">${t}</span></div>`).join("")}</div>
     <button class="btn gold" id="c_ok">확인</button>`;
@@ -964,12 +1002,12 @@ function draw(R){
  const {race,job,path,pow}=R; CUR=R;
  const STG=getStage(location.hash.replace("#","")); R.stage=STG;
  $("art").innerHTML=artWithImage(race,STG,R.elem);
- $("r_elem").innerHTML=`<span class="grade" style="border-color:var(--line);color:var(--ink2)">${ELEM[R.elem].ic} ${ELEM[R.elem].n} 속성</span>`;
+ $("r_elem").innerHTML=`<span class="grade gel">${ELEM[R.elem].ic} ${ELEM[R.elem].n} 속성</span>`;
  $("r_who").textContent=(NICK?NICK+" 님":"당신")+" 화면에 온 건";
  if(STG===1){$("r_name").textContent=race.n;$("r_form").textContent="1단계예요. 아직 어리지만 금방 자라요.";}
  else{$("r_name").textContent=R.stages[STG-1].replace(/〔.*?〕/,"");$("r_form").textContent=`${STG}단계예요. ${race.n}에서 자랐어요.`;}
  $("r_tags").innerHTML=race.t.map(t=>`<span class="tag">${t}</span>`).join("");
- $("r_grade").className="grade g"+path.g; $("r_grade").textContent=G[path.g];
+ $("r_grade").className="grade g"+path.g; $("r_grade").textContent=G[path.g]; const RARE=path.g>=2; $("s3").classList.toggle("rare",RARE); document.body.classList.toggle("rare",RARE);
  $("r_gnote").textContent=GN[path.g]+"예요. 세다는 뜻은 아니에요.";
  $("r_char").innerHTML=`<p style="margin:0 0 10px"><b style="color:var(--gold);font-size:13px">종족</b><br>${race.lore}</p>
   <p style="margin:0"><b style="color:var(--gold);font-size:13px">성격</b><br>${[race.ch,STG>=2?race.ch2:null,STG>=3?race.ch3:null].filter(Boolean).map((t,i)=>i?`<br><span style="color:var(--ink3);font-size:12.5px">${i+1}단계부터</span> ${t}`:t).join("")}</p>`;
@@ -1046,7 +1084,7 @@ $("ask").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{track("price_"+b.dat
 function R_STAGES(){return CUR?CUR.stages.map(x=>x.replace(/〔.*?〕/,"")).join(" → "):""}
 $("copylink").onclick=async()=>{track("share_link");try{await navigator.clipboard.writeText(location.href);toast("링크를 복사했어요. 친구한테 보내 주세요")}catch(e){toast("복사가 막혀 있어요. 주소창을 복사해 주세요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
 $("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환사]\n${NICK?NICK+" 화면":"내 화면"}에 온 건 ${$("r_name").textContent}\n${$("r_tags").textContent.trim().replace(/\s+/g," · ")}\n${$("r_char").innerText.replace(/\n+/g," ")}\n전투력 ${$("r_power").querySelector("b").textContent} · 진화: ${R_STAGES()}\n특성: ${$("r_pname").textContent} · 속성: ${ELEM[CUR.elem].n} · ${$("r_vs").textContent.replace(/\s+/g," ").trim()}\n\n${location.href}`;try{await navigator.clipboard.writeText(t);toast("글로 복사했어요")}catch(e){toast("복사가 막혀 있어요")}if(CUR){addShare(CUR.id);drawDays(CUR);addShareCount()}};
-$("again").onclick=()=>{try{location.hash=""}catch(e){}$("s3").classList.add("hidden");$("landing").classList.remove("hidden");$("unlock").classList.remove("hidden");["ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
+$("again").onclick=()=>{try{location.hash=""}catch(e){}document.body.classList.remove("rare");$("s3").classList.add("hidden");$("landing").classList.remove("hidden");$("unlock").classList.remove("hidden");["ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
 (function(){const d=decode(location.hash);if(d&&d.a.length===QS.length){birth=d.b;answers=d.a;NICK=d.nick||"";track("visit_shared");draw(judge(birth,answers));$("landing").classList.add("hidden");$("s1").classList.add("hidden");$("s3").classList.remove("hidden")}})();
 </script>
 </body>

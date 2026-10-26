@@ -195,7 +195,7 @@ function artWithImage(race,stage,elem){
  const srcs=[...(stage>1?[`img/race/${race.n}_${stage}.png?v=${IMGV}`]:[]),`img/race/${race.n}.png?v=${IMGV}`,`img/${IMGKEY[race.f]||"unknown"}.png`];
  const id="im"+Math.random().toString(36).slice(2);
  setTimeout(()=>{const el=document.getElementById(id);if(!el)return;let i=0;const tryNext=()=>{if(i>=srcs.length){el.outerHTML=svg;return}const im=new Image();im.onload=()=>{el.innerHTML=`<img src="${srcs[i]}" alt="" style="width:100%;height:100%;object-fit:contain;display:block;filter:${css}" class="bob">`};im.onerror=()=>{i++;tryNext()};im.src=srcs[i]};tryNext()},0);
- return `<div id="${id}" style="filter:${css}">${svg}</div>`;
+ return `<div id="${id}" style="filter:${css};width:100%;height:100%"></div>`; // 그림이 뜰 때까지 비워 둔다(알 그림이 잠깐 보이지 않게)
 }
 
 function encode(b,a,nick){const base=[b.y,b.m,b.d,b.h,a.map(x=>Object.keys(JOBS).indexOf(x)).join("")].join(".");return nick?base+"."+encodeURIComponent(nick):base}

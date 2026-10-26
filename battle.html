@@ -320,23 +320,76 @@ button{font-family:inherit;cursor:pointer}
  .result h2{font-size:44px}
 }
 
-/* 게임 톤 맞춤 */
+/* 로비 캐릭터 크기 */
 .stage .u:only-of-type{width:56%}
 @media (max-width:560px){.stage .u:only-of-type{width:62%}}
-.gb:not(.wood):not(.green),.gb.orange,.chip.btn:not(:disabled){background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02;border:1px solid #ffe7a6;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(120,80,10,.5),0 8px 22px rgba(232,176,74,.3)}
-.gb.green,.gb.wood{background:linear-gradient(180deg,#3a3360,#272246);border:1px solid rgba(180,160,255,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px rgba(0,0,0,.35)}
-.frame,.tip,.vsbox,.roster{border-color:rgba(242,199,92,.38)}
-.frame{background:linear-gradient(180deg,rgba(30,26,52,.95),rgba(14,12,24,.96))}
-.rw,.rw.beat{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border-color:rgba(226,186,98,.25)}
-.ltabs button.on,.modes button.on,.tab.on{background:linear-gradient(180deg,#ffdc82,#eab04a);color:#2a1a02;border-color:#ffe7a6}
-.bbar .ib,.ctl button,.skbar .sk{border-color:rgba(242,199,92,.35)}
-.result h2{color:var(--ac);text-shadow:0 0 24px rgba(242,199,92,.55)}
-.ski{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
-.sk{overflow:visible}
-.sk .ski{border-radius:14px}
-.skbar .sk .n,.sk .t{z-index:2}
-.skbar .sk .cdn{z-index:2;background:rgba(0,0,0,.55);border-radius:14px}
-.skbar .sk .lb{z-index:2}
+
+/* ===== 밝은 플랫 테마 ===== */
+:root{--L-bg:#f4f1ea;--L-card:#fff;--L-card2:#f0ece3;--L-line:#e7e1d5;--L-ink:#1d1b18;--L-ink2:#5d574e;--L-ink3:#9a9386;--acc:#ff5a36;--ac:#ff5a36}
+.gb,.gb.orange,.gb.green,.gb.wood,.gb:not(.wood):not(.green){background:#fff;color:var(--L-ink);border:none;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.18);text-shadow:none;backdrop-filter:none;font-weight:900}
+.gb.orange,#start,.rw .gb,#r_ok,#r_next{background:var(--acc);color:#fff}
+.gb:active{transform:scale(.97);box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.gb .badge{background:var(--acc);border:2px solid #fff}
+.tab{background:rgba(255,255,255,.92);border:none;color:var(--L-ink2);box-shadow:0 2px 8px rgba(0,0,0,.15);backdrop-filter:none}
+.tab.on{background:var(--L-ink);color:#fff;border:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.bbar .ib,.bbar .ib.back{background:#fff;border:none;color:var(--L-ink);box-shadow:0 3px 10px rgba(0,0,0,.18);font-weight:800}
+.stage .lead{background:#fff;color:var(--L-ink);border:none;font-weight:800}
+.modal{background:rgba(20,18,14,.45)}
+.frame{background:var(--L-bg);border:none;color:var(--L-ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.frame .ttl{color:var(--L-ink);font-weight:900}
+.frame .x{background:#fff;color:var(--L-ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.ltabs button{background:#fff;color:var(--L-ink3)}
+.ltabs button.on{background:var(--L-ink);color:#fff;border:none}
+.ltabs .badge{background:var(--acc)}
+.chip{background:#fff;border:none;color:var(--L-ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.chip.btn:not(:disabled){background:var(--L-ink);color:#fff;box-shadow:none;border:none}
+.chip.btn:disabled{background:#fff;color:var(--L-ink3)}
+.rw,.rw.beat{background:#fff;border:none;color:var(--L-ink);box-shadow:0 1px 3px rgba(40,30,10,.07);border-radius:18px}
+.rw.beat{opacity:.55}
+.rw .av{background:var(--L-card2);border:none}
+.rw .av .st{background:var(--L-ink);color:#fff}
+.rw .inf small,.rw .pw small,.rw .rec{color:var(--L-ink3)}
+.rw .won{background:var(--L-card2);border:none;color:var(--L-ink2)}
+.setup{background:var(--L-bg);color:var(--L-ink)}
+.setup .top{color:var(--L-ink2)}.setup .top b{color:var(--L-ink)}
+.vsbox,.roster{background:#fff;border:none;box-shadow:0 1px 3px rgba(40,30,10,.07);border-radius:20px}
+.vsbox .vs{color:var(--L-ink3)}
+.vsbox .side .lab{color:var(--L-ink2)}.vsbox .side .lab.me{color:#2f7fe0}.vsbox .side .lab.op{color:var(--acc)}
+.pt{background:var(--L-card2);border:3px solid #2f7fe0;border-radius:16px}
+.pt.op{background:var(--L-card2);border-color:var(--acc)}
+.pt.empty{background:transparent;border:2px dashed var(--L-line);color:var(--L-ink3)}
+.pt .stars{color:#ff9f1c;text-shadow:0 0 2px #fff}
+.pt .ld{background:var(--L-ink);color:#fff}
+.roster .pt{border:3px solid transparent}
+.roster .pt.on{border-color:var(--L-ink);box-shadow:none}
+.roster .pt.on::after{color:#fff;background:rgba(29,27,24,.45)}
+.modes button{background:#fff;border:none;color:var(--L-ink3);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.modes button.on{background:var(--L-ink);color:#fff}
+#cancel{background:#fff;color:var(--L-ink)}
+.detail{background:rgba(20,18,14,.5)}
+.detail .ttl b{color:#ff9f1c}
+.detail .stars{color:#ff9f1c}
+.detail .ty{color:var(--L-ink2)}
+.detail .st{color:var(--L-ink3)}.detail .st span{color:var(--L-ink)}
+.tip{background:#fff;color:var(--L-ink);border:none;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.tip b{color:var(--L-ink)}.tip .cd{color:var(--L-ink3)}
+.sk{border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.sk.on{box-shadow:0 0 0 3px var(--L-ink)}
+.skbar .sk{border:3px solid #fff;background:#fff}
+.skbar .sk.ready{border-color:#fff;box-shadow:0 0 0 3px var(--acc),0 4px 10px rgba(0,0,0,.3)}
+.skbar .sk.cd{filter:grayscale(1) brightness(.7)}
+.ctl button{background:#fff;border:none;color:var(--L-ink);box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.ctl button.on{background:var(--L-ink);color:#fff}
+.unit .lv{background:#fff;color:var(--L-ink)}
+.unit.b .lv{background:var(--acc);color:#fff}
+.unit .arrow{color:var(--acc)}
+.result{background:rgba(20,18,14,.55)}
+.result .frame{background:var(--L-bg)}
+.result h2{color:var(--acc);text-shadow:none}
+.result h2.lose{color:var(--L-ink3)}
+.result p{color:var(--L-ink2)}
+.result .drop{background:#fff;border:none;color:var(--L-ink)}
+.toast{background:var(--L-ink);border:none}
 </style>
 </head>
 <body>
@@ -440,7 +493,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=23"></script>
+<script src="game.js?v=25"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
