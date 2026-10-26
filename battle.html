@@ -547,9 +547,10 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .esprite,.msprite{z-index:1}
 .esprite img,.esprite svg,.msprite img,.msprite svg{filter:none}
 .ebox,.mbox{background:#fff;border:3px solid var(--G-line);border-radius:0;padding:8px 10px 8px;z-index:2}
-.ebox{left:8px;top:10px;width:58%}
+.ebox{left:8px;top:10px;width:60%}
 .mbox{right:8px;bottom:10px;width:64%}
-.ebox b,.mbox b{font-weight:400;font-size:17px;color:var(--G-ink)}
+.ebox .nm,.mbox .nm{flex-direction:column;align-items:flex-start;gap:2px}
+.ebox b,.mbox b{font-weight:400;font-size:17px;color:var(--G-ink);white-space:normal;overflow:visible}
 .ebox span,.mbox span{font-weight:400;font-size:14px;color:var(--G-ink2)}
 .hpbar,.gauge{position:relative;height:10px;border:2px solid var(--G-line);border-radius:0;background:#fff;margin-top:8px;margin-left:42px;overflow:visible}
 .hpbar em,.gauge em{position:absolute;left:-40px;top:-5px;font-style:normal;font-size:14px;font-weight:400;color:var(--G-ink);width:36px;text-align:right;line-height:1}
@@ -596,6 +597,25 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 .result .drop{background:#fff;border:3px solid var(--G-line);color:var(--G-ink);border-radius:0;font-weight:400}
 .toast{background:#fff;color:var(--G-ink);border:3px solid var(--G-line);border-radius:0;font-family:inherit}
 @media (min-width:600px){.stage{top:140px}.sidebtn{top:362px;max-width:none}.ebox{width:40%}.mbox{width:42%}}
+
+/* 대전 준비: 칸 크게, 글자는 그림 아래 줄에 */
+.pt,.pt.op,.roster .pt,.tri .pt{width:auto;height:auto;aspect-ratio:auto;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:3px solid var(--G-line)}
+.pt .pim{position:relative;aspect-ratio:1;background:var(--G-bg)}
+.pt .pim img,.pt .pim svg{width:100%;height:100%;object-fit:contain;display:block}
+.pt .pinfo{border-top:3px solid var(--G-line);padding:5px 6px;display:flex;flex-direction:column;gap:1px;line-height:1.25;text-align:left}
+.pt .pinfo b{font-weight:400;font-size:14px;color:var(--G-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pt .pinfo small{font-size:12px;color:var(--G-ink2)}
+.pt.empty{aspect-ratio:1;background:#fff;border:2px dashed #b8b4a0;color:#999;align-items:center;justify-content:center;font-size:22px}
+.pt .ld{position:absolute;right:0;top:0;background:var(--G-ink);color:#fff;font-size:11px;padding:1px 6px}
+.roster .pt .i{position:absolute;right:4px;top:4px;width:22px;height:22px;background:var(--G-ink);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2}
+.roster .pt.on{border-color:var(--G-ink);background:var(--G-sel)}
+.roster .pt.on::after{content:"▶";position:absolute;left:4px;top:2px;font-size:20px;color:var(--G-ink);background:none;inset:auto;padding:0}
+.roster .grid{grid-template-columns:repeat(3,1fr)!important;gap:8px}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex-wrap:nowrap;width:100%}
+.vsbox{grid-template-columns:1fr!important;gap:8px}
+.vsbox .side{width:100%}
+.vsbox .vs{font-size:18px;margin:0}
+@media (min-width:600px){.roster .grid{grid-template-columns:repeat(5,1fr)!important}}
 </style>
 </head>
 <body>
@@ -1045,7 +1065,7 @@ function openSetup(){
  if(!PARTY.length){const c=col();if(c.length)PARTY=[c[c.length-1]]}
  drawSetup(); drawAtk();
 }
-function ptHTML(c,st,cls,extra){const d=decode(c);const R=judge(d.b,d.a);return `<div class="pt ${cls||""}" data-c="${c}" data-s="${st}"><span class="stars">전투력 ${power(stageStats(R.base,R.race,st-1))}</span>${artWithImage(R.race,st,R.elem)}<span class="el">${ELEM[R.elem].n}</span><span class="st">${st}단계</span>${extra||""}</div>`}
+function ptHTML(c,st,cls,extra){const d=decode(c);const R=judge(d.b,d.a);return `<div class="pt ${cls||""}" data-c="${c}" data-s="${st}"><div class="pim">${artWithImage(R.race,st,R.elem)}${extra||""}</div><div class="pinfo"><b>${nameOf(R,st)}</b><small>${st}단계 · ${ELEM[R.elem].n}</small><small>전투력 ${power(stageStats(R.base,R.race,st-1))}</small></div></div>`}
 function drawSetup(){
  $("my_tri").innerHTML=Array.from({length:3},(_,i)=>PARTY[i]?ptHTML(PARTY[i],getStage(PARTY[i]),"",i===0?`<span class="ld">LEADER</span>`:""):`<div class="pt empty">+</div>`).join("");
  $("op_tri").innerHTML=GAME==="dungeon"?Array.from({length:3},(_,i)=>i<floorEnemyCount(FLOOR)?`<div class="pt empty op" style="font-size:14px">몬스터</div>`:`<div class="pt empty">·</div>`).join():Array.from({length:3},(_,i)=>OPPO.d[i]?ptHTML(OPPO.d[i][0],OPPO.d[i][1],"op"):`<div class="pt empty">-</div>`).join("");
