@@ -222,7 +222,11 @@ function getStage(code){try{return (JSON.parse(localStorage.getItem("ssm_stage")
 function setStage(code,st){try{const m=JSON.parse(localStorage.getItem("ssm_stage")||"{}");m[code]=st;localStorage.setItem("ssm_stage",JSON.stringify(m))}catch(e){}}
 /* 진화는 던전에서 얻는 진화석으로. 2단계 = 하급 진화석 3개, 3단계 = 상급 진화석 3개 */
 const EVOLVE_NEED={2:["low",3],3:["high",3]};
-const STONE={low:["하급 진화석","🔹"],high:["상급 진화석","🔷"]};
+const STONE={low:["2단계 진화석",""],high:["3단계 진화석",""]};
+/* 친구(사람) 목록. 결과 링크로 추가. */
+function friends(){try{return JSON.parse(localStorage.getItem("ssm_friends")||"[]")}catch(e){return []}}
+function addFriend(code){const f=friends();if(!f.includes(code)){f.push(code);try{localStorage.setItem("ssm_friends",JSON.stringify(f))}catch(e){}}return f}
+function removeFriend(code){const f=friends().filter(x=>x!==code);try{localStorage.setItem("ssm_friends",JSON.stringify(f))}catch(e){}return f}
 function items(){try{return JSON.parse(localStorage.getItem("ssm_items")||"{}")}catch(e){return {}}}
 function addItem(k,n){try{const m=items();m[k]=(m[k]||0)+n;localStorage.setItem("ssm_items",JSON.stringify(m));return m[k]}catch(e){return 0}}
 /* 기록 */

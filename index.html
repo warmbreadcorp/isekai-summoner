@@ -28,6 +28,30 @@ body{background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Pr
 header{text-align:center;padding:30px 0 18px}
 h1{font-size:27px;font-weight:800;margin:0 0 6px;letter-spacing:-0.5px}
 .sub{color:var(--ink2);font-size:15px;margin:0;line-height:1.55}
+.dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.lnk{background:none;border:none;color:var(--gold);font-size:13px;cursor:pointer;padding:0}
+.acc{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:none;color:var(--ink);font-size:14px;padding:0;cursor:pointer}
+.acc span{color:var(--ink3)}
+.inv .it{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:8px}
+.inv .it .ic{width:56px;height:56px;border-radius:12px;background:var(--paper2);display:flex;align-items:center;justify-content:center;font-size:28px}
+.inv .it b{display:block;font-size:15px}
+.inv .it small{color:var(--ink2);font-size:12.5px;line-height:1.5;display:block}
+.inv .it .n{font-size:22px;font-weight:800}
+.rtabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.rtabs button{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--ink2);font-size:14px;cursor:pointer}
+.rtabs button.on{border-color:var(--gold2);color:var(--ink)}
+.rlist{list-style:none;padding:0;margin:0}
+.rlist li{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;font-size:14.5px}
+.rlist li.me{border-color:var(--gold2)}
+.rlist li .no{font-weight:800;color:var(--gold)}
+.rlist li .v{font-weight:700}
+.fr .f{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}
+.fr .f .im{width:52px;height:52px}
+.fr .f .im svg,.fr .f .im img{width:100%;height:100%;object-fit:contain;display:block}
+.fr .f b{display:block;font-size:15px}
+.fr .f small{color:var(--ink3);font-size:12px}
+.fr .f .acts{display:flex;gap:6px}
+.fr .f .acts a,.fr .f .acts button{font-size:12.5px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper2);color:var(--ink);text-decoration:none;cursor:pointer}
 .panel{position:fixed;inset:0;background:var(--bg);z-index:60;overflow:auto;padding:16px 16px 60px}
 .panel>*{max-width:528px;margin-left:auto;margin-right:auto}
 .panel .ph{display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:14px}
@@ -243,21 +267,38 @@ button{font-family:inherit;cursor:pointer}
 <aside class="drawer" id="drawer">
   <div class="dh"><b>마이페이지</b><button class="dx" id="drawerx">✕</button></div>
   <div class="dme" id="d_me"></div>
+  <div class="dsec" id="rank" style="border-top:0;padding-top:0;margin-top:14px"><div class="dhead"><b>랭킹</b><button class="lnk" id="rankmore">상세 보기 ›</button></div><div class="rk" id="rk"></div></div>
+  <div class="dsec" id="notice"><button class="acc" id="noticetoggle"><b>공지사항</b><span>▾</span></button><ul class="nlist hidden" id="nlist"></ul></div>
   <nav class="dnav">
-    <button data-go="notice">공지사항</button>
-    <button data-go="rank">랭킹</button>
-    <button data-go="colsec">친구 목록</button>
+    <button data-go="colsec">소환수 목록</button>
     <button data-go="dexsec">소환수 도감</button>
+    <button data-go="frsec">친구 목록</button>
+    <button data-go="invsec">인벤토리</button>
   </nav>
-  <div class="dsec" id="notice"><b>공지사항</b><ul class="nlist" id="nlist"></ul></div>
-  <div class="dsec" id="rank"><b>랭킹</b><div class="rk" id="rk"></div><p class="mini" style="margin:6px 0 0">친구들과 비교하는 전체 랭킹은 서버가 열리면 보여요.</p></div>
   <div class="dsec" id="couponsec"><button class="btn ghost" id="couponopen" style="margin:0">쿠폰 입력하기</button><div class="hidden" id="couponbox"><div class="drow" style="margin-top:8px"><input id="coupon" placeholder="쿠폰 코드"><button class="btn gold" id="couponbtn">등록</button></div><p class="mini" id="couponmsg"></p></div></div>
 </aside>
 
 <section class="panel hidden" id="colsec">
-  <div class="ph"><button class="back" data-close="colsec">‹</button><b>친구 목록</b></div>
+  <div class="ph"><button class="back" data-close="colsec">‹</button><b>소환수 목록</b></div>
   <div class="col" id="r_col"></div>
-  <p class="mini">소환한 친구는 여기 모여요. 누르면 그 친구 페이지로 가요. 던전과 아레나에 같이 데려갈 수 있어요.</p>
+  <p class="mini">소환한 소환수는 여기 모여요. 누르면 그 소환수 페이지로 가요. 던전과 아레나에 같이 데려갈 수 있어요.</p>
+</section>
+<section class="panel hidden" id="invsec">
+  <div class="ph"><button class="back" data-close="invsec">‹</button><b>인벤토리</b></div>
+  <div class="inv" id="r_inv"></div>
+</section>
+<section class="panel hidden" id="ranksec">
+  <div class="ph"><button class="back" data-close="ranksec">‹</button><b>랭킹</b></div>
+  <div class="rtabs"><button class="on" data-rt="dungeon">던전 랭킹</button><button data-rt="arena">아레나 랭킹</button></div>
+  <ol class="rlist" id="r_rank"></ol>
+  <p class="mini">지금은 이 기기의 기록만 보여요. 친구들과 비교하는 전체 랭킹은 서버가 열리면 붙어요.</p>
+</section>
+<section class="panel hidden" id="frsec">
+  <div class="ph"><button class="back" data-close="frsec">‹</button><b>친구 목록</b></div>
+  <div class="drow" style="display:grid;grid-template-columns:1fr 72px;gap:6px"><input id="frcode" placeholder="친구가 보낸 결과 링크"><button class="btn gold" id="fradd" style="margin:0;padding:11px;font-size:14px">추가</button></div>
+  <p class="mini" id="frmsg"></p>
+  <div class="fr" id="r_fr"></div>
+  <p class="mini">친구가 보낸 결과 링크를 넣으면 추가돼요. 아레나로 바로 붙을 수 있어요.</p>
 </section>
 <section class="panel hidden" id="dexsec">
   <div class="ph"><button class="back" data-close="dexsec">‹</button><b>소환수 도감</b> <span id="dex_cnt" style="color:var(--ink3);font-size:12.5px"></span></div>
@@ -341,7 +382,7 @@ button{font-family:inherit;cursor:pointer}
     <h3>진화 3단계</h3>
     <div class="evo" id="r_evo"></div>
     <div id="r_evolve" style="margin-top:10px"></div>
-    <p class="mini">던전에서 진화석을 모으면 진화해요. 진화하면 모습과 성격, 이야기가 더 자세히 열려요.</p>
+    <p class="mini">던전에서 2단계 진화석 3개를 모으면 2단계로, 3단계 진화석 3개를 모으면 3단계로 진화해요. 진화하면 모습과 성격, 이야기가 더 자세히 열려요.</p>
   </div>
 
   <div class="sec">
@@ -389,7 +430,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="circle hidden" id="circle"><div class="ring"><svg viewBox="0 0 200 200"><defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset=".6" stop-color="#d2b35c" stop-opacity=".25"/><stop offset="1" stop-color="#d2b35c" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="90" fill="url(#cg)"/><g class="spin"><circle cx="100" cy="100" r="78" fill="none" stroke="#d2b35c" stroke-width="1.5" stroke-dasharray="6 4"/><circle cx="100" cy="100" r="62" fill="none" stroke="#d2b35c" stroke-width="1"/><polygon points="100,30 160,135 40,135" fill="none" stroke="#d2b35c" stroke-width="1.2"/><polygon points="100,170 40,65 160,65" fill="none" stroke="#d2b35c" stroke-width="1.2"/>${"".padEnd(0)}</g><g class="spin2"><circle cx="100" cy="100" r="88" fill="none" stroke="#d2b35c" stroke-width=".8" stroke-dasharray="2 6"/></g></svg><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=17"></script>
+<script src="game.js?v=18"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -497,7 +538,7 @@ function drawEvolve(){
  const [kind,need]=EVOLVE_NEED[st+1], have=items()[kind]||0, ok=have>=need, S=STONE[kind];
  box.innerHTML=`<div class="xp"><div class="xh"><span>${S[1]} ${S[0]}</span><b>${Math.min(have,need)} / ${need}</b></div><div class="t"><i style="width:${Math.min(100,have/need*100)}%"></i></div></div>
   <button class="btn gold" id="evbtn" ${ok?"":"disabled"} style="margin-top:10px">${st+1}단계로 진화 · ${S[0]} ${need}개</button>
-  ${ok?"":`<p class="mini" style="margin:6px 0 0">${S[0]}은 던전에서 나와요. ${kind==="low"?"1층부터":"6층부터"} 몬스터를 잡으면 하나씩 줘요.</p>`}`;
+  ${ok?"":`<p class="mini" style="margin:6px 0 0">${S[0]}은 던전 ${kind==="low"?"1~5층":"6층 이상"}에서 몬스터를 잡으면 하나씩 나와요. ${need}개 모으면 ${st+1}단계로 진화해요.</p>`}`;
  const b=$("evbtn"); if(b)b.onclick=async()=>{addItem(kind,-need);setStage(code,st+1);track("evolve_"+(st+1));const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"})};
 }
 function dailyXp(){const code=location.hash.replace("#","");if(!code)return;const key="ssm_dx_"+code;const d=ST.get(key,"");if(d!==today()){ST.set(key,today());addXp(code,XP_GAIN.daily)}}
@@ -535,24 +576,56 @@ function summon(){
 const COUPONS={"WELCOME":1,"SUMMON3":3,"ARENA":1};
 const NOTICES=[
  {d:"2026-10-26",t:"이세계 소환사 테스트 시작",b:"친구에게 결과를 보내면 소환권을 받을 수 있어요. 하루 1개까지예요."},
- {d:"2026-10-26",t:"던전 열림",b:"층을 오르며 몬스터를 잡으면 진화석이 나와요. 1층부터 하급, 6층부터 상급."},
+ {d:"2026-10-26",t:"던전 열림",b:"몬스터를 잡으면 진화석이 나와요. 1~5층은 2단계 진화석, 6층부터는 3단계 진화석이에요."},
  {d:"2026-10-26",t:"아레나 열림",b:"결과 링크로 친구와 1대1, 2대2, 3대3 대결이 돼요."},
  {d:"2026-10-26",t:"쿠폰 WELCOME",b:"마이페이지 맨 아래 쿠폰 입력하기에 WELCOME을 넣으면 소환권 1개를 드려요."}
 ];
 function openDrawer(o){$("drawer").classList.toggle("open",o);$("drawerbg").classList.toggle("hidden",!o);if(o)drawMe()}
 function drawMe(){
  const col=collection(), code=location.hash.replace("#",""), d=decode(code), it=items(), rc=rec();
- $("d_me").innerHTML=`<b>${(d&&d.nick)||NICK||"소환사"}</b><br>소환권 ${tickets()}개 · ${STONE.low[1]}${it.low||0} ${STONE.high[1]}${it.high||0} · 친구 ${col.length}마리 · 도감 ${ownedRaces(col).size}/${RACES.length}`;
+ $("d_me").innerHTML=`<b>${(d&&d.nick)||NICK||"소환사"}</b><br>소환수 ${col.length}마리 · 친구 ${friends().length}명 · 도감 ${ownedRaces(col).size}/${RACES.length}`;
  $("rk").innerHTML=`<div><small>던전 랭킹</small><b>${rc.dungeon||0}층</b><small>최고 기록</small></div><div><small>아레나 랭킹</small><b>${rc.wins||0}승</b><small>${rc.losses||0}패</small></div>`;
  $("nlist").innerHTML=NOTICES.map(n=>`<li><b>${n.t}</b>${n.b}<br><small>${n.d}</small></li>`).join("");
 }
 document.querySelectorAll(".panel .back").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
+function drawInv(){
+ const it=items(), me=(decode(location.hash.replace("#",""))||{}).nick||NICK||"";
+ const rows=[
+  ["🎟️","소환권",tickets(),"새 소환수를 한 마리 소환해요. 친구 3명에게 결과를 보내면 1개(하루 1개), 쿠폰이나 구매로도 받아요."],
+  ["🪨","2단계 진화석",it.low||0,"3개 모으면 1단계 소환수를 2단계로 진화시켜요. 던전 1~5층 몬스터가 떨어뜨려요."],
+  ["💎","3단계 진화석",it.high||0,"3개 모으면 2단계 소환수를 3단계로 진화시켜요. 던전 6층부터 떨어뜨려요."]
+ ];
+ $("r_inv").innerHTML=rows.map(([ic,n,c,d])=>`<div class="it"><div class="ic">${ic}</div><div><b>${n}</b><small>${d}</small></div><div class="n">${c}</div></div>`).join("");
+}
+let RT="dungeon";
+function drawRank(){
+ const rc=rec(), nick=(decode(location.hash.replace("#",""))||{}).nick||NICK||"나";
+ const v=RT==="dungeon"?`${rc.dungeon||0}층`:`${rc.wins||0}승 ${rc.losses||0}패`;
+ $("r_rank").innerHTML=`<li class="me"><span class="no">1</span><span>${nick}</span><span class="v">${v}</span></li>`;
+ document.querySelectorAll(".rtabs button").forEach(b=>b.classList.toggle("on",b.dataset.rt===RT));
+}
+document.querySelectorAll(".rtabs button").forEach(b=>b.onclick=()=>{RT=b.dataset.rt;drawRank()});
+$("rankmore").onclick=()=>{openDrawer(false);drawRank();$("ranksec").classList.remove("hidden")};
+$("noticetoggle").onclick=()=>{const l=$("nlist");l.classList.toggle("hidden");$("noticetoggle").querySelector("span").textContent=l.classList.contains("hidden")?"▾":"▴"};
+function drawFriends(){
+ const my=location.hash.replace("#","")||ST.get("ssm_last","");
+ $("r_fr").innerHTML=friends().map(c=>{const d=decode(c);if(!d)return"";const R=judge(d.b,d.a);return `<div class="f"><div class="im">${artWithImage(R.race,1,R.elem)}</div><div><b>${d.nick||"이름 없음"}</b><small>${R.race.n} · 전투력 ${power(stageStats(R.base,R.race,0))}</small></div><div class="acts"><a href="battle.html?a=${encodeURIComponent(my)}&b=${encodeURIComponent(c)}">아레나</a><button data-rm="${c}">삭제</button></div></div>`}).join("")||`<p class="mini">아직 친구가 없어요.</p>`;
+ $("r_fr").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{removeFriend(b.dataset.rm);drawFriends()});
+}
+$("fradd").onclick=()=>{
+ let v=$("frcode").value.trim(); const i=v.indexOf("#"); if(i>=0)v=v.slice(i+1); try{v=decodeURIComponent(v)}catch(e){}
+ const d=decode(v); if(!d||d.a.length<6){$("frmsg").textContent="결과 링크가 아니에요.";return}
+ if(v===(location.hash.replace("#","")||"")){$("frmsg").textContent="내 링크예요.";return}
+ addFriend(v);$("frcode").value="";$("frmsg").textContent=`${d.nick||"친구"} 추가했어요.`;drawFriends();drawMe();
+};
 $("hamb").onclick=()=>openDrawer(true); $("couponopen").onclick=()=>{$("couponbox").classList.toggle("hidden")}; $("drawerx").onclick=()=>openDrawer(false); $("drawerbg").onclick=()=>openDrawer(false);
 document.querySelectorAll(".dnav button").forEach(b=>b.onclick=()=>{
  const go=b.dataset.go;
- if(go==="notice"||go==="rank"){$(go).scrollIntoView({behavior:"smooth"});return}
+
  openDrawer(false);
- if(!collection().length){toast("먼저 친구를 소환해 주세요");return}
+ if(go==="frsec"){drawFriends();$("frsec").classList.remove("hidden");return}
+ if(go==="invsec"){drawInv();$("invsec").classList.remove("hidden");return}
+ if(!collection().length){toast("먼저 소환수를 소환해 주세요");return}
  drawCollection(); drawCodex(); $(go).classList.remove("hidden"); $(go).scrollTop=0;
 });
 $("couponbtn").onclick=()=>{
