@@ -492,7 +492,8 @@ input,select{line-height:1.3}
 #eggsec{display:none}
 #s3.egg #eggsec{display:block}
 #s3.egg .rtab,#s3.egg [data-tab],#s3.egg .sharebig{display:none!important}
-#s3.egg .hero .stage{width:min(60vw,240px);height:min(60vw,240px)}
+#s3.egg .hero .stage{width:min(40vw,160px);height:min(40vw,160px);margin-top:20px}
+.circle .who.eggsz{inset:12% 20% 24% 20%}
 /* 슈퍼레어 이상: 소환진 배경 + 어두운 바탕 */
 #s3.rare .grade.gel{background:rgba(255,255,255,.18)}
 body.rare{background:#15141c}
@@ -921,7 +922,7 @@ $("tk_go").onclick=()=>{const tx=$("tk_txt").value.trim();if(!tx)return;const mi
  addTalk(MI.n,{id:Date.now().toString(36),n:myNickName()||"소환사",mon,tx,t:Date.now(),like:0});$("tk_txt").value="";TK_SORT="new";drawMI()};
 let CUR_ELEM=null;
 function summonIntro(race,stage,text,elem,R){ CUR_ELEM=elem||null;
- return new Promise(res=>{const c=$("circle");$("c_art").innerHTML=artWithImage(race,stage,CUR_ELEM);$("c_art").className="who "+(R?auraClass(R.path.g):"");if(R)$("c_art").style.setProperty("--aimg",`url(img/aura/g${R.path.g}_${R.elem}.png?v=1)`);$("c_art").style.setProperty("--ec",ELEMCOLOR[CUR_ELEM]||"#fff");$("c_text").textContent=text||"소환진이 빛나요";$("c_text").classList.remove("hidden");$("c_info").classList.add("hidden");c.classList.remove("hidden");
+ return new Promise(res=>{const c=$("circle");$("c_art").innerHTML=artWithImage(race,stage,CUR_ELEM);$("c_art").classList.toggle("eggsz",stage===0);$("c_art").className="who "+(R?auraClass(R.path.g):"");if(R)$("c_art").style.setProperty("--aimg",`url(img/aura/g${R.path.g}_${R.elem}.png?v=1)`);$("c_art").style.setProperty("--ec",ELEMCOLOR[CUR_ELEM]||"#fff");$("c_text").textContent=text||"소환진이 빛나요";$("c_text").classList.remove("hidden");$("c_info").classList.add("hidden");c.classList.remove("hidden");
   setTimeout(()=>{
    if(!R){c.classList.add("hidden");res();return}
    if(stage===0){$("c_text").classList.add("hidden");$("c_info").innerHTML=`<div class="nm">${ELEM[R.elem].ic} ${R.race.n}의 알</div><div class="sub2">${R.race.n} · ${G[R.path.g]} · 누가 들어 있는지는 부화하면 알아요</div><button class="btn gold" id="c_ok">확인</button>`;$("c_info").classList.remove("hidden");$("c_ok").onclick=()=>{c.classList.add("hidden");res()};return}
