@@ -222,7 +222,9 @@ function getStage(code){try{return (JSON.parse(localStorage.getItem("ssm_stage")
 function setStage(code,st){try{const m=JSON.parse(localStorage.getItem("ssm_stage")||"{}");m[code]=st;localStorage.setItem("ssm_stage",JSON.stringify(m))}catch(e){}}
 /* 진화는 던전에서 얻는 진화석으로. 2단계 = 하급 진화석 3개, 3단계 = 상급 진화석 3개 */
 const EVOLVE_NEED={2:["low",3],3:["high",3]};
-const STONE={low:["2단계 진화석",""],high:["3단계 진화석",""]};
+const STONE={low:["2단계 진화석",""],high:["3단계 진화석",""],lowfrag:["2단계 진화석 조각",""],highfrag:["3단계 진화석 조각",""]};
+const STONE_DROP=0.30;  // 진화석이 통째로 나올 확률. 나머지는 조각
+const FRAG_PER_STONE=5; // 조각 5개 → 진화석 1개 (인벤토리에서 합성)
 /* 친구(사람) 목록. 결과 링크로 추가. */
 function friends(){try{return JSON.parse(localStorage.getItem("ssm_friends")||"[]")}catch(e){return []}}
 function addFriend(code){const f=friends();if(!f.includes(code)){f.push(code);try{localStorage.setItem("ssm_friends",JSON.stringify(f))}catch(e){}}return f}

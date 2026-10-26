@@ -67,6 +67,13 @@ button{font-family:inherit;cursor:pointer}
 .topbar{position:fixed;top:12px;right:12px;z-index:40;display:flex;gap:6px}
 .tb{height:40px;display:flex;align-items:center;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:14px;font-weight:700;text-decoration:none}
 .tb.on{border-color:var(--gold2);background:color-mix(in srgb,var(--gold2) 18%,var(--paper))}
+.party{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.party .pc{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center;cursor:pointer}
+.party .pc.on{border-color:var(--gold2);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold2) 40%,transparent)}
+.party .pc .im{width:64px;height:64px;margin:0 auto 4px}
+.party .pc .im svg,.party .pc .im img{width:100%;height:100%;object-fit:contain;display:block}
+.party .pc b{display:block;font-size:12.5px;line-height:1.3}
+.party .pc small{color:var(--ink3);font-size:11px}
 .floors{display:flex;flex-wrap:wrap;gap:6px}
 .floors button{width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--paper2);color:var(--ink);font-size:14px}
 .floors button.on{border-color:var(--gold2);background:color-mix(in srgb,var(--gold2) 18%,var(--paper2))}
@@ -103,11 +110,11 @@ button{font-family:inherit;cursor:pointer}
 </header>
 
 <section class="card" id="setup">
-  <label>내 쪽 (최대 3마리) · 결과 링크를 붙이면 누군지 바로 보여요</label>
-  <div id="teamA"></div>
-  <button class="btn ghost" id="addA" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
+  <label>내 소환수 (최대 3마리 골라요)</label>
+  <div class="party" id="party"></div>
+  <p id="partymsg" style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"></p>
   <div id="sideB">
-  <label style="margin-top:16px">친구 쪽 (최대 3마리)</label>
+  <label style="margin-top:16px">상대 (친구가 보낸 결과 링크, 최대 3마리)</label>
   <div id="teamB"></div>
   <button class="btn ghost" id="addB" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
   </div>
@@ -116,10 +123,10 @@ button{font-family:inherit;cursor:pointer}
   <div class="floors" id="floors"></div>
   <p id="floorinfo" style="font-size:12.5px;color:var(--ink3);margin:8px 0 0"></p>
   </div>
-  <label style="margin-top:16px">방식</label>
-  <div class="modes"><button class="mode on" data-m="auto">자동</button><button class="mode" data-m="manual">수동 · 내 쪽만</button><button class="mode" data-m="both">둘 다 수동</button></div>
+  <div id="modewrap"><label style="margin-top:16px">방식</label>
+  <div class="modes"><button class="mode on" data-m="auto">자동</button><button class="mode" data-m="manual">수동 · 내 쪽만</button><button class="mode" data-m="both">둘 다 수동</button></div></div>
   <button class="btn gold" id="go">⚔️ 싸우기</button>
-  <p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0">링크가 없으면 <a href="index.html" style="color:var(--gold)">테스트</a>부터 해 주세요. 단계는 진화했을 때를 가정해서 볼 수 있어요.</p>
+  <p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0" id="setuphint">상대 칸의 단계는 친구가 진화했을 때를 가정해서 바꿔 볼 수 있어요.</p>
 </section>
 
 <section id="fight" class="hidden">
@@ -287,7 +294,9 @@ function finish(){
    const kind=floorReward(FLOOR);
    if(!kind)extra=`<div class="drop">${FLOOR}층은 보상이 없어요. 3층부터 진화석이 나와요.</div>`;
    else if(claimedToday(FLOOR))extra=`<div class="drop">${FLOOR}층 보상은 오늘 이미 받았어요. 내일 다시 받을 수 있어요.</div>`;
-   else{addItem(kind,1);const c=rec().claimed||{};c[FLOOR]=todayStr();setRec("claimed",c);extra=`<div class="drop">${STONE[kind][0]} 1개를 얻었어요</div>`}
+   else{const c=rec().claimed||{};c[FLOOR]=todayStr();setRec("claimed",c);
+    if(Math.random()<STONE_DROP){addItem(kind,1);extra=`<div class="drop">${STONE[kind][0]} 1개를 얻었어요!</div>`}
+    else{addItem(kind+"frag",1);extra=`<div class="drop">${STONE[kind+"frag"][0]} 1개를 얻었어요. ${FRAG_PER_STONE}개 모으면 인벤토리에서 합성할 수 있어요.</div>`}}
   }else extra=`<div class="drop">졌어요. 진화석을 못 얻었어요.</div>`;
  }else{ if(win==="a")setRec("wins",(rec().wins||0)+1); else if(win==="b")setRec("losses",(rec().losses||0)+1); }
  $("win").innerHTML=win?`<b>${owner(win==="a"?TA:TB)} 승리</b><span>${win==="a"?names(TA):names(TB)}이(가) 이겼어요.</span>${extra}`:`<b>무승부</b><span>둘 다 쓰러졌어요.</span>${extra}`;
@@ -355,7 +364,17 @@ function updateCard(f){
  el.querySelector(".tg i").style.width=Math.min(100,f.gauge/TURN*100)+"%";
  el.querySelector(".st").innerHTML=Object.keys(f.eff).filter(k=>EFF[k]).map(k=>`<span class="${BAD.has(k)?"bad":"good"}">${EFF[k][0]}</span>`).join("")+(f.shield>0?`<span class="good">보호막</span>`:"")+(f.guard?`<span class="good">방어 중</span>`:"");
 }
+let PARTY=[];
+function drawParty(){
+ let col=[];try{col=JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){}
+ const box=$("party");
+ if(!col.length){box.innerHTML="";$("partymsg").innerHTML=`아직 소환수가 없어요. <a href="index.html" style="color:var(--gold)">먼저 소환해 주세요.</a>`;return}
+ box.innerHTML=col.map(c=>{const d=decode(c);if(!d)return"";const R=judge(d.b,d.a),sg=getStage(c),st=stageStats(R.base,R.race,sg-1);return `<div class="pc ${PARTY.includes(c)?"on":""}" data-c="${c}"><div class="im">${artWithImage(R.race,sg,R.elem)}</div><b>${R.stages[sg-1].replace(/〔.*?〕/,"")}</b><small>${sg}단계 · 전투력 ${power(st)}</small></div>`}).join("");
+ box.querySelectorAll(".pc").forEach(el=>el.onclick=()=>{const c=el.dataset.c;if(PARTY.includes(c))PARTY=PARTY.filter(x=>x!==c);else if(PARTY.length<3)PARTY.push(c);else{toast("3마리까지만 데려갈 수 있어요");return}drawParty()});
+ $("partymsg").textContent=PARTY.length?`${PARTY.length}마리 선택`:"데려갈 소환수를 눌러서 고르세요.";
+}
 function readTeam(side){
+ if(side==="a")return PARTY.map(c=>({h:{d:decode(c),h:c},stage:getStage(c)}));
  return [...document.querySelectorAll(`#team${side.toUpperCase()} .row2`)].map(r=>{const h=parseHash(r.querySelector("input").value);return h?{h,stage:+r.querySelector("select:not(.colsel)").value||1}:null}).filter(Boolean);
 }
 async function run(){
@@ -373,9 +392,9 @@ async function run(){
 function addRow(side,val){
  const box=$("team"+side.toUpperCase()); if(box.children.length>=3)return;
  const d=document.createElement("div"); d.className="row2";
- let col=[];try{col=JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){}
- const colSel=col.length?`<select class="colsel"><option value="">내 친구들에서 고르기</option>${col.map(c=>{const dd=decode(c);if(!dd)return"";const R=judge(dd.b,dd.a);const sg=getStage(c);return `<option value="${c}">${dd.nick?dd.nick+"의 ":""}${R.stages[sg-1].replace(/〔.*?〕/,"")} · ${sg}단계 · 전투력 ${power(stageStats(R.base,R.race,sg-1))}</option>`}).join("")}</select>`:"";
- d.innerHTML=`${colSel}<input placeholder="결과 링크를 붙여 넣어요" value="${val||""}"><select><option value="1">1단계</option><option value="2">2단계</option><option value="3">3단계</option></select><div class="pv"></div>`;
+ let fr=[];try{fr=JSON.parse(localStorage.getItem("ssm_friends")||"[]")}catch(e){}
+ const colSel=fr.length?`<select class="colsel"><option value="">친구 목록에서 고르기</option>${fr.map(c=>{const dd=decode(c);if(!dd)return"";const R=judge(dd.b,dd.a);return `<option value="${c}">${dd.nick||"친구"} · ${R.race.n}</option>`}).join("")}</select>`:"";
+ d.innerHTML=`${colSel}<input placeholder="친구가 보낸 결과 링크" value="${val||""}"><select><option value="1">1단계</option><option value="2">2단계</option><option value="3">3단계</option></select><div class="pv"></div>`;
  box.appendChild(d);
  const upd=()=>{const h=parseHash(d.querySelector("input").value), pv=d.querySelector(".pv");
   if(!h){pv.innerHTML=d.querySelector("input").value.trim()?`<span class="no">결과 링크가 아니에요</span>`:"";return}
@@ -384,21 +403,25 @@ function addRow(side,val){
  d.querySelector("input").oninput=upd; d.querySelector("select:not(.colsel)").onchange=upd; const cs=d.querySelector(".colsel"); if(cs)cs.onchange=()=>{if(cs.value){d.querySelector("input").value=cs.value;d.querySelector("select:not(.colsel)").value=String(getStage(cs.value));upd()}}; upd();
 }
 $("go").onclick=run;
-$("addA").onclick=()=>addRow("a"); $("addB").onclick=()=>addRow("b");
+$("addB").onclick=()=>addRow("b");
 document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;document.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b))});
 $("again").onclick=()=>{if(BUSY)return;if(GAME==="dungeon"){location.href="battle.html?mode=dungeon";return}$("fight").classList.add("hidden");$("setup").classList.remove("hidden")};
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(WINTEXT);toast("복사했어요")}catch(e){toast("복사가 막혀 있어요")}};
 (function(){
  const q=new URLSearchParams(location.search);
  let a=q.get("a"); if(!a){try{a=localStorage.getItem("ssm_last")}catch(e){}}
- addRow("a",a||"");
+ try{a=decodeURIComponent(a||"")}catch(e){}
+ let col=[];try{col=JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){}
+ if(a&&col.includes(a))PARTY=[a]; else if(col.length)PARTY=[col[col.length-1]];
+ drawParty();
  if(GAME==="dungeon"){
+  MODE="manual"; $("modewrap").classList.add("hidden");
   $("tab_d").classList.add("on"); $("title").textContent="던전"; $("subt").textContent="층마다 몬스터가 나와요. 이기면 진화석을 줘요.";
-  $("sideB").classList.add("hidden"); $("sideD").classList.remove("hidden"); $("go").textContent="🏰 입장";
+  $("sideB").classList.add("hidden"); $("sideD").classList.remove("hidden"); $("go").textContent="🏰 입장"; $("setuphint").textContent="던전은 직접 싸워요. 차례마다 공격·스킬·방어를 고르세요.";
   const best=rec().dungeon||0; FLOOR=best+1;
   if(FLOOR>MAXFLOOR)FLOOR=MAXFLOOR;
   const fl=$("floors"); fl.innerHTML=Array.from({length:MAXFLOOR},(_,i)=>`<button data-f="${i+1}" ${i+1>best+1?"disabled":""} class="${i+1===FLOOR?"on":""}">${i+1}</button>`).join("");
-  const info=()=>{const rw=floorReward(FLOOR);$("floorinfo").textContent=`${FLOOR}층 · 몬스터 ${floorEnemyCount(FLOOR)}마리 · ${floorStage(FLOOR)}단계 · 능력치 +${Math.round((floorScale(FLOOR)-1)*100)}% · 보상 ${rw?STONE[rw][0]+" 1개"+(claimedToday(FLOOR)?" (오늘 받음)":""):"없음"} · 최고 ${best}층`};
+  const info=()=>{const rw=floorReward(FLOOR);$("floorinfo").textContent=`${FLOOR}층 · 몬스터 ${floorEnemyCount(FLOOR)}마리 · ${floorStage(FLOOR)}단계 · 능력치 +${Math.round((floorScale(FLOOR)-1)*100)}% · 보상 ${rw?STONE[rw][0]+" 30% / 조각 70%"+(claimedToday(FLOOR)?" (오늘 받음)":""):"없음"} · 최고 ${best}층`};
   fl.querySelectorAll("button").forEach(b=>b.onclick=()=>{FLOOR=+b.dataset.f;fl.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));info()}); info();
  }else{ $("tab_a").classList.add("on"); addRow("b",q.get("b")||""); }
 })();

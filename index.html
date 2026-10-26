@@ -550,8 +550,14 @@ function drawEvolve(){
  const [kind,need]=EVOLVE_NEED[st+1], have=items()[kind]||0, ok=have>=need, S=STONE[kind];
  box.innerHTML=`<div class="xp"><div class="xh"><span>${S[1]} ${S[0]}</span><b>${Math.min(have,need)} / ${need}</b></div><div class="t"><i style="width:${Math.min(100,have/need*100)}%"></i></div></div>
   <button class="btn gold" id="evbtn" ${ok?"":"disabled"} style="margin-top:10px">${st+1}단계로 진화 · ${S[0]} ${need}개</button>
-  ${ok?"":`<p class="mini" style="margin:6px 0 0">${S[0]}은 던전 ${kind==="low"?"3~6층":"7~10층"}을 깨면 층마다 하루 1개 나와요. ${need}개 모으면 ${st+1}단계로 진화해요.</p>`}`;
- const b=$("evbtn"); if(b)b.onclick=async()=>{addItem(kind,-need);setStage(code,st+1);track("evolve_"+(st+1));const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"})};
+  ${ok?"":`<p class="mini" style="margin:6px 0 0">${S[0]}은 던전 ${kind==="low"?"3~6층":"7~10층"}에서 30% 확률로 나와요. 안 나오면 조각이 나오고, 조각 ${FRAG_PER_STONE}개를 인벤토리에서 합성하면 1개가 돼요.</p>`}`;
+ const b=$("evbtn"); if(b)b.onclick=()=>doEvolve();
+}
+async function doEvolve(){
+ const code=location.hash.replace("#",""), st=getStage(code); if(!code||st>=3)return;
+ const [kind,need]=EVOLVE_NEED[st+1]; if((items()[kind]||0)<need){toast(`${STONE[kind][0]}이 ${need}개 필요해요`);return}
+ addItem(kind,-need);setStage(code,st+1);track("evolve_"+(st+1));
+ const R=judge(birth,answers);await summonIntro(R.race,st+1,"진화하고 있어요",R.elem);draw(R);window.scrollTo({top:0,behavior:"smooth"});
 }
 function dailyXp(){const code=location.hash.replace("#","");if(!code)return;const key="ssm_dx_"+code;const d=ST.get(key,"");if(d!==today()){ST.set(key,today());addXp(code,XP_GAIN.daily)}}
 function summon(){
@@ -588,7 +594,7 @@ function summon(){
 const COUPONS={"WELCOME":1,"SUMMON3":3,"ARENA":1};
 const NOTICES=[
  {d:"2026-10-26",t:"이세계 소환사 테스트 시작",b:"친구에게 결과를 보내면 소환권을 받을 수 있어요. 하루 1개까지예요."},
- {d:"2026-10-26",t:"던전 열림",b:"10층까지 있어요. 3~6층은 2단계 진화석, 7~10층은 3단계 진화석이 층마다 하루 1개 나와요. 올라갈수록 많이 세져요."},
+ {d:"2026-10-26",t:"던전 열림",b:"10층까지 있어요. 3~6층은 2단계, 7~10층은 3단계 진화석이 30% 확률로, 아니면 조각이 나와요. 조각 5개는 인벤토리에서 합성해요. 층마다 하루 1번."},
  {d:"2026-10-26",t:"아레나 열림",b:"결과 링크로 친구와 1대1, 2대2, 3대3 대결이 돼요."},
  {d:"2026-10-26",t:"쿠폰 WELCOME",b:"마이페이지 맨 아래 쿠폰 입력하기에 WELCOME을 넣으면 소환권 1개를 드려요."}
 ];
@@ -602,8 +608,10 @@ function drawMe(){
 document.querySelectorAll(".panel .back").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
 const ITEMS=[
  {k:"ticket",n:"소환권",img:"img/item_ticket.png",get:()=>tickets(),d:"새 소환수를 한 마리 소환해요. 친구 3명에게 결과를 보내면 1개(하루 1개), 쿠폰이나 구매로도 받아요.",act:"소환권 쓰기",go:()=>{$("invsec").classList.add("hidden");summon()}},
- {k:"low",n:"2단계 진화석",img:"img/item_stone2.png",get:()=>items().low||0,d:"3개 모으면 1단계 소환수를 2단계로 진화시켜요. 던전 3~6층을 깨면 층마다 하루 1개.",act:"진화하러 가기",go:()=>{$("invsec").classList.add("hidden");$("r_evolve").scrollIntoView({behavior:"smooth",block:"center"})}},
- {k:"high",n:"3단계 진화석",img:"img/item_stone3.png",get:()=>items().high||0,d:"3개 모으면 2단계 소환수를 3단계로 진화시켜요. 던전 7~10층을 깨면 층마다 하루 1개.",act:"진화하러 가기",go:()=>{$("invsec").classList.add("hidden");$("r_evolve").scrollIntoView({behavior:"smooth",block:"center"})}}
+ {k:"low",n:"2단계 진화석",img:"img/item_stone2.png",get:()=>items().low||0,d:"3개 모으면 지금 보고 있는 1단계 소환수를 2단계로 진화시켜요. 던전 3~6층을 깨면 30% 확률로 나와요.",act:()=>`사용 (3개 → 2단계로 진화)`,can:()=>(items().low||0)>=3&&getStage(location.hash.replace("#",""))===1,go:()=>{$("invsec").classList.add("hidden");doEvolve()}},
+ {k:"high",n:"3단계 진화석",img:"img/item_stone3.png",get:()=>items().high||0,d:"3개 모으면 지금 보고 있는 2단계 소환수를 3단계로 진화시켜요. 던전 7~10층을 깨면 30% 확률로 나와요.",act:()=>`사용 (3개 → 3단계로 진화)`,can:()=>(items().high||0)>=3&&getStage(location.hash.replace("#",""))===2,go:()=>{$("invsec").classList.add("hidden");doEvolve()}},
+ {k:"lowfrag",n:"2단계 진화석 조각",img:"img/item_frag2.png",get:()=>items().lowfrag||0,d:`${FRAG_PER_STONE}개를 합성하면 2단계 진화석 1개가 돼요. 던전 3~6층에서 진화석이 안 나올 때 대신 나와요.`,act:()=>`합성하기 (${FRAG_PER_STONE}개 → 2단계 진화석 1개)`,can:()=>(items().lowfrag||0)>=FRAG_PER_STONE,go:()=>{addItem("lowfrag",-FRAG_PER_STONE);addItem("low",1);toast("2단계 진화석 1개를 만들었어요");drawInv()}},
+ {k:"highfrag",n:"3단계 진화석 조각",img:"img/item_frag3.png",get:()=>items().highfrag||0,d:`${FRAG_PER_STONE}개를 합성하면 3단계 진화석 1개가 돼요. 던전 7~10층에서 진화석이 안 나올 때 대신 나와요.`,act:()=>`합성하기 (${FRAG_PER_STONE}개 → 3단계 진화석 1개)`,can:()=>(items().highfrag||0)>=FRAG_PER_STONE,go:()=>{addItem("highfrag",-FRAG_PER_STONE);addItem("high",1);toast("3단계 진화석 1개를 만들었어요");drawInv()}}
 ];
 const INV_SLOTS=20; let INV_SEL=null;
 function drawInv(){
@@ -613,7 +621,7 @@ function drawInv(){
  $("r_inv").querySelectorAll(".slot.has").forEach(el=>el.onclick=()=>{INV_SEL=INV_SEL===el.dataset.k?null:el.dataset.k;drawInv()});
  const it=ITEMS.find(i=>i.k===INV_SEL&&i.get()>0);
  $("inv_detail").classList.toggle("hidden",!it);
- if(it){$("inv_detail").innerHTML=`<img src="${it.img}" alt=""><div><b>${it.n} × ${it.get()}</b><small>${it.d}</small></div><button class="btn gold" id="invact">${it.act}</button>`;$("invact").onclick=it.go}
+ if(it){const label=typeof it.act==="function"?it.act():it.act, ok=it.can?it.can():true;$("inv_detail").innerHTML=`<img src="${it.img}" alt=""><div><b>${it.n} × ${it.get()}</b><small>${it.d}</small></div><button class="btn gold" id="invact" ${ok?"":"disabled"}>${label}</button>`;$("invact").onclick=()=>{if(ok)it.go()}}
 }
 let RT="dungeon";
 function drawRank(){
