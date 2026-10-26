@@ -187,12 +187,17 @@ function judge(b,ans){
  return {race,job,path,pow,elem,id,stages,base,skills};
 }
 
-const IMGV="3"; // 그림을 바꾸면 올린다 (브라우저 캐시 무효화)
+const IMGV="3";
+const ELEMART=false; // 속성별 그림(img/race/<종족>_<단계>_<속성>.png)을 다 넣으면 true
+/* 속성 색 (오라 등에 씀) */
+const ELEMCOLOR={fire:"#ff6b4a",water:"#4aa8ff",earth:"#f2c440",wind:"#4cd49a",light:"#e8eefc",dark:"#9a6cff"};
+/* 레어도 오라: 모양은 등급, 색은 속성 */
+function auraClass(g){return "aura g"+Math.max(0,Math.min(4,g||0))} // 그림을 바꾸면 올린다 (브라우저 캐시 무효화)
 const IMGKEY={"알":"egg","아기":"baby","씨앗":"seed","암석":"stone","물방울":"drop","데몬 씨앗":"demonseed","뼈대":"bones","흔적":"wisp","":"unknown"};
 function artWithImage(race,stage,elem){
  // 진화 단계 그림 → img/race/<종족명>.png → img/<형태>.png → SVG 순서. 파일이 없으면 자동으로 다음으로 넘어간다. 속성은 색으로.
- const svg=art(race); stage=stage||1; const css=elem&&ELEM[elem]?ELEM[elem].css:"";
- const srcs=[...(stage>1?[`img/race/${race.n}_${stage}.png?v=${IMGV}`]:[]),`img/race/${race.n}.png?v=${IMGV}`,`img/${IMGKEY[race.f]||"unknown"}.png`];
+ const svg=art(race); stage=stage||1; const css=ELEMART?"":(elem&&ELEM[elem]?ELEM[elem].css:""); // 속성 그림이 있으면 색은 그림이 낸다
+ const srcs=[...(elem&&ELEM[elem]&&ELEMART?[`img/race/${race.n}_${stage}_${elem}.png?v=${IMGV}`]:[]),...(stage>1?[`img/race/${race.n}_${stage}.png?v=${IMGV}`]:[]),`img/race/${race.n}.png?v=${IMGV}`,`img/${IMGKEY[race.f]||"unknown"}.png`];
  const id="im"+Math.random().toString(36).slice(2);
  setTimeout(()=>{const el=document.getElementById(id);if(!el)return;let i=0;const tryNext=()=>{if(i>=srcs.length){el.outerHTML=svg;return}const im=new Image();im.onload=()=>{el.innerHTML=`<img src="${srcs[i]}" alt="" style="width:100%;height:100%;object-fit:contain;display:block;filter:${css}" class="bob">`};im.onerror=()=>{i++;tryNext()};im.src=srcs[i]};tryNext()},0);
  return `<div id="${id}" style="filter:${css};width:100%;height:100%"></div>`; // 그림이 뜰 때까지 비워 둔다(알 그림이 잠깐 보이지 않게)
