@@ -187,11 +187,12 @@ function judge(b,ans){
  return {race,job,path,pow,elem,id,stages,base,skills};
 }
 
+const IMGV="2"; // 그림을 바꾸면 올린다 (브라우저 캐시 무효화)
 const IMGKEY={"알":"egg","아기":"baby","씨앗":"seed","암석":"stone","물방울":"drop","데몬 씨앗":"demonseed","뼈대":"bones","흔적":"wisp","":"unknown"};
 function artWithImage(race,stage,elem){
  // 진화 단계 그림 → img/race/<종족명>.png → img/<형태>.png → SVG 순서. 파일이 없으면 자동으로 다음으로 넘어간다. 속성은 색으로.
  const svg=art(race); stage=stage||1; const css=elem&&ELEM[elem]?ELEM[elem].css:"";
- const srcs=[...(stage>1?[`img/race/${race.n}_${stage}.png`]:[]),`img/race/${race.n}.png`,`img/${IMGKEY[race.f]||"unknown"}.png`];
+ const srcs=[...(stage>1?[`img/race/${race.n}_${stage}.png?v=${IMGV}`]:[]),`img/race/${race.n}.png?v=${IMGV}`,`img/${IMGKEY[race.f]||"unknown"}.png`];
  const id="im"+Math.random().toString(36).slice(2);
  setTimeout(()=>{const el=document.getElementById(id);if(!el)return;let i=0;const tryNext=()=>{if(i>=srcs.length){el.outerHTML=svg;return}const im=new Image();im.onload=()=>{el.innerHTML=`<img src="${srcs[i]}" alt="" style="width:100%;height:100%;object-fit:contain;display:block;filter:${css}" class="bob">`};im.onerror=()=>{i++;tryNext()};im.src=srcs[i]};tryNext()},0);
  return `<div id="${id}" style="filter:${css}">${svg}</div>`;
@@ -266,7 +267,9 @@ function collection(){try{return JSON.parse(localStorage.getItem("ssm_col")||"[]
 
 /* 스킬 아이콘·설명 (도감, 결과, 아레나 공통) */
 const SK_EFFICON={stun:"💫",sleep:"💤",web:"🕸️",burn:"🔥",bleed:"🩸",poison:"☠️",frost:"❄️",shock:"⚡",slow:"🐌",silence:"🔇",blind:"🌫️",fear:"😱",rage:"😡",shield:"🔰",guard:"🛡️",regen:"🌿",heal:"💚",cleanse:"✨",drain:"🧛",random:"🎲"};
-function skillIcon(k){return SK_EFFICON[k[3]]||({hit:"⚔️",debuff:"🌀",buff:"🛡️",heal:"💚"})[k[1]]||"✨"}
+/* 스킬 그림: img/sk/<효과>.jpg. 효과가 없으면 종류로 고른다. */
+function skImg(e,t){const key=e&&SK_EFFICON[e]?e:(t==="buff"?"guard":t==="heal"?"heal":t==="debuff"?"fear":t==="defend"?"defend":"hit");return `<img class="ski" src="img/sk/${key}.jpg?v=1" alt="">`}
+function skillIcon(k){return skImg(k[3],k[1])}
 function skillKind(t){return t==="hit"?"공격":t==="heal"?"회복":t==="buff"?"강화":"약화"}
 /* tier: 스킬이 열리는 단계, k: [이름,종류,배율,효과,설명,속성], stat: 데미지 계산용 능력치(없으면 숫자 생략) */
 function skillDetailHTML(tier,k,stat){
