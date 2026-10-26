@@ -243,3 +243,23 @@ function addXp(code,n){try{const m=JSON.parse(localStorage.getItem("ssm_xp")||"{
 /* 화면에 보여 주는 데미지. 상대 방어 60을 기준으로 계산한다. */
 const REF_DEF=60;
 function showDmg(stat,mult){return Math.floor(stat*mult*100/(100+REF_DEF))}
+
+/* 친구 코드 = 닉네임 + 방어덱(최대 3마리, 단계). 친구는 이 코드로 나를 추가하고, 아레나에서 내 방어덱과 싸운다. */
+function defDeck(){try{return JSON.parse(localStorage.getItem("ssm_defdeck")||"[]")}catch(e){return []}}
+function setDefDeck(codes){try{localStorage.setItem("ssm_defdeck",JSON.stringify(codes))}catch(e){}}
+function makeFriendCode(nick,deck){ // deck: [[code,stage],...]
+ const json=JSON.stringify({n:nick||"",d:deck});
+ return "F"+btoa(unescape(encodeURIComponent(json))).replace(/=+$/,"");
+}
+function parseFriendCode(v){
+ v=(v||"").trim(); const i=v.indexOf("#"); if(i>=0)v=v.slice(i+1); try{v=decodeURIComponent(v)}catch(e){}
+ if(v.startsWith("F")){try{const o=JSON.parse(decodeURIComponent(escape(atob(v.slice(1)))));if(o&&Array.isArray(o.d)&&o.d.length&&o.d.every(x=>decode(x[0])))return {n:String(o.n||"").slice(0,12),d:o.d.slice(0,3).map(x=>[x[0],Math.min(3,Math.max(1,+x[1]||1))]),raw:v}}catch(e){}return null}
+ const d=decode(v); if(!d||d.a.length<6)return null; // 예전 코드(소환수 하나)
+ return {n:d.nick||"",d:[[v,1]],raw:v};
+}
+function friendsV2(){ // 저장: [{n,d,raw}]
+ try{const a=JSON.parse(localStorage.getItem("ssm_friends2")||"[]");if(a.length)return a}catch(e){}
+ return friends().map(c=>parseFriendCode(c)).filter(Boolean);
+}
+function setFriendsV2(a){try{localStorage.setItem("ssm_friends2",JSON.stringify(a))}catch(e){}}
+function collection(){try{return JSON.parse(localStorage.getItem("ssm_col")||"[]")}catch(e){return []}}

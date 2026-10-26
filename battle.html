@@ -73,7 +73,22 @@ button{font-family:inherit;cursor:pointer}
 .party .pc .im{width:64px;height:64px;margin:0 auto 4px}
 .party .pc .im svg,.party .pc .im img{width:100%;height:100%;object-fit:contain;display:block}
 .party .pc b{display:block;font-size:12.5px;line-height:1.3}
-.party .pc small{color:var(--ink3);font-size:11px}
+.party .pc small{color:var(--ink3);font-size:11px;display:block}
+.party .pc select.st{margin-top:6px;width:100%;padding:6px;font-size:12px;border-radius:8px}
+.lnk{background:none;border:none;color:var(--gold);font-size:13px;cursor:pointer;padding:0}
+.deckrow{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.deckrow .m{display:flex;align-items:center;gap:6px;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:6px 10px 6px 6px;font-size:12.5px}
+.deckrow .m .im{width:34px;height:34px}
+.deckrow .m .im svg,.deckrow .m .im img{width:100%;height:100%;object-fit:contain;display:block}
+.decks .dk{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;cursor:pointer}
+.decks .dk.on{border-color:var(--gold2);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold2) 40%,transparent)}
+.decks .dk .hd{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px}
+.decks .dk .hd small{color:var(--ink3);font-size:12px}
+.decks .dk .ms{display:flex;gap:6px;margin-top:8px}
+.decks .dk .m{flex:1;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:6px 4px;text-align:center;font-size:11.5px;line-height:1.3}
+.decks .dk .m .im{width:44px;height:44px;margin:0 auto 2px}
+.decks .dk .m .im svg,.decks .dk .m .im img{width:100%;height:100%;object-fit:contain;display:block}
+.decks .dk .m .tg{color:var(--ink3);font-size:10.5px}
 .floors{display:flex;flex-wrap:wrap;gap:6px}
 .floors button{width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--paper2);color:var(--ink);font-size:14px}
 .floors button.on{border-color:var(--gold2);background:color-mix(in srgb,var(--gold2) 18%,var(--paper2))}
@@ -106,17 +121,22 @@ button{font-family:inherit;cursor:pointer}
 <div class="topbar"><a class="tb" id="tab_d" href="battle.html?mode=dungeon">🏰 던전</a><a class="tb" id="tab_a" href="battle.html">⚔️ 아레나</a><a class="tb" href="index.html">🏠</a></div>
 <header>
   <h1 id="title">아레나</h1>
-  <p class="sub" id="subt">결과 링크를 붙이면 알아서 싸워요. 1대1도, 2대2도, 3대3도 돼요.</p>
+  <p class="sub" id="subt">방어덱을 걸어 두고, 다른 사람의 방어덱을 골라 공격해요.</p>
 </header>
 
+<section class="card hidden" id="defcard">
+  <div style="display:flex;justify-content:space-between;align-items:center"><label style="margin:0">내 방어덱 <span style="color:var(--ink3)">· 다른 사람이 나를 공격할 때 자동으로 싸워요</span></label><button class="lnk" id="deftoggle">바꾸기</button></div>
+  <div class="deckrow" id="defsummary"></div>
+  <div class="hidden" id="defedit"><div class="party" id="defdeck" style="margin-top:10px"></div><p class="mini" id="defmsg" style="margin:6px 0 0"></p><button class="btn gold" id="defsave" style="margin-top:10px;padding:11px;font-size:14px">방어덱 저장</button></div>
+</section>
 <section class="card" id="setup">
-  <label>내 소환수 (최대 3마리 골라요)</label>
+  <label>내 공격덱 (최대 3마리 골라요)</label>
   <div class="party" id="party"></div>
   <p id="partymsg" style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"></p>
   <div id="sideB">
-  <label style="margin-top:16px">상대 (친구가 보낸 결과 링크, 최대 3마리)</label>
-  <div id="teamB"></div>
-  <button class="btn ghost" id="addB" style="margin-top:8px;padding:10px;font-size:13.5px">+ 한 마리 더</button>
+  <label style="margin-top:16px">상대 방어덱 · 속성과 특성을 보고 공격덱을 짜세요 (방어덱은 자동으로 움직여요)</label>
+  <div class="decks" id="oppo"></div>
+  <p id="oppomsg" style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"></p>
   </div>
   <div id="sideD" class="hidden">
   <label style="margin-top:16px">던전 층</label>
@@ -124,9 +144,9 @@ button{font-family:inherit;cursor:pointer}
   <p id="floorinfo" style="font-size:12.5px;color:var(--ink3);margin:8px 0 0"></p>
   </div>
   <div id="modewrap"><label style="margin-top:16px">방식</label>
-  <div class="modes"><button class="mode on" data-m="auto">자동</button><button class="mode" data-m="manual">수동 · 내 쪽만</button><button class="mode" data-m="both">둘 다 수동</button></div></div>
+  <div class="modes"><button class="mode on" data-m="auto">자동</button><button class="mode" data-m="manual">수동 · 내 쪽만</button><button class="mode" data-m="both">둘 다 수동 (같이 앉아서)</button></div></div>
   <button class="btn gold" id="go">⚔️ 싸우기</button>
-  <p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0" id="setuphint">상대 칸의 단계는 친구가 진화했을 때를 가정해서 바꿔 볼 수 있어요.</p>
+  <p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0" id="setuphint"></p>
 </section>
 
 <section id="fight" class="hidden">
@@ -146,7 +166,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=18"></script>
+<script src="game.js?v=19"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
@@ -247,7 +267,10 @@ function cannotAct(att){
  return null;
 }
 function aiDecide(att,enemies){
- const hits=alive(enemies); const target=rnd()<0.6?hits.slice().sort((a,b)=>a.hp/a.maxhp-b.hp/b.maxhp)[0]:hits[Math.floor(rnd()*hits.length)];
+ // 자동은 자기한테 유리한 상대(특성+속성 %)를 먼저 때리고, 같으면 체력이 낮은 쪽
+ const hits=alive(enemies);
+ const score=e=>(traitAdv(att,e)+elemAdv(att.elem,e.elem))*10-(e.hp/e.maxhp);
+ const target=hits.slice().sort((a,b)=>score(b)-score(a))[0];
  const ready=att.skills.filter(s=>s.cd===0&&!att.eff.silence);
  const low=att.hp<att.maxhp*0.35;
  let pick=null;
@@ -373,14 +396,49 @@ function drawParty(){
  box.querySelectorAll(".pc").forEach(el=>el.onclick=()=>{const c=el.dataset.c;if(PARTY.includes(c))PARTY=PARTY.filter(x=>x!==c);else if(PARTY.length<3)PARTY.push(c);else{toast("3마리까지만 데려갈 수 있어요");return}drawParty()});
  $("partymsg").textContent=PARTY.length?`${PARTY.length}마리 선택`:"데려갈 소환수를 눌러서 고르세요.";
 }
+let OPPO=null; // 선택한 방어덱 index (DECKS 기준)
+let DECKS=[];
+const BOT_NAMES=["검은달","하루","도토리","미르","루나","태오","보라","설희","제이","민트","가온","수호"];
+function botDecks(){ // 연습용 소환사. 날짜마다 바뀐다. 서버가 열리면 진짜 사람 목록으로 바뀐다.
+ const r=rng(hash("bots"+new Date().toISOString().slice(0,10)));
+ const keys=Object.keys(JOBS);
+ return Array.from({length:8},(_,i)=>{
+  const n=BOT_NAMES[Math.floor(r()*BOT_NAMES.length)]+String(Math.floor(r()*90)+10);
+  const size=1+Math.floor(r()*3);
+  const d=Array.from({length:size},()=>{const b={y:String(1900+Math.floor(r()*200)),m:String(1+Math.floor(r()*12)),d:String(1+Math.floor(r()*28)),h:String(Math.floor(r()*12))};const a=Array.from({length:6},()=>keys[Math.floor(r()*keys.length)]);const st=r()<0.5?1:r()<0.75?2:3;return [encode(b,a,n),st]});
+  return {n,d,bot:true};
+ });
+}
+function deckPower(f){return f.d.reduce((s,[c,st])=>{const d=decode(c);const R=judge(d.b,d.a);return s+power(stageStats(R.base,R.race,st-1))},0)}
+function deckCard(f,i,sel){
+ const ms=f.d.map(([c,st])=>{const d=decode(c);const R=judge(d.b,d.a);return `<div class="m"><div class="im">${artWithImage(R.race,st,R.elem)}</div>${R.stages[st-1].replace(/〔.*?〕/,"")}<div class="tg">${ELEM[R.elem].ic}${ELEM[R.elem].n} · ${POW[R.pow][1]} · ${st}단계</div></div>`}).join("");
+ return `<div class="dk ${sel?"on":""}" data-i="${i}"><div class="hd"><b>${f.n||"소환사"}${f.bot?' <small>연습</small>':''}</b><small>방어덱 ${f.d.length}마리 · 전투력 ${deckPower(f)}</small></div><div class="ms">${ms}</div></div>`;
+}
+function drawOppo(){
+ DECKS=[...friendsV2(),...botDecks()];
+ $("oppo").innerHTML=DECKS.map((f,i)=>deckCard(f,i,OPPO===i)).join("");
+ $("oppo").querySelectorAll(".dk").forEach(el=>el.onclick=()=>{OPPO=OPPO===+el.dataset.i?null:+el.dataset.i;drawOppo()});
+ $("oppomsg").textContent=OPPO!=null?`${DECKS[OPPO].n}의 방어덱과 싸워요.`:"공격할 방어덱을 눌러서 고르세요. 친구 코드로 추가한 친구는 맨 위에 나와요.";
+}
+/* 내 방어덱 등록 */
+function drawDef(){
+ const col=collection?collection():JSON.parse(localStorage.getItem("ssm_col")||"[]");
+ let deck=defDeck().filter(c=>col.includes(c));
+ $("defsummary").innerHTML=deck.length?deck.map(c=>{const d=decode(c);const R=judge(d.b,d.a),st=getStage(c);return `<div class="m"><div class="im">${artWithImage(R.race,st,R.elem)}</div>${R.stages[st-1].replace(/〔.*?〕/,"")} <span style="color:var(--ink3)">${ELEM[R.elem].ic}</span></div>`}).join(""):`<p class="mini" style="margin:0">아직 방어덱이 없어요. 바꾸기를 눌러 등록하세요. 등록 안 하면 가장 최근 소환수 하나가 방어해요.</p>`;
+ $("defdeck").innerHTML=col.map(c=>{const d=decode(c);if(!d)return"";const R=judge(d.b,d.a),sg=getStage(c),st=stageStats(R.base,R.race,sg-1);return `<div class="pc ${DEFSEL.includes(c)?"on":""}" data-c="${c}"><div class="im">${artWithImage(R.race,sg,R.elem)}</div><b>${R.stages[sg-1].replace(/〔.*?〕/,"")}</b><small>${ELEM[R.elem].ic}${ELEM[R.elem].n} · ${sg}단계 · 전투력 ${power(st)}</small></div>`}).join("");
+ $("defdeck").querySelectorAll(".pc").forEach(el=>el.onclick=()=>{const c=el.dataset.c;if(DEFSEL.includes(c))DEFSEL=DEFSEL.filter(x=>x!==c);else if(DEFSEL.length<3)DEFSEL.push(c);else{toast("방어덱은 3마리까지예요");return}drawDef()});
+ $("defmsg").textContent=DEFSEL.length?`${DEFSEL.length}마리 선택`:"방어덱에 넣을 소환수를 누르세요.";
+}
+let DEFSEL=[];
 function readTeam(side){
  if(side==="a")return PARTY.map(c=>({h:{d:decode(c),h:c},stage:getStage(c)}));
- return [...document.querySelectorAll(`#team${side.toUpperCase()} .row2`)].map(r=>{const h=parseHash(r.querySelector("input").value);return h?{h,stage:+r.querySelector("select:not(.colsel)").value||1}:null}).filter(Boolean);
+ if(OPPO==null||!DECKS[OPPO])return [];
+ return DECKS[OPPO].d.map(([c,st])=>({h:{d:decode(c),h:c},stage:st}));
 }
 async function run(){
  if(BUSY)return;
  const a=readTeam("a"), b=GAME==="dungeon"?[]:readTeam("b");
- if(!a.length||(GAME!=="dungeon"&&!b.length)){toast(GAME==="dungeon"?"내 쪽 친구가 하나는 있어야 해요":"양쪽에 링크가 하나씩은 있어야 해요");return}
+ if(!a.length||(GAME!=="dungeon"&&!b.length)){toast(GAME==="dungeon"?"내 소환수를 하나는 골라야 해요":"내 소환수와 상대 친구를 골라야 해요");return}
  BUSY=true;
  TA=a.map((x,i)=>makeFighter(x.h,x.stage,"a",i));
  TB=GAME==="dungeon"?Array.from({length:floorEnemyCount(FLOOR)},(_,i)=>makeMonster(FLOOR,i)):b.map((x,i)=>makeFighter(x.h,x.stage,"b",i)); ALL=[...TA,...TB];
@@ -403,7 +461,7 @@ function addRow(side,val){
  d.querySelector("input").oninput=upd; d.querySelector("select:not(.colsel)").onchange=upd; const cs=d.querySelector(".colsel"); if(cs)cs.onchange=()=>{if(cs.value){d.querySelector("input").value=cs.value;d.querySelector("select:not(.colsel)").value=String(getStage(cs.value));upd()}}; upd();
 }
 $("go").onclick=run;
-$("addB").onclick=()=>addRow("b");
+
 document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{MODE=b.dataset.m;document.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b))});
 $("again").onclick=()=>{if(BUSY)return;if(GAME==="dungeon"){location.href="battle.html?mode=dungeon";return}$("fight").classList.add("hidden");$("setup").classList.remove("hidden")};
 $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(WINTEXT);toast("복사했어요")}catch(e){toast("복사가 막혀 있어요")}};
@@ -423,7 +481,9 @@ $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(WINTEXT);toa
   const fl=$("floors"); fl.innerHTML=Array.from({length:MAXFLOOR},(_,i)=>`<button data-f="${i+1}" ${i+1>best+1?"disabled":""} class="${i+1===FLOOR?"on":""}">${i+1}</button>`).join("");
   const info=()=>{const rw=floorReward(FLOOR);$("floorinfo").textContent=`${FLOOR}층 · 몬스터 ${floorEnemyCount(FLOOR)}마리 · ${floorStage(FLOOR)}단계 · 능력치 +${Math.round((floorScale(FLOOR)-1)*100)}% · 보상 ${rw?STONE[rw][0]+" 30% / 조각 70%"+(claimedToday(FLOOR)?" (오늘 받음)":""):"없음"} · 최고 ${best}층`};
   fl.querySelectorAll("button").forEach(b=>b.onclick=()=>{FLOOR=+b.dataset.f;fl.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));info()}); info();
- }else{ $("tab_a").classList.add("on"); addRow("b",q.get("b")||""); }
+ }else{ $("tab_a").classList.add("on"); $("defcard").classList.remove("hidden"); DEFSEL=defDeck(); drawDef(); const f=q.get("f"); if(f!=null&&friendsV2()[+f])OPPO=+f; drawOppo();
+  $("deftoggle").onclick=()=>{$("defedit").classList.toggle("hidden")};
+  $("defsave").onclick=()=>{setDefDeck(DEFSEL);drawDef();$("defedit").classList.add("hidden");toast("방어덱을 저장했어요. 친구 코드도 바뀌었어요")}; }
 })();
 </script>
 </body>

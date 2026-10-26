@@ -56,6 +56,16 @@ h1{font-size:27px;font-weight:800;margin:0 0 6px;letter-spacing:-0.5px}
 .rlist li.me{border-color:var(--gold2)}
 .rlist li .no{font-weight:800;color:var(--gold)}
 .rlist li .v{font-weight:700}
+.party{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.party .pc{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center;cursor:pointer}
+.party .pc.on{border-color:var(--gold2);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold2) 40%,transparent)}
+.party .pc .im{width:64px;height:64px;margin:0 auto 4px}
+.party .pc .im svg,.party .pc .im img{width:100%;height:100%;object-fit:contain;display:block}
+.party .pc b{display:block;font-size:12.5px;line-height:1.3}
+.party .pc small{color:var(--ink3);font-size:11px;display:block}
+.mycode{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.mycode small{display:block;color:var(--ink3);font-size:12px}
+.mycode b{font-size:13px;word-break:break-all;font-family:ui-monospace,Menlo,monospace}
 .fr .f{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}
 .fr .f .im{width:52px;height:52px}
 .fr .f .im svg,.fr .f .im img{width:100%;height:100%;object-fit:contain;display:block}
@@ -307,10 +317,11 @@ button{font-family:inherit;cursor:pointer}
 </section>
 <section class="panel hidden" id="frsec">
   <div class="ph"><button class="back" data-close="frsec">‹</button><b>친구 목록</b></div>
-  <div class="drow" style="display:grid;grid-template-columns:1fr 72px;gap:6px"><input id="frcode" placeholder="친구가 보낸 결과 링크"><button class="btn gold" id="fradd" style="margin:0;padding:11px;font-size:14px">추가</button></div>
+  <div class="mycode" style="margin-top:12px"><div><small>내 친구 코드</small><b id="mycode"></b></div><button class="btn ghost" id="mycodecopy" style="margin:0;padding:10px 12px;font-size:13.5px;width:auto">복사</button></div>
+  <p class="mini" style="margin-top:6px">이 코드를 친구에게 보내면 친구가 나를 추가하고 아레나에서 내 방어덱과 싸울 수 있어요. 방어덱은 아레나에서 등록해요.</p>
+  <div class="drow" style="display:grid;grid-template-columns:1fr 72px;gap:6px;margin-top:14px"><input id="frcode" placeholder="친구 코드 입력"><button class="btn gold" id="fradd" style="margin:0;padding:11px;font-size:14px">추가</button></div>
   <p class="mini" id="frmsg"></p>
   <div class="fr" id="r_fr"></div>
-  <p class="mini">친구가 보낸 결과 링크를 넣으면 추가돼요. 아레나로 바로 붙을 수 있어요.</p>
 </section>
 <section class="panel hidden" id="dexsec">
   <div class="ph"><button class="back" data-close="dexsec">‹</button><b>소환수 도감</b> <span id="dex_cnt" style="color:var(--ink3);font-size:12.5px"></span></div>
@@ -442,7 +453,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="circle hidden" id="circle"><div class="ring"><svg viewBox="0 0 200 200"><defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset=".6" stop-color="#d2b35c" stop-opacity=".25"/><stop offset="1" stop-color="#d2b35c" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="90" fill="url(#cg)"/><g class="spin"><circle cx="100" cy="100" r="78" fill="none" stroke="#d2b35c" stroke-width="1.5" stroke-dasharray="6 4"/><circle cx="100" cy="100" r="62" fill="none" stroke="#d2b35c" stroke-width="1"/><polygon points="100,30 160,135 40,135" fill="none" stroke="#d2b35c" stroke-width="1.2"/><polygon points="100,170 40,65 160,65" fill="none" stroke="#d2b35c" stroke-width="1.2"/>${"".padEnd(0)}</g><g class="spin2"><circle cx="100" cy="100" r="88" fill="none" stroke="#d2b35c" stroke-width=".8" stroke-dasharray="2 6"/></g></svg><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=18"></script>
+<script src="game.js?v=19"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -506,7 +517,6 @@ function addShareCount(){
  }
  drawTickets()}
 function drawTickets(){const n=tickets(),sh=ST.get("ssm_shares",0)%SHARES_PER_TICKET;$("t_cnt").textContent=n;$("t_prog").textContent=`친구 ${SHARES_PER_TICKET}명에게 보내면 1개 (하루 ${DAILY_TICKET}개) · 지금 ${sh}/${SHARES_PER_TICKET} · 오늘 ${todayGranted()}/${DAILY_TICKET}`;$("t_use").disabled=n<=0;drawEvolve()}
-function collection(){return ST.get("ssm_col",[])}
 function addToCollection(code){const c=collection();if(!c.includes(code)){c.push(code);ST.set("ssm_col",c)}}
 function drawCollection(){
  const c=collection(), here=location.hash.replace("#","");
@@ -601,7 +611,7 @@ const NOTICES=[
 function openDrawer(o){$("drawer").classList.toggle("open",o);$("drawerbg").classList.toggle("hidden",!o);if(o)drawMe()}
 function drawMe(){
  const col=collection(), code=location.hash.replace("#",""), d=decode(code), it=items(), rc=rec();
- $("d_me").innerHTML=`<b>${(d&&d.nick)||NICK||"소환사"}</b><br>소환수 ${col.length}마리 · 친구 ${friends().length}명 · 도감 ${ownedRaces(col).size}/${RACES.length}`;
+ $("d_me").innerHTML=`<b>${(d&&d.nick)||NICK||"소환사"}</b><br>소환수 ${col.length}마리 · 친구 ${friendsV2().length}명 · 도감 ${ownedRaces(col).size}/${RACES.length}`;
  $("rk").innerHTML=`<div><small>던전 랭킹</small><b>${rc.dungeon||0}층</b><small>최고 기록</small></div><div><small>아레나 랭킹</small><b>${rc.wins||0}승</b><small>${rc.losses||0}패</small></div>`;
  $("nlist").innerHTML=NOTICES.map(n=>`<li><b>${n.t}</b>${n.b}<br><small>${n.d}</small></li>`).join("");
 }
@@ -633,16 +643,31 @@ function drawRank(){
 document.querySelectorAll(".rtabs button").forEach(b=>b.onclick=()=>{RT=b.dataset.rt;drawRank()});
 $("rankmore").onclick=()=>{openDrawer(false);drawRank();$("ranksec").classList.remove("hidden")};
 $("noticetoggle").onclick=()=>{const l=$("nlist");l.classList.toggle("hidden");$("noticetoggle").querySelector("span").textContent=l.classList.contains("hidden")?"▾":"▴"};
+function myFriendCode(){
+ const nick=(decode(location.hash.replace("#",""))||{}).nick||NICK||"";
+ let deck=defDeck().filter(c=>collection().includes(c)).map(c=>[c,getStage(c)]);
+ if(!deck.length){const my=location.hash.replace("#","")||ST.get("ssm_last","");if(my&&decode(my))deck=[[my,getStage(my)]]}
+ return deck.length?makeFriendCode(nick,deck):"";
+}
+function drawDefDeck(){
+ const col=collection(), deck=defDeck();
+ $("defdeck").innerHTML=col.map(c=>{const d=decode(c);if(!d)return"";const R=judge(d.b,d.a),sg=getStage(c),st=stageStats(R.base,R.race,sg-1);return `<div class="pc ${deck.includes(c)?"on":""}" data-c="${c}"><div class="im">${artWithImage(R.race,sg,R.elem)}</div><b>${R.stages[sg-1].replace(/〔.*?〕/,"")}</b><small>${sg}단계 · 전투력 ${power(st)}</small></div>`}).join("")||`<p class="mini">소환수가 없어요.</p>`;
+ $("defdeck").querySelectorAll(".pc").forEach(el=>el.onclick=()=>{let d=defDeck();const c=el.dataset.c;if(d.includes(c))d=d.filter(x=>x!==c);else if(d.length<3)d.push(c);else{toast("방어덱은 3마리까지예요");return}setDefDeck(d);drawDefDeck();drawFriends()});
+ const n=defDeck().length; $("defmsg").textContent=n?`${n}마리 등록됨. 친구가 아레나에서 나를 고르면 이 방어덱이 자동으로 싸워요.`:"친구가 아레나에서 나를 고르면 이 방어덱이 자동으로 싸워요. 소환수를 눌러서 고르세요. 안 고르면 지금 보고 있는 소환수 하나가 방어해요.";
+}
 function drawFriends(){
- const my=location.hash.replace("#","")||ST.get("ssm_last","");
- $("r_fr").innerHTML=friends().map(c=>{const d=decode(c);if(!d)return"";const R=judge(d.b,d.a);return `<div class="f"><div class="im">${artWithImage(R.race,1,R.elem)}</div><div><b>${d.nick||"이름 없음"}</b><small>${R.race.n} · 전투력 ${power(stageStats(R.base,R.race,0))}</small></div><div class="acts"><a href="battle.html?a=${encodeURIComponent(my)}&b=${encodeURIComponent(c)}">아레나</a><button data-rm="${c}">삭제</button></div></div>`}).join("")||`<p class="mini">아직 친구가 없어요.</p>`;
- $("r_fr").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{removeFriend(b.dataset.rm);drawFriends()});
+ const my=myFriendCode();
+ $("mycode").textContent=my||"먼저 소환해 주세요";
+ $("mycodecopy").onclick=async()=>{try{await navigator.clipboard.writeText(my);toast("내 친구 코드를 복사했어요")}catch(e){toast("복사가 막혀 있어요")}};
+ const fr=friendsV2();
+ $("r_fr").innerHTML=fr.map((f,i)=>{const first=decode(f.d[0][0]);const R=judge(first.b,first.a);return `<div class="f"><div class="im">${artWithImage(R.race,f.d[0][1],R.elem)}</div><div><b>${f.n||"이름 없음"}</b><small>방어덱 ${f.d.length}마리 · ${f.d.map(x=>{const dd=decode(x[0]);const RR=judge(dd.b,dd.a);return RR.stages[x[1]-1].replace(/〔.*?〕/,"")}).join(", ")}</small></div><div class="acts"><a href="battle.html?f=${i}">아레나</a><button data-rm="${i}">삭제</button></div></div>`}).join("")||`<p class="mini">아직 친구가 없어요. 친구 코드를 받아서 넣어 보세요.</p>`;
+ $("r_fr").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{const a=friendsV2();a.splice(+b.dataset.rm,1);setFriendsV2(a);drawFriends();drawMe()});
 }
 $("fradd").onclick=()=>{
- let v=$("frcode").value.trim(); const i=v.indexOf("#"); if(i>=0)v=v.slice(i+1); try{v=decodeURIComponent(v)}catch(e){}
- const d=decode(v); if(!d||d.a.length<6){$("frmsg").textContent="결과 링크가 아니에요.";return}
- if(v===(location.hash.replace("#","")||"")){$("frmsg").textContent="내 링크예요.";return}
- addFriend(v);$("frcode").value="";$("frmsg").textContent=`${d.nick||"친구"} 추가했어요.`;drawFriends();drawMe();
+ const f=parseFriendCode($("frcode").value); if(!f){$("frmsg").textContent="친구 코드가 아니에요.";return}
+ if(f.raw===myFriendCode()){$("frmsg").textContent="내 코드예요.";return}
+ const a=friendsV2(); if(a.some(x=>x.raw===f.raw)){$("frmsg").textContent="이미 있는 친구예요.";return}
+ a.push(f);setFriendsV2(a);$("frcode").value="";$("frmsg").textContent=`${f.n||"친구"} 추가했어요.`;drawFriends();drawMe();
 };
 $("hamb").onclick=()=>openDrawer(true); $("couponopen").onclick=()=>{$("couponbox").classList.toggle("hidden")}; $("drawerx").onclick=()=>openDrawer(false); $("drawerbg").onclick=()=>openDrawer(false);
 document.querySelectorAll(".dnav button").forEach(b=>b.onclick=()=>{
