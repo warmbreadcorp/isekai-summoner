@@ -898,6 +898,14 @@ html,body,button,input,select,textarea,#app,#app *{font-family:'Galmuri11','Galm
 .rw.floor .fno{border-radius:2px!important;border:2px solid #181818}
 .toast{border-radius:3px!important;border:3px solid #181818;background:#fff!important;color:#181818!important}
 .stage .lead{border-radius:2px!important;background:#181818!important;color:#fff!important}
+html,body{font-synthesis:none;text-rendering:optimizeSpeed;-webkit-font-smoothing:none;-moz-osx-font-smoothing:unset}
+/* 도트 크기 통일: 그림 64칸 → 화면 128px(한 칸 = 2px). 상대·내 쪽·로비 모두 같은 도트 크기 */
+#fight .esprite,#fight .msprite{flex:none!important;width:128px!important;height:128px!important;max-width:none!important;aspect-ratio:1}
+#fight .esprite>div,#fight .msprite>div{width:128px!important;height:128px!important}
+#fight .esprite img,#fight .msprite img{width:128px!important;height:128px!important}
+#fight .rowA,#fight .rowB{align-items:flex-end}
+.stage .u{width:128px!important;height:auto!important}
+.stage .u img{width:128px!important;height:128px!important}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
 </head>
@@ -1014,7 +1022,7 @@ html,body,button,input,select,textarea,#app,#app *{font-family:'Galmuri11','Galm
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=35"></script>
+<script src="game.js?v=38"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
