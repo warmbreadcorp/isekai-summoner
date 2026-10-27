@@ -610,14 +610,14 @@ img[src*="img/race/"]{image-rendering:crisp-edges;image-rendering:pixelated}
 .bg-lobby,.bg-arena,.bg-dungeon,#landing.title,.circle.altar{image-rendering:pixelated}
 
 /* ===== 골드 버전 결: 도트 글꼴, 흰 바탕, 검정 이중 테두리, 각진 모서리 ===== */
-html,body,button,input,select,textarea,body *{font-family:'Galmuri11','Galmuri14',monospace!important;letter-spacing:0!important;-webkit-font-smoothing:none}
+html,body,button,input,select,textarea,body *{font-family:'NeoDunggeunmo',monospace!important;letter-spacing:0!important;-webkit-font-smoothing:none}
 .card,.hero,.sec,.dexdetail,.invdetail,.lockcard,.mail,.mycode,.mycode2,.skbox,.frk,.shareline,.tq,.invgrid>*{background:#fff!important;border:3px solid #181818!important;border-radius:3px!important;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #181818!important;color:#181818}
 .btn,.cta,.tb,.hamb,.opt{border:3px solid #181818!important;border-radius:3px!important;background:#fff!important;color:#181818!important;box-shadow:inset 0 0 0 2px #fff,inset 0 -5px 0 #d8d8d8!important;font-weight:700}
 .btn.gold,.cta,.opt.on{background:#181818!important;color:#fff!important;box-shadow:inset 0 0 0 2px #181818,inset 0 0 0 3px #fff!important}
 .tag,.grade,.tpill,.prog,.skic{border-radius:2px!important}
 .tpill{background:#fff!important;border:2px solid #181818!important;color:#181818!important}
 .toast{border-radius:3px!important;border:3px solid #181818!important;background:#fff!important;color:#181818!important}
-.tlogo h1{font-family:'Galmuri11',monospace!important;font-weight:700}
+.tlogo h1{font-family:'NeoDunggeunmo',monospace!important;font-weight:700}
 #landing.light .tlogo h1{font-size:clamp(36px,11vw,52px)!important;white-space:nowrap}
 #landing.light .tlogo small{border-radius:2px!important;letter-spacing:2px!important;background:#181818!important}
 #landing.light .tsub{font-size:14px!important;word-break:keep-all}
@@ -629,7 +629,7 @@ input,select,textarea{border:3px solid #181818!important;border-radius:3px!impor
 input:focus,select:focus,textarea:focus{outline:3px solid #ffd84d;outline-offset:0}
 html,body{font-synthesis:none;text-rendering:optimizeSpeed;-webkit-font-smoothing:none;-moz-osx-font-smoothing:unset}
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
 </head>
 <body>
 <div class="topbar"><a class="tb" href="battle.html?mode=dungeon">던전</a><a class="tb" href="battle.html">아레나</a><button class="hamb" id="hamb" aria-label="마이페이지">☰</button></div>
@@ -821,7 +821,7 @@ html,body{font-synthesis:none;text-rendering:optimizeSpeed;-webkit-font-smoothin
 <div class="circle altar hidden" id="circle"><div class="ring"><div class="mc"><img class="mc1" src="img/bg/circle.png?v=2" alt=""><img class="mc2" src="img/bg/circle.png?v=2" alt=""></div><div class="sparks"><i style="left:18%;animation-delay:0s"></i><i style="left:30%;animation-delay:0.6s"></i><i style="left:42%;animation-delay:1.1s"></i><i style="left:55%;animation-delay:0.3s"></i><i style="left:66%;animation-delay:0.9s"></i><i style="left:78%;animation-delay:1.4s"></i><i style="left:24%;animation-delay:1.7s"></i><i style="left:48%;animation-delay:2s"></i><i style="left:72%;animation-delay:0.5s"></i><i style="left:36%;animation-delay:1.3s"></i></div><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div><div class="info hidden" id="c_info"></div><div class="beam"></div><div class="flash"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=38"></script>
+<script src="game.js?v=40"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},

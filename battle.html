@@ -873,7 +873,7 @@ img[src*="img/race/"]{image-rendering:crisp-edges;image-rendering:pixelated}
 .bg-lobby,.bg-arena,.bg-dungeon,#landing.title,.circle.altar{image-rendering:pixelated}
 
 /* ===== 골드 버전 결: 도트 글꼴, 흰 바탕, 검정 이중 테두리, 각진 모서리 ===== */
-html,body,button,input,select,textarea,#app,#app *{font-family:'Galmuri11','Galmuri14',monospace!important;letter-spacing:0!important;-webkit-font-smoothing:none;font-smooth:never}
+html,body,button,input,select,textarea,#app,#app *{font-family:'NeoDunggeunmo',monospace!important;letter-spacing:0!important;-webkit-font-smoothing:none;font-smooth:never}
 .tabs,.me,.ltabs,.rw,.rw.beat,.vsbox,.roster,.modes,.tip,.result .frame,.detail .frame,#fight .plate,#fight .tbox,#fight .log,.skr,.frame .x,.lhead .chip.btn{background:#fff!important;border:3px solid #181818!important;border-radius:3px!important;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #181818!important;color:#181818!important}
 .lhead .chip#streak{border:none!important;box-shadow:none!important;background:none!important}
 .gmenu .gb,.gmenu .ib,.rw .gb,.setup .acts .gb,#fight .menu button,#fight .ctl button,#r_ok,#r_next{background:#fff!important;color:#181818!important;border:3px solid #181818!important;border-radius:3px!important;box-shadow:inset 0 0 0 2px #fff,inset 0 -5px 0 #d8d8d8!important;font-weight:700}
@@ -899,15 +899,17 @@ html,body,button,input,select,textarea,#app,#app *{font-family:'Galmuri11','Galm
 .toast{border-radius:3px!important;border:3px solid #181818;background:#fff!important;color:#181818!important}
 .stage .lead{border-radius:2px!important;background:#181818!important;color:#fff!important}
 html,body{font-synthesis:none;text-rendering:optimizeSpeed;-webkit-font-smoothing:none;-moz-osx-font-smoothing:unset}
-/* 도트 크기 통일: 그림 64칸 → 화면 128px(한 칸 = 2px). 상대·내 쪽·로비 모두 같은 도트 크기 */
-#fight .esprite,#fight .msprite{flex:none!important;width:128px!important;height:128px!important;max-width:none!important;aspect-ratio:1}
-#fight .esprite>div,#fight .msprite>div{width:128px!important;height:128px!important}
-#fight .esprite img,#fight .msprite img{width:128px!important;height:128px!important}
+/* 도트 크기 통일: 그림 50칸 → 화면 150px(한 칸 = 3px). 상대·내 쪽·로비 모두 같은 도트 크기 */
+#fight .esprite,#fight .msprite{flex:none!important;width:150px!important;height:150px!important;max-width:none!important;aspect-ratio:1}
+#fight .esprite>div,#fight .msprite>div{width:150px!important;height:150px!important}
+#fight .esprite img,#fight .msprite img{width:150px!important;height:150px!important}
+#fight .rowA .col,#fight .rowB .col{flex:1 1 auto!important;min-width:0}
+#fight .rowA,#fight .rowB{gap:6px!important}
 #fight .rowA,#fight .rowB{align-items:flex-end}
-.stage .u{width:128px!important;height:auto!important}
-.stage .u img{width:128px!important;height:128px!important}
+.stage .u{width:150px!important;height:auto!important}
+.stage .u img{width:150px!important;height:150px!important}
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
 </head>
 <body>
 <div id="app">
@@ -1022,7 +1024,7 @@ html,body{font-synthesis:none;text-rendering:optimizeSpeed;-webkit-font-smoothin
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=38"></script>
+<script src="game.js?v=40"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);

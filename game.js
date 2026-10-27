@@ -204,7 +204,7 @@ function judge(b,ans){
  return {race,job,path,pow,elem,id,stages:PNAME[race.n]?PNAME[race.n].slice():stages,lore:stages,base,skills};
 }
 
-const IMGV="11";
+const IMGV="12";
 const ELEMART=false; // 속성별 그림(img/race/<종족>_<단계>_<속성>.png)을 다 넣으면 true
 /* 속성 색 (오라 등에 씀) */
 const ELEMCOLOR={fire:"#ff6b4a",water:"#4aa8ff",earth:"#f2c440",wind:"#4cd49a",light:"#e8eefc",dark:"#9a6cff"};
@@ -330,11 +330,10 @@ function eggLeft(code){const e=eggs()[code];return e?Math.max(0,e.t+EGG_HATCH_MS
 function hatchEgg(code){try{const m=eggs();delete m[code];localStorage.setItem("ssm_egg",JSON.stringify(m))}catch(e){}}
 function hatched(){return collection().filter(c=>!isEgg(c))}
 
-/* 도트 글꼴은 설계된 크기로만 쓴다(골드 버전처럼 글씨가 깨지지 않게).
-   Galmuri11: 12·24px, Galmuri14: 15·30px. 굵게는 Galmuri11만 진짜 굵은 꼴이 있다. */
+/* 도트 글꼴(Neo둥근모, OFL)은 설계 크기 16px의 배수로만 쓴다(글씨가 깨지지 않게). 굵게는 없다. */
 (function(){
  if(typeof document==="undefined")return;
- const pick=fs=>fs<13.5?["Galmuri11",12]:fs<20?["Galmuri14",15]:fs<27?["Galmuri11",24]:fs<38?["Galmuri14",30]:["Galmuri11",48];
+ const pick=fs=>fs<24?["NeoDunggeunmo",16]:fs<44?["NeoDunggeunmo",32]:["NeoDunggeunmo",48];
  function snapEl(el){
   if(el.closest&&el.closest("svg"))return;
   let hasText=false; for(const n of el.childNodes){if(n.nodeType===3&&n.textContent.trim()){hasText=true;break}}
@@ -344,7 +343,7 @@ function hatched(){return collection().filter(c=>!isEgg(c))}
   const [fam,size]=pick(fs); const w=parseInt(cs.fontWeight)||400;
   el.style.setProperty("font-family",`'${fam}',monospace`,"important");
   el.style.setProperty("font-size",size+"px","important");
-  el.style.setProperty("font-weight",fam==="Galmuri11"&&w>=600?"700":"400","important");
+  el.style.setProperty("font-weight","400","important");
   el.style.setProperty("line-height",Math.round(size*1.5)+"px","important");
   el.dataset.pxf=String(size);
  }
