@@ -863,6 +863,9 @@ body{font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,san
 #fight .msprite.dodge{animation-name:dodgeB}
 @keyframes dodgeB{0%{transform:translateX(0)}35%{transform:translateX(14%)}100%{transform:translateX(0)}}
 #fight .esprite.hit:not(.lunge),#fight .msprite.hit:not(.lunge){animation:none}
+/* 못 움직이는 턴: 제자리에서 부들부들 */
+#fight .esprite.tremble,#fight .msprite.tremble{animation:tremble .7s linear}
+@keyframes tremble{0%,100%{transform:translateX(0)}8%,24%,40%,56%,72%{transform:translateX(-2.5%)}16%,32%,48%,64%,80%{transform:translateX(2.5%)}88%{transform:translateX(-1%)}}
 </style>
 </head>
 <body>
@@ -978,7 +981,7 @@ body{font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,san
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=32"></script>
+<script src="game.js?v=33"></script>
 <script>
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
 const UNDEAD=new Set(["스켈레톤","유령","뱀파이어","임프"]);
@@ -1183,7 +1186,7 @@ async function loop(){
    say(null,`${f.name} 차례`,"r"); f.gauge=0; FOCUS[f.side]=f; ACTOR=f; refresh();
    if(!startTurn(f)){refresh();continue}
    const no=cannotAct(f);
-   if(no){say(f.side,no);playSt(f,f.eff.stun?"stun":f.eff.frost?"frost":f.eff.sleep?"sleep":"shock");endTurn(f);refresh();await sleep(700);continue}
+   if(no){say(f.side,no);playSt(f,f.eff.stun?"stun":f.eff.frost?"frost":f.eff.sleep?"sleep":"shock");spriteAnim(f,"tremble",700);endTurn(f);refresh();await sleep(800);continue}
    let action;
    if((MODE==="manual"&&f.side==="a")||MODE==="both"){refresh();action=await askPlayer(f,enemies)}
    else{await sleep(380);action=aiDecide(f,enemies)}

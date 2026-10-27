@@ -173,6 +173,17 @@ function rng(seed){let s=seed||1;return()=>{s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>
 const josa=(w,a,b)=>{const c=w.charCodeAt(w.length-1);return w+(((c-44032)%28)?a:b)};
 
 /* 판정 */
+/* 화면에 부르는 이름(포켓몬식). 설정집 진화 이름은 R.lore 에 남는다. 비어 있는 칸은 대표 확정 전 임시 이름. */
+const NICK={
+ "고블린":["고부리","고부타","고부킹"], "엘프":["엘피","엘리프","엘루미나"], "오크":["엄니꼬","엄니랑","엄니킹"],
+ "드워프":["뚝뚝코","뚝딱손","만능손"], "코볼트":["촛꼬리","호리꼬","날쌘꼬"], "오거":["뿔퉁이","뿔퉁보","퉁퉁로스"],
+ "늑대":["초승랑","반달랑","보름랑"], "트롤":["이끼동","이끼버섯","이끼거인"], "리자드맨":["도롱이","지느롱","파도롱"],
+ "거미":["꼬물실","실타래","아라크네"], "미노타우로스":["꼬미노","미노탄","미노타르"], "하피":["피요","피오라","아리아"],
+ "와이번":["프테코","프테란","프테로스"], "드래곤":["드라코","드라칸","드라킹"], "딱정벌레":["딱코미","딱딱코","딱각로스"],
+ "스켈레톤":["해고리","해고락","리치락"], "유령":["고스몽","고스니르","고스록"], "뱀파이어":["꼬망토","밤망토","망토큘라"],
+ "임프":["데빌꼬","데빌주","드라데빌"], "천사":["파닥롱","날개롱","하늘롱"], "슬라임":["몰랑쵸","슬라임랑","와뿌볼랑"],
+ "골렘":["미스톤","미스토르","스토렉스"], "트렌트":["트렌티","트렌토","트렌트리"]
+};
 function judge(b,ans){
  const seed=hash(`${b.y}-${b.m}-${b.d}-${b.h}`), r=rng(seed);
  let race=RACE_POOL[Math.floor(r()*RACE_POOL.length)];
@@ -190,10 +201,10 @@ function judge(b,ans){
  const elem=Object.keys(ELEM)[Math.floor(r()*6)];
  const skills=pickSkills({pow,race,elem},r);
  const id=(seed%9000+1000).toString();
- return {race,job,path,pow,elem,id,stages,base,skills};
+ return {race,job,path,pow,elem,id,stages:NICK[race.n]?NICK[race.n].slice():stages,lore:stages,base,skills};
 }
 
-const IMGV="6";
+const IMGV="7";
 const ELEMART=false; // 속성별 그림(img/race/<종족>_<단계>_<속성>.png)을 다 넣으면 true
 /* 속성 색 (오라 등에 씀) */
 const ELEMCOLOR={fire:"#ff6b4a",water:"#4aa8ff",earth:"#f2c440",wind:"#4cd49a",light:"#e8eefc",dark:"#9a6cff"};
