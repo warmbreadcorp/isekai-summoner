@@ -122,14 +122,16 @@ const FORMSK={
  "":["작은 빛","hit",0.9,"blind","아직 모양 없는 빛이 번쩍여요. 실명."]
 };
 const FORMLINE={"알":"아직 알이라 굴러다니는 게 전부예요.","아기":"아직 아기라 우는 게 전부예요.","씨앗":"아직 씨앗이라 뿌리 내리는 게 전부예요.","암석":"아직 돌덩이라 굳는 게 전부예요.","물방울":"아직 물방울이라 튀는 게 전부예요.","데몬 씨앗":"아직 씨앗이라 숨만 새요.","뼈대":"아직 뼈 몇 개라 던지는 게 전부예요.","흔적":"아직 흔적뿐이라 오싹하게 하는 게 전부예요.","":"아직 모양이 없어요."};
+/* 받침에 맞는 조사: 이/가 */
+function iga(w){w=String(w||"");const c=w.charCodeAt(w.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28?"이":"가"}
 /* 종족 스킬 + 속성 = 하나의 스킬. 공격·약화형은 효과가 속성으로 바뀌고, 회복·강화형은 효과가 그대로. 3단계는 종족마다 이름이 따로 있다. */
 function raceElemSkill(race,elem,tier){
  const S=race.sig, E=ELEM[elem], attack=S[1]==="hit"||S[1]==="debuff";
  const eff=attack?E.eff:S[3];
  const name=tier===3?race.sig3:S[0];
  const mult=S[1]==="hit"?+(S[2]+(tier===3?0.4:0)).toFixed(2):0;
- const base=S[4].replace(/\s*[가-힣]+\.$/,".");
- const desc=(tier===3?`${S[0]}이(가) 완성된 모습이에요. `:"")+base+(attack?` ${E.n}의 힘이 실려 ${EFF[eff][0]}.`:"");
+ let base=S[4].replace(/\s*[가-힣]+\.$/,"").trim(); if(!/[.!?]$/.test(base))base+=".";
+ const desc=(tier===3?`${S[0]}${iga(S[0])} 완성된 모습이에요. `:"")+base+(attack?` ${E.n}의 힘이 실려 ${EFF[eff][0]}.`:"");
  return [name,S[1],mult,eff,desc,elem];
 }
 function pickSkills(R,r){

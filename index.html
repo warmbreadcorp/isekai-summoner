@@ -791,7 +791,7 @@ body.rare{background:#15141c}
 <div class="circle altar hidden" id="circle"><div class="ring"><div class="mc"><img class="mc1" src="img/bg/circle.png?v=2" alt=""><img class="mc2" src="img/bg/circle.png?v=2" alt=""></div><div class="sparks"><i style="left:18%;animation-delay:0s"></i><i style="left:30%;animation-delay:0.6s"></i><i style="left:42%;animation-delay:1.1s"></i><i style="left:55%;animation-delay:0.3s"></i><i style="left:66%;animation-delay:0.9s"></i><i style="left:78%;animation-delay:1.4s"></i><i style="left:24%;animation-delay:1.7s"></i><i style="left:48%;animation-delay:2s"></i><i style="left:72%;animation-delay:0.5s"></i><i style="left:36%;animation-delay:1.3s"></i></div><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div><div class="info hidden" id="c_info"></div><div class="beam"></div><div class="flash"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=30"></script>
+<script src="game.js?v=31"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -878,7 +878,7 @@ function drawCodex(){
     <div class="evo3">${st.map((x,k)=>`${k?'<span class="ar">→</span>':''}<div class="e"><div class="im">${artWithImage(r,k+1)}</div><small>${k+1}단계<br>${nm(x)}</small></div>`).join("")}</div>
     ${(()=>{const F=FORMSK[r.f]||FORMSK[""],FE=F[3]?EFF[F[3]]:null;return `<div class="sk"><b>1단계</b> ${F[0]} · ${F[1]==="hit"?"공격":F[1]==="heal"?"회복":F[1]==="buff"?"강화":"약화"}${FE?" · "+FE[0]:""}<br><span style="font-size:12.5px">${F[4]}</span></div>`})()}
     <div class="sk"><b>2단계</b> ${r.sig[0]} · ${r.sig[1]==="hit"?"공격":r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}<br><span style="font-size:12.5px">${r.sig[4]}${(r.sig[1]==="hit"||r.sig[1]==="debuff")?" 속성에 따라 효과가 달라져요. "+Object.values(ELEM).map(e=>`${e.ic}${EFF[e.eff][0]}`).join(" "):(E?" · "+E[0]:"")}</span></div>
-    <div class="sk"><b>3단계</b> ${r.sig3} · ${r.sig[1]==="hit"?"공격":r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}<br><span style="font-size:12.5px">${r.sig[0]}이(가) 완성된 모습이에요.</span></div>
+    <div class="sk"><b>3단계</b> ${r.sig3} · ${r.sig[1]==="hit"?"공격":r.sig[1]==="heal"?"회복":r.sig[1]==="buff"?"강화":"약화"}<br><span style="font-size:12.5px">${r.sig[0]}${iga(r.sig[0])} 완성된 모습이에요.</span></div>
     ${r.edge?`<div class="sk" style="font-size:12.5px">${r.edge}</div>`:""}
    </div>`;
   }
@@ -1202,7 +1202,7 @@ function drawEgg(R,code){
 }
 async function doHatch(R,code){
  hatchEgg(code); track("hatch"); clearInterval(EGG_TIMER);
- await summonIntro(R.race,1,"알이 깨지고 있어요",R.elem,R); draw(R); window.scrollTo({top:0,behavior:"smooth"}); toast(R.race.n+"이(가) 태어났어요");
+ await summonIntro(R.race,1,"알이 깨지고 있어요",R.elem,R); draw(R); window.scrollTo({top:0,behavior:"smooth"}); toast(R.race.n+iga(R.race.n)+" 태어났어요");
 }
 /* 결과 탭 */
 let RTAB="info";
