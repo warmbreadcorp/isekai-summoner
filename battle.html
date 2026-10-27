@@ -675,7 +675,9 @@ body{font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,san
 #fight .menu button.pri small{color:#c9c4b6}
 #fight .menu button.pri small .el{background:#4a4a5a;color:#fff;border-color:#6a6a78}
 #fight .menu button.back{grid-column:1/3;align-items:center;min-height:48px;font-size:14px}
+#fight .menu.list{grid-template-columns:1fr!important}
 #fight .menu.list button{min-height:60px}
+#fight .menu.list button small{white-space:normal}
 /* 글상자·판 안 글자 정렬 */
 #fight .tbox{padding:14px 16px}
 #fight .tbox .msg{font-size:16px;line-height:1.5}
@@ -965,7 +967,6 @@ function askPlayer(att,enemies){
    menu.querySelectorAll("button").forEach(b=>{const k=b.dataset.k; let t;
     if(k==="back"){b.onclick=main;return}
     const showTip=()=>{const tip=$("tip");tip.innerHTML=tipFor(k);tip.classList.remove("hidden")};
-    b.onmouseenter=showTip; b.onmouseleave=()=>$("tip").classList.add("hidden");
     b.ontouchstart=()=>{t=setTimeout(showTip,450)}; b.ontouchend=()=>clearTimeout(t);
     b.onclick=()=>{
      if(k==="basic")return done({type:"basic",target:TARGET});
