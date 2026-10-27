@@ -646,10 +646,10 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 #fight::before{content:none}
 #fight .gb{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;padding-top:env(safe-area-inset-top)}
 #fight .field{position:relative;flex:none;height:calc(var(--u)*13.9);width:calc(var(--u)*20)}
-#fight .enm,#fight .mnm{position:absolute;display:flex;align-items:baseline;gap:.25em;font-size:calc(var(--u)*1.15);color:var(--k);white-space:nowrap;line-height:1}
+#fight .enm,#fight .mnm{position:absolute;display:flex;align-items:baseline;flex-wrap:wrap;gap:.25em;font-size:calc(var(--u)*1.15);color:var(--k);line-height:1}
 #fight .enm{left:calc(var(--u)*1.5);top:calc(var(--u)*.6)}
 #fight .mnm{right:calc(var(--u)*1.2);top:calc(var(--u)*7.3)}
-#fight .enm b,#fight .mnm b{font-weight:400;max-width:calc(var(--u)*8.5);overflow:hidden;text-overflow:ellipsis}
+#fight .enm b,#fight .mnm b{font-weight:400;max-width:none;overflow:visible;white-space:normal;line-height:1.15}
 #fight .enm span,#fight .mnm span{font-size:.85em}
 #fight .eteam,#fight .mteam{position:absolute;display:flex;gap:calc(var(--u)*.2);font-size:calc(var(--u)*.9);line-height:1;color:var(--k)}
 #fight .eteam{left:calc(var(--u)*1.6);top:calc(var(--u)*1.9)}
@@ -707,6 +707,29 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 #fight .fl{font-size:calc(var(--u)*1.3);top:20%}
 #fight .log{top:calc(var(--u)*13.5);font-size:calc(var(--u)*.75)}
 @media (min-width:600px){#fight{--u:30px}#fight .field{margin:0 auto}#fight .tbox{max-width:600px;margin:0 auto calc(var(--u)*.25);width:100%}}
+
+/* ===== 세로 화면용 배치: 상대 묶음 위, 내 묶음 아래, 글상자는 아래 고정 ===== */
+#fight .field{position:relative;flex:1;min-height:0;width:auto;height:auto;display:flex;flex-direction:column;justify-content:space-evenly;padding:calc(var(--u)*.4) calc(var(--u)*.5) 0;gap:calc(var(--u)*.6)}
+#fight .rowA,#fight .rowB{display:flex;gap:calc(var(--u)*.4);align-items:flex-start;min-height:0}
+#fight .rowB{align-items:flex-end}
+#fight .rowA .col,#fight .rowB .col{flex:0 0 52%;display:flex;flex-direction:column;gap:calc(var(--u)*.15);min-width:0}
+#fight .rowB .col{align-items:flex-end}
+#fight .enm,#fight .mnm,#fight .eteam,#fight .mteam{position:static;left:auto;right:auto;top:auto;bottom:auto}
+#fight .ebox,#fight .mbox{position:relative;left:auto;right:auto;top:auto;bottom:auto}
+#fight .enm,#fight .mnm{padding-left:calc(var(--u)*.6)}
+#fight .mnm{padding-left:0;padding-right:calc(var(--u)*.6);justify-content:flex-end}
+#fight .eteam{padding-left:calc(var(--u)*.7)}
+#fight .mteam{padding-right:calc(var(--u)*.7);justify-content:flex-end}
+#fight .ebox,#fight .mbox{width:100%;margin-top:calc(var(--u)*.15)}
+#fight .esprite,#fight .msprite{position:relative;flex:1;width:auto;height:auto;aspect-ratio:1;max-width:48%;align-self:flex-start;top:auto;left:auto;right:auto;bottom:auto}
+#fight .msprite{align-self:flex-end}
+#fight .esprite{margin-top:calc(var(--u)*.2)}
+#fight .ctl{padding:calc(var(--u)*.3) calc(var(--u)*.5) calc(var(--u)*.3)}
+#fight .ctl button{width:calc(var(--u)*3);height:calc(var(--u)*1.7);font-size:calc(var(--u)*.75)}
+#fight .tbox{flex:none;min-height:calc(var(--u)*7.5);max-height:48vh;margin:0 calc(var(--u)*.3) max(calc(var(--u)*.3),env(safe-area-inset-bottom));padding:calc(var(--u)*.9) calc(var(--u)*.8);overflow:auto}
+#fight .menu button{padding:calc(var(--u)*.45) 0 calc(var(--u)*.45) calc(var(--u)*1.1);min-height:calc(var(--u)*2.6)}
+#fight .menu button.back{min-height:calc(var(--u)*2.2)}
+@media (min-width:600px){#fight .gb{max-width:640px;margin:0 auto}#fight .esprite,#fight .msprite{max-width:36%}}
 </style>
 </head>
 <body>
@@ -786,14 +809,22 @@ body{font-family:"DungGeunMo","Apple SD Gothic Neo",sans-serif;color:var(--G-ink
 <div id="fight" class="scene hidden">
   <div class="gb">
     <div class="field">
-      <div class="enm"><b id="e_nm"></b><span id="e_lv"></span></div>
-      <div class="eteam" id="e_team"></div>
-      <div class="ebox"><div class="hprow"><em>HP:</em><div class="bar"><i id="e_hp"></i></div></div><div class="hpn" id="e_hpn"></div><div class="effs" id="e_eff"></div><div class="exp"><i id="e_tg"></i></div></div>
-      <div class="esprite" id="e_sp"></div>
-      <div class="msprite" id="m_sp"></div>
-      <div class="mnm"><b id="m_nm"></b><span id="m_lv"></span></div>
-      <div class="mteam" id="m_team"></div>
-      <div class="mbox"><div class="hprow"><em>HP:</em><div class="bar"><i id="m_hp"></i></div></div><div class="hpn" id="m_hpn"></div><div class="effs" id="m_eff"></div><div class="exp"><i id="m_tg"></i></div></div>
+      <div class="rowA">
+        <div class="col">
+          <div class="enm"><b id="e_nm"></b><span id="e_lv"></span></div>
+          <div class="eteam" id="e_team"></div>
+          <div class="ebox"><div class="hprow"><em>HP:</em><div class="bar"><i id="e_hp"></i></div></div><div class="hpn" id="e_hpn"></div><div class="effs" id="e_eff"></div><div class="exp"><i id="e_tg"></i></div></div>
+        </div>
+        <div class="esprite" id="e_sp"></div>
+      </div>
+      <div class="rowB">
+        <div class="msprite" id="m_sp"></div>
+        <div class="col">
+          <div class="mnm"><b id="m_nm"></b><span id="m_lv"></span></div>
+          <div class="mteam" id="m_team"></div>
+          <div class="mbox"><div class="hprow"><em>HP:</em><div class="bar"><i id="m_hp"></i></div></div><div class="hpn" id="m_hpn"></div><div class="effs" id="m_eff"></div><div class="exp"><i id="m_tg"></i></div></div>
+        </div>
+      </div>
     </div>
     <div class="ctl"><button id="c_log">기록</button><button id="c_spd">×1</button><button id="c_auto">자동</button></div>
     <div class="tbox"><div class="msg" id="cap"></div><div class="menu hidden" id="menu"></div></div>
