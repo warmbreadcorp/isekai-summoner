@@ -791,7 +791,7 @@ body.rare{background:#15141c}
 <div class="circle altar hidden" id="circle"><div class="ring"><div class="mc"><img class="mc1" src="img/bg/circle.png?v=2" alt=""><img class="mc2" src="img/bg/circle.png?v=2" alt=""></div><div class="sparks"><i style="left:18%;animation-delay:0s"></i><i style="left:30%;animation-delay:0.6s"></i><i style="left:42%;animation-delay:1.1s"></i><i style="left:55%;animation-delay:0.3s"></i><i style="left:66%;animation-delay:0.9s"></i><i style="left:78%;animation-delay:1.4s"></i><i style="left:24%;animation-delay:1.7s"></i><i style="left:48%;animation-delay:2s"></i><i style="left:72%;animation-delay:0.5s"></i><i style="left:36%;animation-delay:1.3s"></i></div><div class="who" id="c_art"></div></div><div class="ctext" id="c_text">소환진이 빛나요</div><div class="info hidden" id="c_info"></div><div class="beam"></div><div class="flash"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="game.js?v=31"></script>
+<script src="game.js?v=32"></script>
 <script>
 const QS=[
  {q:"마을 다리가 끊겼어요. 뭐부터 할래요?",o:[["왜 끊겼는지 본다","workshop"],["배를 구해 온다","market"],["다친 사람부터 찾는다","clinic"],["돌아가는 길을 찾는다","trail"]]},
@@ -1151,7 +1151,7 @@ function drawStats(R){
  $("r_stats").innerHTML=STN.map((n,i)=>`<div class="b"><span>${n}</span><div class="t"><i style="width:${Math.min(100,st0[i]/1.5)}%"></i></div><span class="n">${st0[i]}</span></div>`).join("");
  $("r_evo").innerHTML=R.stages.map((nm,i)=>{
   const st=stageStats(R.base,R.race,i), m=nm.match(/^(.*?)〔(.*?)〕$/), label=m?`${m[1]}<small>${m[2]}</small>`:nm;
-  return `<div class="c ${i===(R.stage||1)-1?"now":""}"><div class="s">${i+1}단계${i===(R.stage||1)-1?" · 지금":""}</div><div class="nm"><div>${label}</div></div><div class="mini-bars">${st.map(v=>`<i style="width:${Math.min(100,v/2)}%"></i>`).join("")}</div><div class="p">${power(st)}<span>전투력</span></div></div>`;
+  return `<div class="c ${i===(R.stage||1)-1?"now":""}"><div class="s">${i+1}단계${i===(R.stage||1)-1?" · 지금":""}</div><div class="nm"><div>${label}</div></div><div class="mini-bars">${st.map(v=>`<i style="width:${Math.min(100,v/3.5)}%"></i>`).join("")}</div><div class="p">${power(st)}<span>전투력</span></div></div>`;
  }).join("");
 }
 function STG_FOR_EDGE(){return getStage(location.hash.replace("#",""))}

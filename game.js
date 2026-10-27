@@ -54,10 +54,10 @@ const POW={
 /* 능력치. 종족마다 범위만 두고 그 안에서 뽑아요. 체력·공격·마력·민첩·방어 */
 const STN=["체력","공격","마력","민첩","방어"];
 const STW=[0.25,0.25,0.2,0.15,0.15];
-const GROW=[1,1.4,1.9];           // 1단계 → 2단계 → 3단계
-const GROW_H=[1,1.55,2.3];        // 인간: 처음은 낮고 상한이 높음
+const GROW=[1,1.5,2.5];           // 1단계 → 2단계 → 3단계. 3단계는 아래 단계를 확실히 이긴다
+const GROW_H=[1,1.6,2.8];         // 인간: 처음은 낮고 상한이 높음
 function rollStats(race,r){return race.st.map(([a,b])=>Math.round(a+r()*(b-a)))}
-function stageStats(base,race,i){const g=(race.human?GROW_H:GROW)[i];return base.map(v=>Math.min(200,Math.round(v*g)))}
+function stageStats(base,race,i){const g=(race.human?GROW_H:GROW)[i];return base.map(v=>Math.round(v*g))}
 function power(st){return Math.round(st.reduce((a,v,i)=>a+v*STW[i],0))}
 /* 속성 6종. 물 > 불 > 바람 > 물. 빛 ↔ 어둠은 서로 +10%. 땅은 상성 없음. 유리 +10%, 불리 -10%. */
 const ELEM={
