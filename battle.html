@@ -638,6 +638,28 @@ body{font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,san
 #fight .log{background:var(--cream);border:2.5px solid var(--line);color:var(--ink);border-radius:12px;top:60px;font-size:12px;box-shadow:0 3px 0 var(--band)}
 #fight .log .l b{color:var(--ink)}#fight .log .dmg{color:#d9371f}#fight .log .heal{color:#1e8a4a}#fight .log .r{color:var(--ink2)}
 @media (min-width:600px){#fight .gb{max-width:640px;margin:0 auto}#fight .esprite,#fight .msprite{max-width:36%}.roster .grid{grid-template-columns:repeat(5,1fr)!important}}
+
+/* 돌진 연출 */
+@keyframes lungeA{0%{transform:translate(0,0)}45%{transform:translate(46%,-42%) scale(1.06)}60%{transform:translate(40%,-36%) scale(1.02)}100%{transform:translate(0,0)}}
+@keyframes lungeB{0%{transform:translate(0,0)}45%{transform:translate(-46%,42%) scale(1.06)}60%{transform:translate(-40%,36%) scale(1.02)}100%{transform:translate(0,0)}}
+#fight .msprite.lunge{animation:lungeA .44s cubic-bezier(.3,.9,.4,1) both;z-index:3}
+#fight .esprite.lunge{animation:lungeB .44s cubic-bezier(.3,.9,.4,1) both;z-index:3}
+#fight .esprite.hit,#fight .msprite.hit{animation:shake .3s}
+#fight .esprite.lunge.hit,#fight .msprite.lunge.hit{animation:lungeA .44s both}
+
+/* 버튼 시안 전환: ?btn=B~F (A는 기본) */
+body[data-btn=B] .gmenu .gb,body[data-btn=B] .gmenu .ib,body[data-btn=B] .rw .gb,body[data-btn=B] .setup .acts .gb,body[data-btn=B] #fight .menu button,body[data-btn=B] #fight .ctl button,body[data-btn=B] .lhead .chip{border-radius:999px!important;background:#fffdf6!important;box-shadow:none!important;border:2.5px solid #3a3a46!important;color:#2b2b36!important}
+body[data-btn=B] .gmenu #btn_go,body[data-btn=B] .rw .gb,body[data-btn=B] #start,body[data-btn=B] #fight .menu button.pri{background:#ff6a4a!important;color:#fff!important}
+body[data-btn=C] .gmenu .gb,body[data-btn=C] .gmenu .ib,body[data-btn=C] .rw .gb,body[data-btn=C] .setup .acts .gb,body[data-btn=C] #fight .menu button,body[data-btn=C] #fight .ctl button,body[data-btn=C] .lhead .chip{border:none!important;border-radius:14px!important;background:#fffdf6!important;box-shadow:0 4px 0 #cfc7b4!important;color:#2b2b36!important}
+body[data-btn=C] .gmenu #btn_go,body[data-btn=C] .rw .gb,body[data-btn=C] #start,body[data-btn=C] #fight .menu button.pri{background:#ff6a4a!important;color:#fff!important;box-shadow:0 4px 0 #c84a2e!important}
+body[data-btn=D] .gmenu .gb,body[data-btn=D] .gmenu .ib,body[data-btn=D] .rw .gb,body[data-btn=D] .setup .acts .gb,body[data-btn=D] #fight .menu button,body[data-btn=D] #fight .ctl button,body[data-btn=D] .lhead .chip{border:2.5px solid #3a3a46!important;border-radius:10px!important;background:#fffdf6!important;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9c2b0!important;color:#2b2b36!important}
+body[data-btn=D] .gmenu #btn_go,body[data-btn=D] .rw .gb,body[data-btn=D] #start,body[data-btn=D] #fight .menu button.pri{background:#ff6a4a!important;color:#fff!important;box-shadow:inset 0 0 0 2px #ffb59f,inset 0 0 0 3.5px #e04f30!important}
+body[data-btn=E] .gmenu .gb,body[data-btn=E] .gmenu .ib,body[data-btn=E] .rw .gb,body[data-btn=E] .setup .acts .gb,body[data-btn=E] #fight .menu button,body[data-btn=E] #fight .ctl button,body[data-btn=E] .lhead .chip{border:3px solid #2b2b36!important;border-radius:6px!important;background:#fff!important;box-shadow:none!important;color:#2b2b36!important}
+body[data-btn=E] .gmenu #btn_go,body[data-btn=E] .rw .gb,body[data-btn=E] #start,body[data-btn=E] #fight .menu button.pri{background:#2b2b36!important;color:#fff!important}
+body[data-btn=F] .gmenu .gb,body[data-btn=F] .gmenu .ib,body[data-btn=F] .rw .gb,body[data-btn=F] .setup .acts .gb,body[data-btn=F] #fight .menu button{border:2px solid #3a3a46!important;border-radius:16px!important;background:#fffdf6!important;box-shadow:0 3px 0 #3a3a46!important;color:#2b2b36!important;flex-direction:row!important;gap:8px}
+body[data-btn=F] .gmenu .gb::before,body[data-btn=F] .gmenu .ib::before,body[data-btn=F] .rw .gb::before,body[data-btn=F] .setup .acts .gb::before{content:"";width:14px;height:14px;border-radius:999px;background:#ff6a4a;border:2px solid #3a3a46;flex:none;display:inline-block}
+body[data-btn=F] .gmenu #btn_go,body[data-btn=F] .rw .gb,body[data-btn=F] #start,body[data-btn=F] #fight .menu button.pri{background:#ff6a4a!important;color:#fff!important}
+body[data-btn=F] .gmenu #btn_go::before,body[data-btn=F] .rw .gb::before,body[data-btn=F] #start::before{background:#fff}
 </style>
 </head>
 <body>
@@ -890,6 +912,8 @@ function perform(att,action){
  }else tryHit(att.basic,"일반공격",null,false);
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms/SPD));
+/* 돌진: 행동하는 쪽 그림만 상대 쪽으로 갔다가 돌아온다. 치는 순간(절반 지점)에 resolve */
+function lunge(f){const el=$(f.side==="a"?"m_sp":"e_sp");if(!el||FOCUS[f.side]!==f)return sleep(0);el.style.animationDuration=(440/SPD)+"ms";el.classList.remove("lunge");void el.offsetWidth;el.classList.add("lunge");setTimeout(()=>el.classList.remove("lunge"),460/SPD);return sleep(230)}
 /* 수동 선택: 아래 스킬 버튼 + 적 터치로 대상 */
 function askPlayer(att,enemies){
  return new Promise(res=>{
@@ -958,7 +982,9 @@ async function loop(){
    if((MODE==="manual"&&f.side==="a")||MODE==="both"){refresh();action=await askPlayer(f,enemies)}
    else{await sleep(380);action=aiDecide(f,enemies)}
    if(action.target&&action.target.side!==f.side){FOCUS[action.target.side]=action.target;refresh();await sleep(120)}
-   perform(f,action); endTurn(f); refresh(); await sleep(520); ACTOR=null; refresh();
+   const attacks=action.type==="basic"||(action.type==="skill"&&(action.skill.t==="hit"||action.skill.t==="debuff")&&action.target&&action.target.side!==f.side);
+   if(attacks)await lunge(f);
+   perform(f,action); endTurn(f); refresh(); await sleep(attacks?620:520); ACTOR=null; refresh();
    if(!alive(TA).length||!alive(TB).length)break;
   }
  }
@@ -1175,6 +1201,7 @@ $("cancel").onclick=cancelSetup;
 /* 시작 */
 (function(){
  const q=new URLSearchParams(location.search);
+ if(q.get("btn"))document.body.dataset.btn=q.get("btn");
  if(GAME==="dungeon"){$("tab_d").classList.add("on");$("btn_go").textContent="입장하기";$("btn_rival").classList.add("hidden");$("bb_def").innerHTML="<i>📖</i>소환수";document.title="던전";$("lobby").className="scene bg-dungeon"}
  else $("tab_a").classList.add("on");
  const c=col(); if(c.length)PARTY=[c[c.length-1]];
