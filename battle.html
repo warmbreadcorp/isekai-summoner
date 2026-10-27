@@ -1044,7 +1044,7 @@ async function loop(){
 let FOCUS={a:null,b:null}, ACTOR=null;
 function spriteOf(f){return f===FOCUS[f.side]?$(f.side==="a"?"m_sp":"e_sp").firstElementChild:chipOf(f)?.querySelector(".im")}
 function chipOf(f){return $(`ch_${f.side}${f.idx}`)}
-function hpClass(f){const p=f.hp/f.maxhp;return p<.25?"low":p<.55?"mid":""}
+function hpClass(f){const p=f.hp/f.maxhp;return p<=.30?"low":p<=.70?"mid":""}
 function effHTML(f){return Object.keys(f.eff).filter(k=>EFF[k]).map(k=>`<span class="${BAD.has(k)?"":"good"}">${EFF[k][0]}</span>`).join("")+(f.shield>0?`<span class="good">보호막</span>`:"")+(f.guard?`<span class="good">방어</span>`:"")}
 function drawField(){
  FOCUS.a=alive(TA)[0]||TA[0]; FOCUS.b=alive(TB)[0]||TB[0];
