@@ -1,0 +1,228 @@
+{
+  "id": "opening-camera-v5",
+  "version": "1.0.0",
+  "status": "partially_verified",
+  "repository_url": "https://github.com/warmbreadcorp/isekai-summoner",
+  "branch": "claude/beautiful-dijkstra-vymogq",
+  "commit": "79cdb38adb8b62f5a2c8edf26fc1e6697d46800b",
+  "base_commit": "ae44b8fc5c7d390393aefb77a269d54a087a71f9",
+  "received_at": "2026-11-10T11:38:00Z",
+  "summary": "패키지를 받아 무결성을 확인하고, ?opening=v5 를 붙였을 때만 타이틀 앞에서 재생되는 로컬 통합 후보를 만들었다. 저장소에 '기존 오프닝'이 없어 독립 후보로 붙였고, 검증은 전부 헤드리스 Chromium 에뮬레이션이다. 수신이나 영상 디코딩을 통합 완료로 보지 않는다.",
+  "changed_files": [
+    {
+      "path": "opening.js",
+      "change": "added",
+      "note": "오프닝 후보. 방 그림 2장에 공통 카메라 크롭과 8프레임 디졸브, 건너뛰기, 실패 시 타이틀 복귀"
+    },
+    {
+      "path": "index.html",
+      "change": "modified",
+      "note": "맨 끝에 <script src=\"opening.js?v=1\"> 한 줄 추가"
+    },
+    {
+      "path": "img/opening/room-rear-v2.png",
+      "change": "added",
+      "note": "패키지 원본과 바이트 동일"
+    },
+    {
+      "path": "img/opening/room-empty-v2.png",
+      "change": "added",
+      "note": "패키지 원본과 바이트 동일"
+    },
+    {
+      "path": "claude-asset-inbox/manifest.json",
+      "change": "added",
+      "note": "패키지 manifest 사본"
+    },
+    {
+      "path": "claude-asset-inbox/results/opening-camera-v5--1.0.0.json",
+      "change": "added",
+      "note": "이 결과 파일"
+    },
+    {
+      "path": "claude-asset-inbox/results/captures/",
+      "change": "added",
+      "note": "실제 화면 캡처 24장"
+    }
+  ],
+  "how_to_view": "index.html?opening=v5 (로컬 서버 또는 이 브랜치를 올린 주소). 플래그가 없으면 기존과 똑같이 동작한다.",
+  "checks": [
+    {
+      "name": "패키지 무결성",
+      "expected": "SHA256SUMS.json·manifest asset_integrity의 9개 파일 해시와 바이트 수 일치",
+      "observed": "9개 모두 일치",
+      "passed": true,
+      "evidence": "sha256sum으로 직접 계산해 대조"
+    },
+    {
+      "name": "저장소 호환성",
+      "expected": "manifest가 전제하는 '기존 게임 오프닝'(왕궁·대사창·소환 시 인물 소멸·v4 영상)이 저장소에 있음",
+      "observed": "저장소(커밋 ae44b8f, main과 동일)에 오프닝·왕궁·대사창·스토리 장면 코드와 에셋이 없음. 타이틀(#landing) → 생일 입력 → 질문 6개 → 소환 결과 구조뿐임",
+      "passed": false,
+      "evidence": "index.html·game.js·battle.html과 모든 브랜치 이력 검색. 그래서 기존 오프닝에 끼워 넣지 못하고 타이틀 앞에 독립 후보로 붙임"
+    },
+    {
+      "name": "검토 클립 디코딩",
+      "expected": "960x540, 24fps, 5초, 120프레임, 무음",
+      "observed": "h264 960x540 24fps 5.000초 120프레임, 오디오 스트림 없음",
+      "passed": true,
+      "evidence": "ffprobe -count_frames"
+    },
+    {
+      "name": "render_camera.py 재현",
+      "expected": "스크립트가 끝까지 돌고 카메라 좌표가 패키지 VERIFICATION.json과 같음",
+      "observed": "종료 코드 0, frames 8개 좌표·디졸브 값 동일. mp4 해시는 다름(8891c2d6…, ffmpeg 6.1.1 인코더 차이로 추정)",
+      "passed": true,
+      "evidence": "패키지 사본에서 실행. mp4 바이트 재현은 안 됨"
+    },
+    {
+      "name": "원본 방 그림 보존",
+      "expected": "저장소에 넣은 방 그림 2장이 패키지와 바이트 단위로 같고 색 보정 없음",
+      "observed": "img/opening/room-rear-v2.png, room-empty-v2.png 모두 cmp 동일. 코드에 필터·색 보정 없음",
+      "passed": true,
+      "evidence": "cmp, opening.js"
+    },
+    {
+      "name": "공통 카메라 크롭",
+      "expected": "VERIFICATION.json 8개 프레임의 camera_box·dissolve와 런타임 계산이 일치",
+      "observed": "camera_box 최대 차이 0 px, dissolve 최대 차이 7.5e-13",
+      "passed": true,
+      "evidence": "브라우저에서 OPENING_V5.camera(t)/dissolve(t) 호출값 대조"
+    },
+    {
+      "name": "객체별 독립 이동 없음",
+      "expected": "방 그림 두 장에 같은 크롭 하나만 적용",
+      "observed": "render()가 두 장을 같은 원본 사각형으로 그린 뒤 알파만 섞음. 의자·다리·카펫 개별 변환 코드 없음",
+      "passed": true,
+      "evidence": "opening.js 코드 검토"
+    },
+    {
+      "name": "검토 클립과 화면 대조",
+      "expected": "960x540 캔버스가 mp4의 같은 프레임(0,36,54,58,62,84,108,119)과 시각적으로 일치",
+      "observed": "채널 평균 절대차 2.08~2.92/255, 최대 85/255 (리샘플링·h264 압축 차이 수준)",
+      "passed": true,
+      "evidence": "ffmpeg로 뽑은 프레임과 캔버스 픽셀 비교. 허용 기준은 Claude가 정한 평균 3/255 이하이며 미키의 시각 검수는 아님"
+    },
+    {
+      "name": "모니터 외곽 프레임",
+      "expected": "끝 장면에 모니터 바깥 프레임이 남음",
+      "observed": "끝 장면 캡처에 모니터 베젤과 받침대가 보임",
+      "passed": true,
+      "evidence": "captures/*--end.jpg를 Claude가 눈으로 확인"
+    },
+    {
+      "name": "모니터 크레딧 미확정 유지",
+      "expected": "크레딧 문구를 임의로 넣지 않음",
+      "observed": "크레딧 텍스트·레이어 없음",
+      "passed": true,
+      "evidence": "opening.js"
+    },
+    {
+      "name": "기본 주소 영향 없음",
+      "expected": "?opening=v5 없이는 재생·그림 요청 없음",
+      "observed": "state=off, 오버레이 0개, img/opening 요청 0건, 타이틀 표시",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님)"
+    },
+    {
+      "name": "끝까지 재생 후 장면 전환",
+      "expected": "5초 재생 뒤 오버레이가 사라지고 타이틀에서 '테스트 시작하기'가 동작",
+      "observed": "재생 5003ms, 오버레이 제거됨, 버튼 클릭 후 생일 입력 화면 표시",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님), 1366x768"
+    },
+    {
+      "name": "스킵",
+      "expected": "건너뛰기 버튼과 Esc로 즉시 타이틀로 이동",
+      "observed": "버튼: state=skipped·오버레이 0·타이틀 표시·시작 버튼 동작 / Esc: state=skipped·오버레이 0. 6개 화면 모두 버튼 스킵 후 타이틀 표시",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님)"
+    },
+    {
+      "name": "재진입",
+      "expected": "플래그가 있으면 다시 재생, 없으면 재생 안 함, 공유 결과 주소로 들어오면 재생 안 함",
+      "observed": "플래그 재접속 시 재생됨 / 플래그 없이 state=off / 공유 결과 해시 + 플래그: state=off, 결과 화면 표시",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님)"
+    },
+    {
+      "name": "저장 영향",
+      "expected": "오프닝 재생·스킵 전후 localStorage가 같음",
+      "observed": "미리 넣은 ssm_tickets·ssm_col·ssm_items 포함 전체 키·값 동일(재생 완료 후, 스킵·재접속 반복 후 모두)",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님). opening.js는 저장소를 읽거나 쓰지 않음"
+    },
+    {
+      "name": "그림 로드 실패 시 복구",
+      "expected": "방 그림을 못 받으면 타이틀로 넘어감",
+      "observed": "요청 차단 시 state=error, 오버레이 0, 타이틀 표시",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님), 요청 강제 차단"
+    },
+    {
+      "name": "화면별 배치",
+      "expected": "PC·모바일 세로/가로에서 16:9 화면이 잘리지 않고 스킵 버튼이 화면 안에 44px 이상",
+      "observed": "pc-1920x1080 뷰포트 1920x1080 캔버스 1920x1080 버튼 98x44; pc-1366x768 뷰포트 1366x768 캔버스 1365.3x768 버튼 98x44; mobile-portrait-iphone13 뷰포트 390x664 캔버스 390x219.4 버튼 98x44; mobile-landscape-iphone13 뷰포트 750x342 캔버스 608x342 버튼 98x44; mobile-portrait-pixel7 뷰포트 412x839 캔버스 412x231.8 버튼 98x44; mobile-landscape-pixel7 뷰포트 863x360 캔버스 640x360 버튼 98x44. 모두 화면 안, 가로 스크롤 없음",
+      "passed": true,
+      "evidence": "Playwright + headless Chromium 에뮬레이션 (실기기 아님). 기기 프로필: iPhone 13, Pixel 7"
+    },
+    {
+      "name": "실기기 QA",
+      "expected": "실제 휴대폰·PC 브라우저에서 확인",
+      "observed": "수행하지 않음",
+      "passed": false,
+      "evidence": "클라우드 컨테이너에는 실기기가 없음"
+    },
+    {
+      "name": "왕궁·대사창 픽셀 및 색감 일치",
+      "expected": "오프닝과 이후 장면의 픽셀·색감이 맞음",
+      "observed": "확인 불가. 저장소에 왕궁·대사창 장면이 없음. 현재는 어두운 밤 방에서 밝은 타이틀 표지로 0.4초 페이드로 넘어가 톤 차이가 큼",
+      "passed": false,
+      "evidence": "captures/pc-1920x1080--end.jpg 와 --title-after.jpg 비교"
+    }
+  ],
+  "captures": [
+    "claude-asset-inbox/results/captures/pc-1920x1080--start.jpg",
+    "claude-asset-inbox/results/captures/pc-1920x1080--dissolve.jpg",
+    "claude-asset-inbox/results/captures/pc-1920x1080--end.jpg",
+    "claude-asset-inbox/results/captures/pc-1920x1080--title-after.jpg",
+    "claude-asset-inbox/results/captures/pc-1366x768--start.jpg",
+    "claude-asset-inbox/results/captures/pc-1366x768--dissolve.jpg",
+    "claude-asset-inbox/results/captures/pc-1366x768--end.jpg",
+    "claude-asset-inbox/results/captures/pc-1366x768--title-after.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-iphone13--start.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-iphone13--dissolve.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-iphone13--end.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-iphone13--title-after.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-iphone13--start.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-iphone13--dissolve.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-iphone13--end.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-iphone13--title-after.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-pixel7--start.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-pixel7--dissolve.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-pixel7--end.jpg",
+    "claude-asset-inbox/results/captures/mobile-portrait-pixel7--title-after.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-pixel7--start.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-pixel7--dissolve.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-pixel7--end.jpg",
+    "claude-asset-inbox/results/captures/mobile-landscape-pixel7--title-after.jpg"
+  ],
+  "not_verified": [
+    "실기기 QA 전체(iOS Safari, Android Chrome, 실제 PC 브라우저). 모든 화면 검사는 Chromium 에뮬레이션이며 Safari·Firefox 엔진은 돌리지 않았다.",
+    "모니터 크레딧: 문구가 정해지지 않아 넣지 않았다.",
+    "왕궁·대사창 픽셀 및 색감 일치: 대상 장면이 저장소에 없어 비교할 수 없다.",
+    "소환 시 인물 소멸과의 구분: 인물 소멸 장면이 저장소에 없어 통과 디졸브만 구현했고 둘을 나란히 확인하지 못했다.",
+    "보낸 쪽 로컬 프로젝트와의 일치: 이 저장소 기준으로만 확인했다. 로컬에만 있는 기존 오프닝·v4가 있다면 이 후보와 맞춰 보지 않았다.",
+    "미키의 시각 검수와 최종 승인: v5는 검토본이고, 클립 대조 기준(평균 3/255)은 Claude가 정한 수치다.",
+    "웹폰트가 적용된 타이틀 화면: 컨테이너에서 외부 폰트 주소가 막혀 캡처의 타이틀은 대체 글꼴이다(오프닝 자체에는 건너뛰기 글자만 해당).",
+    "느린 네트워크에서의 체감: 방 그림 2장이 합쳐 약 3.6MB라 로딩 중 검은 화면이 보일 수 있다. 측정하지 않았다.",
+    "사운드: 검토본이 무음이라 오디오는 다루지 않았다.",
+    "mp4 바이트 재현: render_camera.py는 돌았지만 mp4 해시는 패키지와 다르다."
+  ],
+  "blockers": [
+    "저장소에 기존 오프닝·왕궁·대사창 장면이 없다. 로컬에만 있다면 푸시가 필요하고, 없다면 오프닝이 어디로 이어져야 하는지(타이틀인지 다른 장면인지) 결정이 필요하다.",
+    "기본 재생 여부 결정 전까지는 ?opening=v5 플래그로만 볼 수 있다. 모든 방문자에게 틀려면 '본 적 있음' 저장 방식도 정해야 한다.",
+    "모니터 크레딧 문구 확정 필요.",
+    "실기기 QA는 사람이 해야 한다."
+  ]
+}
