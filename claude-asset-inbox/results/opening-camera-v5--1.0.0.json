@@ -1,7 +1,7 @@
 {
   "id": "opening-camera-v5",
   "version": "1.0.0",
-  "status": "partially_verified",
+  "status": "failed",
   "repository_url": "https://github.com/warmbreadcorp/isekai-summoner",
   "branch": "claude/beautiful-dijkstra-vymogq",
   "commit": "79cdb38adb8b62f5a2c8edf26fc1e6697d46800b",
@@ -224,5 +224,7 @@
     "기본 재생 여부 결정 전까지는 ?opening=v5 플래그로만 볼 수 있다. 모든 방문자에게 틀려면 '본 적 있음' 저장 방식도 정해야 한다.",
     "모니터 크레딧 문구 확정 필요.",
     "실기기 QA는 사람이 해야 한다."
-  ]
+  ],
+  "superseded_by": "opening-canonical-reference 1.0.0",
+  "withdrawn": "2026-11-10 사용자 지시로 사용 중단. v5 패키지는 잘못 선택된 시험본이었다. 구현(커밋 79cdb38)은 커밋 4edd5ac로 되돌렸고, 아래 검사 기록은 되돌리기 전 상태에 대한 것이다. changed_files의 opening.js·img/opening·manifest는 현재 브랜치에 없다."
 }

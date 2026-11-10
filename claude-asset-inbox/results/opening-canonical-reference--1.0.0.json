@@ -1,0 +1,243 @@
+{
+  "id": "opening-canonical-reference",
+  "version": "1.0.0",
+  "status": "blocked",
+  "repository_url": "https://github.com/warmbreadcorp/isekai-summoner",
+  "branch": "claude/beautiful-dijkstra-vymogq",
+  "commit": "4edd5acea8bdf1b1c022ac1e5c8b84921d19e350",
+  "base_commit": "ae44b8fc5c7d390393aefb77a269d54a087a71f9",
+  "received_at": "2026-11-10T11:59:00Z",
+  "summary": "참고자료 3개를 받아 확인했다. 저장소에는 오프닝(방→소환→왕궁→능력 평가→추방) 소스가 전혀 없어 보존할 기존 소스를 찾지 못했다. 새로 만들거나 덮어쓴 것은 없다. 이전 v5 후보는 브랜치에서 되돌렸다. 수신과 구현 완료는 별개이며 구현은 시작하지 않았다.",
+  "source_paths": {
+    "found_in_repository": [],
+    "repository_files_at_base": [
+      "index.html (타이틀·생일 입력·질문 6개·소환 결과·도감·마이페이지)",
+      "battle.html (아레나·던전)",
+      "game.js (공통 데이터·판정·저장)",
+      "img/ (소환수·배경·아이템)",
+      "전투규칙.md",
+      "종족디자인.md"
+    ],
+    "searched": [
+      "현재 브랜치와 main의 모든 파일",
+      "원격의 모든 브랜치·태그(브랜치 2개, 태그 없음)와 커밋 52개 전체 이력: 왕궁·왕성·추방·능력 평가·쫓겨·palace·Galmuri·oswin·오스윈·가족사진·사제·국왕 0건",
+      "이력에서 삭제된 파일 목록: 인간 종족 그림과 img/src 임시 그림뿐",
+      ".gitignore에 적힌 로컬 전용 항목(img_원본/, 설정기준서.md, 결정필요_목록.md, 스타일샘플/, _mock*.html)은 저장소에 없어 확인 불가",
+      "README가 말한 Mac 커밋 572e1ca: 이 저장소에 없음(가져오기 실패)",
+      "GitHub 코드 검색(warmbreadcorp 전체): 왕궁·추방·palace oswin·canonical-zoom·시안 고유 식별자 0건",
+      "접근 가능한 warmbreadcorp 저장소 16개 목록: 이름상 이 게임 저장소는 isekai-summoner 하나"
+    ],
+    "not_searched": [
+      "보낸 쪽 Mac의 로컬 폴더",
+      "Google Drive 등 저장소 밖 보관처",
+      "warmbreadcorp 외 계정의 저장소"
+    ],
+    "reference_package": [
+      "reference/canonical-zoom-v26.mp4",
+      "reference/compare-pass-v25-v26.mp4",
+      "reference/palace-click-preview-v3.html"
+    ]
+  },
+  "device_variants": {
+    "repository": "오프닝이 없어 기기별 오프닝 구현도 없음. 기존 화면은 반응형 한 벌이며 기기별 진입점 분기 없음",
+    "v26_video": "780x1688(모바일 세로 비율) 한 가지 화면만 있음. 데스크톱·모바일 가로 영상은 없음",
+    "palace_preview_v3": {
+      "static": "CSS 분기 2개: 폭 600px 이하(세로형 9/15, 글자 16px), 그 외(4/3, 글자 24px, 폭은 min(100%,1056px,(화면높이-140px)*4/3)). 가로 기기 전용 분기 없음. 비트맵 글자 배율은 devicePixelRatio로 정수 반올림",
+      "desktop": {
+        "viewport": [
+          1366,
+          768
+        ],
+        "device_pixel_ratio": 1,
+        "narrow_branch_600px": false,
+        "stage_px": [
+          837,
+          628
+        ],
+        "stage_aspect": 1.333,
+        "panel_font": "24px",
+        "choice_buttons_fully_visible": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "choice_click": "clicked",
+        "reached": "다음.",
+        "script_errors": 0
+      },
+      "mobile_portrait": {
+        "viewport": [
+          390,
+          664
+        ],
+        "device_pixel_ratio": 3,
+        "narrow_branch_600px": true,
+        "stage_px": [
+          390,
+          546
+        ],
+        "stage_aspect": 0.714,
+        "panel_font": "16px",
+        "choice_buttons_fully_visible": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "choice_click": "clicked",
+        "reached": "다음.",
+        "script_errors": 0
+      },
+      "mobile_landscape": {
+        "viewport": [
+          750,
+          342
+        ],
+        "device_pixel_ratio": 3,
+        "narrow_branch_600px": false,
+        "stage_px": [
+          269,
+          202
+        ],
+        "stage_aspect": 1.333,
+        "panel_font": "24px",
+        "choice_buttons_fully_visible": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "choice_click": "click failed (outside viewport/clipped); used keyboard 1",
+        "reached": "다음.",
+        "script_errors": 0
+      },
+      "finding": "모바일 가로(750x342)는 큰 화면 분기를 그대로 타서 무대가 269x202로 줄고 글자는 24px 그대로다. 대화창이 무대를 거의 덮고, 선택지 4개 중 위 2개가 무대 밖으로 잘려 누를 수 없다(키보드 1~4로만 진행됨). 즉 이 시안은 모바일 가로 구현으로 쓸 수 없고, 가로용 원본이 따로 필요하다",
+      "evidence": "헤드리스 Chromium 에뮬레이션(오프라인, file://). 실기기·Safari 아님"
+    }
+  },
+  "checked": [
+    {
+      "name": "패키지 무결성",
+      "expected": "SHA256SUMS.json 5개 해시 일치",
+      "observed": "5개 모두 일치",
+      "passed": true
+    },
+    {
+      "name": "v26 영상",
+      "expected": "780x1688, 10.041667초, 전체 디코딩",
+      "observed": "h264 780x1688 24fps 241프레임 10.041667초, 디코딩 통과. 표본 프레임에서 픽셀아트 방·위쪽 가족사진·카메라 전진·인물 통과·모니터 안 제목과 크레딧·'건너뛰기 ▸' 버튼 확인",
+      "passed": true,
+      "note": "화면에 건너뛰기 버튼이 있어 실행 중인 구현을 찍은 것으로 보이나, 그 구현 소스는 패키지에도 저장소에도 없음. 크레딧 문구는 영상에서 읽었을 뿐 확정본으로 옮겨 적지 않음"
+    },
+    {
+      "name": "비교 영상",
+      "expected": "참고용, 디코딩 가능",
+      "observed": "780x884, 241프레임, 디코딩 통과. 게임 자산으로 쓰지 않음",
+      "passed": true
+    },
+    {
+      "name": "왕궁 시안 정적 검사",
+      "expected": "외부 참조·저장 연결 없음, 내장 이미지 133개",
+      "observed": "내장 이미지 133개, 외부 src/href 0, fetch·localStorage·XMLHttpRequest 없음. 실행 중 외부 요청 0건",
+      "passed": true
+    },
+    {
+      "name": "왕궁 시안 완주",
+      "expected": "깨어남부터 왕의 '다음.'까지",
+      "observed": "3개 화면 모두 24개 장면을 지나 p19 '다음.'에서 종료, 스크립트 오류 0. 단 모바일 가로는 선택지를 클릭할 수 없어 키보드로 넘김",
+      "passed": true,
+      "evidence": "헤드리스 Chromium 에뮬레이션(오프라인, file://). 실기기·Safari 아님"
+    },
+    {
+      "name": "시안의 이야기 범위",
+      "expected": "능력 평가·추방 포함 여부",
+      "observed": "STORY는 wake 4줄 + palace 20항목(선택지 1개)뿐. 능력 평가·추방 대사·연출·에셋 없음. 선택지의 tag(신중·호기심·공감)는 기록만 되고 어디에도 쓰이지 않음",
+      "passed": false
+    },
+    {
+      "name": "저장소 호환성",
+      "expected": "기존 오프닝 상태 머신·기기별 진입점·능력 평가/추방 구간이 저장소에 있음",
+      "observed": "없음. 저장소 글꼴은 Neo둥근모이고 시안은 Galmuri11 비트맵이라 글꼴도 다름. 시안 캔버스는 352x264",
+      "passed": false
+    },
+    {
+      "name": "v5 사용 중단",
+      "expected": "게임이 v5를 쓰지 않음",
+      "observed": "커밋 4edd5ac로 opening.js·index.html 연결 한 줄·img/opening 그림 2장·v5 manifest를 되돌림. index.html·game.js·battle.html은 기준 커밋 ae44b8f와 동일",
+      "passed": true
+    }
+  ],
+  "missing": [
+    "방→소환→왕궁→능력 평가→추방 전체 런타임 소스와 에셋 (저장소에 없음)",
+    "능력 평가와 추방 구간의 대사·연출·에셋 (시안에도 없음)",
+    "방에서 왕궁으로 넘어가는 소환 장면",
+    "v26 영상에 대응하는 방 그림 원본(픽셀아트 방, 인물 있음/없음, 가족사진)과 카메라·크레딧 구현 소스",
+    "데스크톱·모바일 가로용 v26 화면과 기기별 진입점",
+    "모바일 가로용 왕궁 화면 (시안은 가로에서 선택지가 잘림)",
+    "오프닝이 기존 게임과 이어지는 지점: 타이틀 앞인지, 선택지 tag와 능력 평가가 생일·질문 판정과 연결되는지",
+    "Mac 커밋 572e1ca가 있는 저장소의 URL과 브랜치",
+    "실기기·Safari QA"
+  ],
+  "blockers": [
+    "능력 평가·추방까지 이어지는 기존 소스를 찾지 못했다. 사용자 지시대로 새로 만들거나 덮어쓰지 않고 멈췄다.",
+    "소스가 Mac 로컬에만 있다면 푸시하거나 ZIP으로 전달해야 한다. 정말 없다면 새로 만들어도 되는지와 범위·대사·기기별 구성을 정해 줘야 한다.",
+    "참고자료 3개는 저장소에 넣지 않았다(약 7.6MB, 패치가 아님). 넣을지 여부 결정 필요."
+  ],
+  "changed_files": [
+    {
+      "path": "opening.js",
+      "change": "deleted",
+      "note": "v5 후보 되돌림"
+    },
+    {
+      "path": "index.html",
+      "change": "reverted",
+      "note": "opening.js 연결 한 줄 제거, 기준 커밋과 동일"
+    },
+    {
+      "path": "img/opening/room-rear-v2.png",
+      "change": "deleted",
+      "note": "v5 그림 되돌림"
+    },
+    {
+      "path": "img/opening/room-empty-v2.png",
+      "change": "deleted",
+      "note": "v5 그림 되돌림"
+    },
+    {
+      "path": "claude-asset-inbox/manifest.json",
+      "change": "deleted",
+      "note": "v5 manifest 되돌림"
+    },
+    {
+      "path": "claude-asset-inbox/results/opening-camera-v5--1.0.0.json",
+      "change": "modified",
+      "note": "사용 중단 표시"
+    },
+    {
+      "path": "claude-asset-inbox/results/opening-canonical-reference--1.0.0.json",
+      "change": "added",
+      "note": "이 결과 파일"
+    },
+    {
+      "path": "claude-asset-inbox/results/captures-canonical/",
+      "change": "added",
+      "note": "왕궁 시안을 화면별로 띄운 캡처 12장"
+    }
+  ],
+  "captures": [
+    "claude-asset-inbox/results/captures-canonical/palace-v3--desktop-1366x768--choice.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--desktop-1366x768--end.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--desktop-1366x768--oswin.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--desktop-1366x768--wake.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-landscape-iphone13--choice.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-landscape-iphone13--end.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-landscape-iphone13--oswin.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-landscape-iphone13--wake.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-portrait-iphone13--choice.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-portrait-iphone13--end.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-portrait-iphone13--oswin.jpg",
+    "claude-asset-inbox/results/captures-canonical/palace-v3--mobile-portrait-iphone13--wake.jpg"
+  ]
+}
