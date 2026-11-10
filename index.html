@@ -1256,5 +1256,6 @@ $("copytext").onclick=async()=>{track("share_text");const t=`[이세계 소환�
 $("again").onclick=()=>{try{location.hash=""}catch(e){}document.body.classList.remove("rare");$("s3").classList.add("hidden");$("landing").classList.remove("hidden");$("unlock").classList.remove("hidden");["ask","thanks"].forEach(i=>$(i).classList.add("hidden"));window.scrollTo(0,0)};
 (function(){const d=decode(location.hash);if(d&&d.a.length===QS.length){birth=d.b;answers=d.a;NICK=d.nick||"";track("visit_shared");draw(judge(birth,answers));$("landing").classList.add("hidden");$("s1").classList.add("hidden");$("s3").classList.remove("hidden")}})();
 </script>
+<script src="opening.js?v=1"></script>
 </body>
 </html>
